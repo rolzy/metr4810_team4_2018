@@ -22,7 +22,7 @@ namespace BaseStation
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            btnConnect.Enabled = false;
             // create client instance 
             MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
@@ -67,23 +67,34 @@ namespace BaseStation
         }
 
 
-        private void button2_Click(object sender, EventArgs e)
+        private void sendMessage(string topic,string payload)
         {
-
             // create client instance 
             MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
             string clientId = Guid.NewGuid().ToString();
             client.Connect(clientId);
 
-            string strValue = Convert.ToString(tbxMessage.Text);
 
             // publish a message on "/home/temperature" topic with QoS 2 
-            client.Publish(tbxTopic.Text, Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
+            client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
 
         }
 
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            sendMessage(tbxTopic.Text,Convert.ToString(tbxMessage.Text));
+        }
+
+        private void btnLedOn_Click(object sender, EventArgs e)
+        {
+            sendMessage("/arduino/led1","H");
+        }
+
+        private void btnLedOff_Click(object sender, EventArgs e)
+        {
+            sendMessage("/arduino/led1","L");
+        }
     }
 }

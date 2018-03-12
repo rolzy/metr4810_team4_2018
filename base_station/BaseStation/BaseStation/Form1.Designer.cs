@@ -36,6 +36,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tbxTopic = new System.Windows.Forms.TextBox();
+            this.btnLedOn = new System.Windows.Forms.Button();
+            this.btnLedOff = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -106,11 +108,33 @@
             this.tbxTopic.Size = new System.Drawing.Size(266, 20);
             this.tbxTopic.TabIndex = 6;
             // 
+            // btnLedOn
+            // 
+            this.btnLedOn.Location = new System.Drawing.Point(753, 216);
+            this.btnLedOn.Name = "btnLedOn";
+            this.btnLedOn.Size = new System.Drawing.Size(75, 23);
+            this.btnLedOn.TabIndex = 8;
+            this.btnLedOn.Text = "Led On";
+            this.btnLedOn.UseVisualStyleBackColor = true;
+            this.btnLedOn.Click += new System.EventHandler(this.btnLedOn_Click);
+            // 
+            // btnLedOff
+            // 
+            this.btnLedOff.Location = new System.Drawing.Point(753, 246);
+            this.btnLedOff.Name = "btnLedOff";
+            this.btnLedOff.Size = new System.Drawing.Size(75, 23);
+            this.btnLedOff.TabIndex = 9;
+            this.btnLedOff.Text = "Led Off";
+            this.btnLedOff.UseVisualStyleBackColor = true;
+            this.btnLedOff.Click += new System.EventHandler(this.btnLedOff_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(965, 513);
+            this.Controls.Add(this.btnLedOff);
+            this.Controls.Add(this.btnLedOn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbxTopic);
             this.Controls.Add(this.label1);
@@ -136,6 +160,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbxTopic;
+        private System.Windows.Forms.Button btnLedOn;
+        private System.Windows.Forms.Button btnLedOff;
     }
 }
 
