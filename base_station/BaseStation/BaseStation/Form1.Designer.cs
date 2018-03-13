@@ -48,9 +48,8 @@
             this.cbxRGB2B = new System.Windows.Forms.CheckBox();
             this.cbxRGB2R = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnTakePhoto = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.imageControl1 = new Queens_ImageControl.ImageControl();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -265,25 +264,14 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(521, 12);
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClear.Location = new System.Drawing.Point(520, 10);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 19;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(324, 39);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(275, 236);
-            this.pictureBox1.TabIndex = 20;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.UseWaitCursor = true;
             // 
             // btnTakePhoto
             // 
@@ -296,13 +284,33 @@
             this.btnTakePhoto.UseVisualStyleBackColor = true;
             this.btnTakePhoto.Click += new System.EventHandler(this.btnTakePhoto_Click);
             // 
+            // imageControl1
+            // 
+            this.imageControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imageControl1.Image = null;
+            this.imageControl1.initialimage = null;
+            this.imageControl1.Location = new System.Drawing.Point(333, 39);
+            this.imageControl1.Name = "imageControl1";
+            this.imageControl1.Origin = new System.Drawing.Point(0, 0);
+            this.imageControl1.PanButton = System.Windows.Forms.MouseButtons.Left;
+            this.imageControl1.PanMode = true;
+            this.imageControl1.ScrollbarsVisible = true;
+            this.imageControl1.Size = new System.Drawing.Size(262, 245);
+            this.imageControl1.StretchImageToFit = false;
+            this.imageControl1.TabIndex = 22;
+            this.imageControl1.ZoomFactor = 1D;
+            this.imageControl1.ZoomOnMouseWheel = true;
+            this.imageControl1.Load += new System.EventHandler(this.imageControl1_Load);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(611, 372);
+            this.Controls.Add(this.imageControl1);
             this.Controls.Add(this.btnTakePhoto);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.cbxRGB2G);
             this.Controls.Add(this.cbxRGB2B);
@@ -325,7 +333,6 @@
             this.Controls.Add(this.btnConnect);
             this.Name = "Form1";
             this.Text = "Base Station";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,8 +360,8 @@
         private System.Windows.Forms.CheckBox cbxRGB2B;
         private System.Windows.Forms.CheckBox cbxRGB2R;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnTakePhoto;
+        private Queens_ImageControl.ImageControl imageControl1;
     }
 }
 

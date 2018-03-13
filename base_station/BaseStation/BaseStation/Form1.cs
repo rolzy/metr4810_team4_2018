@@ -100,8 +100,8 @@ namespace BaseStation
             {
                 SetText(e.Topic + Environment.NewLine);
                 Image x = (Bitmap)((new ImageConverter()).ConvertFrom(e.Message));
-                pictureBox1.Image = ResizeImage(x, pictureBox1.Width, pictureBox1.Height);
-                 
+                imageControl1.Image = x;// ResizeImage(x, pictureBox1.Width, pictureBox1.Height);
+               
             } else
             {
                 SetText(e.Topic + " ");
@@ -177,6 +177,11 @@ namespace BaseStation
         private void btnTakePhoto_Click(object sender, EventArgs e)
         {
             sendMessage("/camera/takePhoto", "1");
+        }
+
+        private void imageControl1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
