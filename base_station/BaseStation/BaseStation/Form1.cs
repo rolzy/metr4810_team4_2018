@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -22,16 +24,8 @@ namespace BaseStation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (btnConnect.Text == "Disconnect")
-            {
-                btnConnect.Text = "Connect";
-                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
-                client.Disconnect();
-            }
-            else
-            {
-                btnConnect.Text = "Disconnect";
-                //btnConnect.Enabled = false;
+                //btnConnect.Text = "Disconnect";
+                btnConnect.Enabled = false;
                 // create client instance 
                 MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
@@ -39,13 +33,20 @@ namespace BaseStation
                 client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
                 string clientId = Guid.NewGuid().ToString();
+            try
+            {
                 client.Connect(clientId);
+            }
+            catch
+            {
 
-                // subscribe to the topic "/home/temperature" with QoS 2 
-                client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
             }
 
-        }
+                // subscribe to the topic "/home/temperature" with QoS 2 
+            client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+            }
 
 
         delegate void SetTextCallback(string text);
@@ -66,10 +67,46 @@ namespace BaseStation
             }
         }
 
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+
         void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
-            SetText(e.Topic + " ");
-            SetText(Encoding.UTF8.GetString(e.Message,0, e.Message.Length) + Environment.NewLine);
+          
+            if (e.Topic.StartsWith("/pic"))
+            {
+                SetText(e.Topic + Environment.NewLine);
+                Image x = (Bitmap)((new ImageConverter()).ConvertFrom(e.Message));
+                pictureBox1.Image = ResizeImage(x, pictureBox1.Width, pictureBox1.Height);
+                 
+            } else
+            {
+                SetText(e.Topic + " ");
+                SetText(Encoding.UTF8.GetString(e.Message, 0, e.Message.Length) + Environment.NewLine);
+            }
 
 
             // handle message received 
@@ -135,6 +172,11 @@ namespace BaseStation
         private void btnClear_Click(object sender, EventArgs e)
         {
             rtbSubscribe.Clear();
+        }
+
+        private void btnTakePhoto_Click(object sender, EventArgs e)
+        {
+            sendMessage("/camera/takePhoto", "1");
         }
     }
 }

@@ -242,8 +242,15 @@ int main(int argc, char **argv)
 {
 	config_t cfg;
 	config_init(&cfg);
-	/* Read the file. If there is an error, report it and exit. */
-	if (! config_read_file(&cfg, "/opt/tp/example.cfg"))
+	/* Read the file. If there is an error, report it and exit. 
+	"/opt/tp/example.cfg" */
+	
+	if (argc !=2){
+		printf("usage ./aggregator /path/to/config")
+	return (EXIT_FAILURE);
+	}
+		
+	if (! config_read_file(&cfg,argv[1] ))
 	{
 		fprintf(stderr, "%s:%d - %s\n", config_error_file(&cfg),
 		config_error_line(&cfg), config_error_text(&cfg));
@@ -269,6 +276,7 @@ int main(int argc, char **argv)
 	// char ch;
 	do
 	{
+		putchar('\n');
 		/* Receive string from Arduino */
 		n = read(fd, buf, 64);
 		/* insert terminating zero in the string */
@@ -280,7 +288,7 @@ int main(int argc, char **argv)
 			continue; //not found
 		}
 		
-		printf("%i bytes read, buffer contains: %s", n, buf);
+	//	printf("%i bytes read, buffer contains: %s", n, buf);
 		char* delim = strchr(buf, ':');
 		
 		if (delim == NULL){
@@ -292,7 +300,10 @@ int main(int argc, char **argv)
 		buf[index] = 0;
 		for (int i = 0; i < configuration.commandsLength; i++) {
 			if (configuration.commands[i]->direction == '>') {
-			  printf("comparing |%s| with |%s| for %s\n", configuration.commands[i]->serialKey,buf, configuration.commands[i]->MQTT_Topic);
+			  printf("comparing |%s| with |%s| for %s\n sending %s\n",
+			  buf, configuration.commands[i]->serialKey, 
+			  configuration.commands[i]->MQTT_Topic,
+			   &buf[index+1]);
 			
 			
 				if (strcmp(configuration.commands[i]->serialKey , buf) == 0) {
