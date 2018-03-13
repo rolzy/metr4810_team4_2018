@@ -37,12 +37,12 @@ void setup() {
   // initialize the LED pin as an output:
   pinMode(ledPin, OUTPUT);
 
-  rgb2.pin[0] = 6;
+  rgb2.pin[2] = 6;
   rgb2.pin[1] = 7;
-  rgb2.pin[2] = 9;
+  rgb2.pin[0] = 9;
 
   rgb1.pin[0] = A0;
-  rgb1.pin[1] = A1;
+  rgb1.pin[1] = A2;
   rgb1.pin[2] = A3;
   for (int i = 0; i < 3; i++) {
     pinMode(rgb2.pin[i], OUTPUT);

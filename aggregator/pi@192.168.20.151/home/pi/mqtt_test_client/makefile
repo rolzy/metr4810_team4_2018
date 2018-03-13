@@ -1,5 +1,5 @@
 CC=gcc 
-CFLAGS=-Wall -lpaho-mqtt3c  -lconfig
+CFLAGS=-Wall -lpaho-mqtt3c  -lconfig -g 
 HEADERS=
 all: aggregator
 aggregator.o: main.c $(HEADERS)

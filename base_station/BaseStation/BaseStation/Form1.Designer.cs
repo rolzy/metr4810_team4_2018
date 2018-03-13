@@ -47,12 +47,13 @@
             this.cbxRGB2G = new System.Windows.Forms.CheckBox();
             this.cbxRGB2B = new System.Windows.Forms.CheckBox();
             this.cbxRGB2R = new System.Windows.Forms.CheckBox();
+            this.btnClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
             // 
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(523, 10);
+            this.btnConnect.Location = new System.Drawing.Point(334, 10);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 2;
@@ -99,7 +100,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxAddress.Location = new System.Drawing.Point(12, 12);
             this.tbxAddress.Name = "tbxAddress";
-            this.tbxAddress.Size = new System.Drawing.Size(422, 20);
+            this.tbxAddress.Size = new System.Drawing.Size(316, 20);
             this.tbxAddress.TabIndex = 1;
             this.tbxAddress.Text = "192.168.20.151";
             // 
@@ -260,11 +261,22 @@
             this.cbxRGB2R.UseVisualStyleBackColor = true;
             this.cbxRGB2R.CheckedChanged += new System.EventHandler(this.rgb2_payload);
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(521, 12);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 19;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 383);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.cbxRGB2G);
             this.Controls.Add(this.cbxRGB2B);
             this.Controls.Add(this.cbxRGB2R);
@@ -312,6 +324,7 @@
         private System.Windows.Forms.CheckBox cbxRGB2G;
         private System.Windows.Forms.CheckBox cbxRGB2B;
         private System.Windows.Forms.CheckBox cbxRGB2R;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 

@@ -123,5 +123,9 @@ namespace BaseStation
             sendMessage("/arduino/rgb2", payload);
         }
 
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            rtbSubscribe.Clear();
+        }
     }
 }
