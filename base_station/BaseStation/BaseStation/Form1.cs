@@ -22,19 +22,28 @@ namespace BaseStation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            btnConnect.Enabled = false;
-            // create client instance 
-            MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+            if (btnConnect.Text == "Disconnect")
+            {
+                btnConnect.Text = "Connect";
+                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+                client.Disconnect();
+            }
+            else
+            {
+                btnConnect.Text = "Disconnect";
+                //btnConnect.Enabled = false;
+                // create client instance 
+                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
-            // register to message received 
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+                // register to message received 
+                client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
-            string clientId = Guid.NewGuid().ToString();
-            client.Connect(clientId);
+                string clientId = Guid.NewGuid().ToString();
+                client.Connect(clientId);
 
-            // subscribe to the topic "/home/temperature" with QoS 2 
-            client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
+                // subscribe to the topic "/home/temperature" with QoS 2 
+                client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            }
 
         }
 

@@ -61,7 +61,7 @@ void loop() {
 
   if (millis() - lastSendTime >= intervel) {
     lastSendTime = millis();
-    Serial.print("hb");
+    Serial.print("hb:");
     Serial.println(lastSendTime);
   }
 
