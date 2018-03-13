@@ -94,34 +94,30 @@ void connlost(void *context, char *cause)
 int fd = -1;
 
 static char *myStrDup (char *str) {
-    char *other = malloc (strlen (str) + 1);
-    if (other != NULL)
-        strcpy (other, str);
-    return other;
+	char *other = malloc (strlen (str) + 1);
+	if (other != NULL)
+	strcpy (other, str);
+	return other;
 }
 
 void forkAndExecute (const char *path, char *const args[]) {
-    int pid = fork();
-    if (pid == -1) {
-        fprintf ( stderr,
-            "fork() failed: %s",
-            strerror(errno)
-        );
-		
-		
-		
-		
-        return;
-    }
-    if (pid != 0) return;
-// If pid == 0, this is the child process.
-    if (execvp(path, args) == -1) {
-        fprintf ( stderr,
-            "execvp(%s) failed: %s",
-            path, strerror(errno)
-        );
-        exit(-1);
-    }
+	int pid = fork();
+	if (pid == -1) {
+		fprintf ( stderr,
+		"fork() failed: %s",
+		strerror(errno)
+		);		
+		return;
+	}
+	if (pid != 0) return;
+	// If pid == 0, this is the child process.
+	if (execvp(path, args) == -1) {
+		fprintf ( stderr,
+		"execvp(%s) failed: %s",
+		path, strerror(errno)
+		);
+		exit(-1);
+	}
 }    
 
 
@@ -181,7 +177,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 	}
 	
 	for (int i = 0; i < configuration.fliesLength; i++) {	
-	
+		
 		if (configuration.files != NULL) {
 			if (strcmp(configuration.files[i]->MQTT_Topic , topicName) == 0) {
 				
@@ -192,15 +188,15 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 		
 	}
 	
-	printf("topicName:%s   %d \n ", topicName, configuration.execLength); 
+	//	printf("topicName:%s   %d \n ", topicName, configuration.execLength); 
 	for (int i = 0; i < configuration.execLength; i++) {	
-	
+		
 		if (configuration.execs != NULL) {
-			 printf("||comparing with %s||", configuration.execs[i]->MQTT_Topic);
+			// printf("||comparing with %s||", configuration.execs[i]->MQTT_Topic);
 			if (strcmp(configuration.execs[i]->MQTT_Topic , topicName) == 0) {
-						
-						
-						
+				
+				
+				
 				char inBuf[100];
 				stpcpy(inBuf,configuration.execs[i]->filePath);
 				
@@ -214,9 +210,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 				}
 				argv[argc] = NULL;
 
-		//		for (int i = 0; i < argc; i++)
-		//			printf ("Arg #%d = '%s'\n", i, argv[i]);
-		//		putchar ('\n');
+				for (int i = 0; i < argc; i++)
+				printf ("Arg #%d = '%s'\n", i, argv[i]);
+				putchar ('\n');
 
 				forkAndExecute(argv[0], argv); 
 
@@ -266,8 +262,8 @@ void init_mqtt(MQTTClient *client) {
 	}
 	for (int i = 0 ; i < configuration.execLength ; i++) {
 		printf("Subscribing to topic %s for client %s using QoS%d\n"
-			, configuration.execs[i]->MQTT_Topic, "arduino", configuration.execs[i]->QOS);		
-			MQTTClient_subscribe(*client,  configuration.execs[i]->MQTT_Topic, configuration.execs[i]->QOS);
+		, configuration.execs[i]->MQTT_Topic, "arduino", configuration.execs[i]->QOS);		
+		MQTTClient_subscribe(*client,  configuration.execs[i]->MQTT_Topic, configuration.execs[i]->QOS);
 		
 	}
 }
@@ -455,68 +451,68 @@ void init_commands(config_t *cfg) {
 
 
 void process_serial(MQTTClient client,char* buf){
-		int n;
-		putchar('\n');
-		/* Receive string from Arduino */
-		n = read(fd, buf, 64);
-		/* insert terminating zero in the string */
-		buf[n] = 0;
-		//check for correct message
-		//commmand:payload\n
-		if (buf[n-1] != '\n'){
-			printf("Bad Message '\\n' not found command:payload\n%s\n", buf);
-			return; //not found
-		}
-		
+	int n;
+	putchar('\n');
+	/* Receive string from Arduino */
+	n = read(fd, buf, 64);
+	/* insert terminating zero in the string */
+	buf[n] = 0;
+	//check for correct message
+	//commmand:payload\n
+	if (buf[n-1] != '\n'){
+		printf("Bad Message '\\n' not found command:payload\n%s\n", buf);
+		return; //not found
+	}
+	
 	//	printf("%i bytes read, buffer contains: %s", n, buf);
-		char* delim = strchr(buf, ':');
-		
-		if (delim == NULL){
-			printf("Bad Message ':' not found command:payload\n%s\n", buf);
-			return; //not found
-		}
-		int index = (int)(delim - buf);
-		
-		buf[index] = 0;
-		for (int i = 0; i < configuration.commandsLength; i++) {
-			if (configuration.serialCommands[i]->direction == '>') {
-			  printf("comparing |%s| with |%s| for %s\n sending %s\n",
-			  buf, configuration.serialCommands[i]->serialKey, 
-			  configuration.serialCommands[i]->MQTT_Topic,
-			   &buf[index+1]);
+	char* delim = strchr(buf, ':');
+	
+	if (delim == NULL){
+		printf("Bad Message ':' not found command:payload\n%s\n", buf);
+		return; //not found
+	}
+	int index = (int)(delim - buf);
+	
+	buf[index] = 0;
+	for (int i = 0; i < configuration.commandsLength; i++) {
+		if (configuration.serialCommands[i]->direction == '>') {
+			printf("comparing |%s| with |%s| for %s\n sending %s\n",
+			buf, configuration.serialCommands[i]->serialKey, 
+			configuration.serialCommands[i]->MQTT_Topic,
+			&buf[index+1]);
 			
 			
-				if (strcmp(configuration.serialCommands[i]->serialKey , buf) == 0) {
+			if (strcmp(configuration.serialCommands[i]->serialKey , buf) == 0) {
 
-					MQTTClient_message pubmsg = MQTTClient_message_initializer;
-					MQTTClient_deliveryToken token;
-					pubmsg.payload = &buf[index+1];
-					pubmsg.payloadlen = strlen(pubmsg.payload) - 1;
-					pubmsg.qos = 0;
-					pubmsg.retained = 0;
-					MQTTClient_publishMessage(client, 
-						configuration.serialCommands[i]->MQTT_Topic, &pubmsg, &token);
-					
-					break;
-				}
+				MQTTClient_message pubmsg = MQTTClient_message_initializer;
+				MQTTClient_deliveryToken token;
+				pubmsg.payload = &buf[index+1];
+				pubmsg.payloadlen = strlen(pubmsg.payload) - 1;
+				pubmsg.qos = 0;
+				pubmsg.retained = 0;
+				MQTTClient_publishMessage(client, 
+				configuration.serialCommands[i]->MQTT_Topic, &pubmsg, &token);
+				
+				break;
 			}
 		}
-		
+	}
+	
 }
 
 
 void process_files(MQTTClient client){
-for (int i = 0; i < configuration.fliesLength; i++) {	
-	
+	for (int i = 0; i < configuration.fliesLength; i++) {	
+		
 
-			
-			FILE *file;
-			unsigned char *buffer;
-			unsigned long fileLen;
+		
+		FILE *file;
+		unsigned char *buffer;
+		unsigned long fileLen;
 
-			//Open file
-			file = fopen(configuration.files[i]->filePath, "rb");	
-			if (file != NULL) {
+		//Open file
+		file = fopen(configuration.files[i]->filePath, "rb");	
+		if (file != NULL) {
 			fseek(file, 0, SEEK_END);
 			fileLen=ftell(file);
 			fseek(file, 0, SEEK_SET);
@@ -525,31 +521,31 @@ for (int i = 0; i < configuration.fliesLength; i++) {
 			buffer=(unsigned char *)malloc(fileLen);
 			if (!buffer)
 			{
-					fprintf(stderr, "Memory error!");
-									fclose(file);
-					exit(1);
+				fprintf(stderr, "Memory error!");
+				fclose(file);
+				exit(1);
 			}
 
-		   fread(buffer,fileLen,sizeof(unsigned char),file);
-		   fclose(file);
-		   remove(configuration.files[i]->filePath);
+			fread(buffer,fileLen,sizeof(unsigned char),file);
+			fclose(file);
+			remove(configuration.files[i]->filePath);
 			
-				printf("seinding %lu bytes\n",fileLen);
+			printf("seinding %lu bytes\n",fileLen);
 			
 			MQTTClient_message pubmsg = MQTTClient_message_initializer;
-					MQTTClient_deliveryToken token;
-					pubmsg.payload = buffer;
-					pubmsg.payloadlen = fileLen-1;
-					pubmsg.qos = 0;
-					pubmsg.retained = 0;
-					MQTTClient_publishMessage(client, 
-					configuration.files[i]->MQTT_Topic, &pubmsg, &token);
+			MQTTClient_deliveryToken token;
+			pubmsg.payload = buffer;
+			pubmsg.payloadlen = fileLen-1;
+			pubmsg.qos = 0;
+			pubmsg.retained = 0;
+			MQTTClient_publishMessage(client, 
+			configuration.files[i]->MQTT_Topic, &pubmsg, &token);
 			
 			free(buffer);		
 			
-	
-			}
+			
 		}
+	}
 }
 
 
@@ -591,9 +587,9 @@ int main(int argc, char **argv)
 	
 	
 	if (fd !=-1) {
-	/* Send byte to trigger Arduino to send string back */
-	write(fd, "led1:H\n", 7);
-	write(fd, "\n", 1);
+		/* Send byte to trigger Arduino to send string back */
+		write(fd, "led1:H\n", 7);
+		write(fd, "\n", 1);
 	}
 	
 	MQTTClient client;
