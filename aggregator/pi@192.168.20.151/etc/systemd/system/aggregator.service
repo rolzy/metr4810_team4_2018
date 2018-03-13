@@ -1,0 +1,20 @@
+[Unit]
+Description=aggregator service for TP2
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+User=root
+Type=simple
+EnvironmentFile=/opt/tp/example.cfg
+ExecStart=/opt/tp/aggregator
+StandardOutput=null
+Restart=always
+RestartSec=30
+StartLimitInterval=350
+StartLimitBurst=10
+
+
+[Install]
+WantedBy=multi-user.target
