@@ -96,5 +96,32 @@ namespace BaseStation
         {
             sendMessage("/arduino/led1","L");
         }
+
+        private void rtbSubscribe_TextChanged(object sender, EventArgs e)
+        {
+            if (cbxAutoScroll.Checked)
+            {
+                rtbSubscribe.ScrollToCaret();
+            }
+        }
+
+        private void rgb1_payload(object sender, EventArgs e)
+        {
+            string payload = cbxRGB1R.Checked ? "H" : "L";
+            payload += cbxRGB1G.Checked ? "H" : "L";
+            payload += cbxRGB1B.Checked ? "H" : "L";
+
+            sendMessage("/arduino/rgb1", payload);
+        }
+
+
+        private void rgb2_payload(object sender, EventArgs e)
+        {
+            string payload = cbxRGB2R.Checked ? "H" : "L";
+            payload += cbxRGB2G.Checked ? "H" : "L";
+            payload += cbxRGB2B.Checked ? "H" : "L";
+            sendMessage("/arduino/rgb2", payload);
+        }
+
     }
 }
