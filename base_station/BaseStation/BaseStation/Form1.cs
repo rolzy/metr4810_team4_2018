@@ -22,19 +22,28 @@ namespace BaseStation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            btnConnect.Enabled = false;
-            // create client instance 
-            MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+            if (btnConnect.Text == "Disconnect")
+            {
+                btnConnect.Text = "Connect";
+                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+                client.Disconnect();
+            }
+            else
+            {
+                btnConnect.Text = "Disconnect";
+                //btnConnect.Enabled = false;
+                // create client instance 
+                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
-            // register to message received 
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+                // register to message received 
+                client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
-            string clientId = Guid.NewGuid().ToString();
-            client.Connect(clientId);
+                string clientId = Guid.NewGuid().ToString();
+                client.Connect(clientId);
 
-            // subscribe to the topic "/home/temperature" with QoS 2 
-            client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
+                // subscribe to the topic "/home/temperature" with QoS 2 
+                client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            }
 
         }
 
@@ -95,6 +104,37 @@ namespace BaseStation
         private void btnLedOff_Click(object sender, EventArgs e)
         {
             sendMessage("/arduino/led1","L");
+        }
+
+        private void rtbSubscribe_TextChanged(object sender, EventArgs e)
+        {
+            if (cbxAutoScroll.Checked)
+            {
+                rtbSubscribe.ScrollToCaret();
+            }
+        }
+
+        private void rgb1_payload(object sender, EventArgs e)
+        {
+            string payload = cbxRGB1R.Checked ? "H" : "L";
+            payload += cbxRGB1G.Checked ? "H" : "L";
+            payload += cbxRGB1B.Checked ? "H" : "L";
+
+            sendMessage("/arduino/rgb1", payload);
+        }
+
+
+        private void rgb2_payload(object sender, EventArgs e)
+        {
+            string payload = cbxRGB2R.Checked ? "H" : "L";
+            payload += cbxRGB2G.Checked ? "H" : "L";
+            payload += cbxRGB2B.Checked ? "H" : "L";
+            sendMessage("/arduino/rgb2", payload);
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            rtbSubscribe.Clear();
         }
     }
 }
