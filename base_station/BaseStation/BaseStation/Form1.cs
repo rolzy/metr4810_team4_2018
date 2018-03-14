@@ -169,5 +169,15 @@ namespace BaseStation
         {
             System.Windows.Forms.Application.Exit();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            sendMessage("/webserver/disable", "1");
+        }
+
+        private void btnWebservice_Click(object sender, EventArgs e)
+        {
+            sendMessage("/webserver/enable", "1");
+        }
     }
 }

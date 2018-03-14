@@ -21,12 +21,32 @@ libs:
 	make
 	sudo make install
 	
-install:aggregator
-	mkdir /opt/tp/
+install:aggregator stopDaemons
+	mkdir -p /opt/tp/
 	cp aggregator /opt/tp/
 	cp example.cfg /opt/tp/
 
-service:
+	
+stopDaemons:
+	systemctl stop aggregator.service
+	systemctl stop aggregatorCam.service
+	
+startDaemons:
+	systemctl start aggregator.service
+	systemctl start aggregatorCam.service
+	
+service:install
 	cp aggregator.service /etc/systemd/system/
 	sudo systemctl enable aggregator
 	sudo systemctl start aggregator
+	
+
+installCam:aggregator stopDaemons
+	mkdir -p /opt/tp/
+	cp aggregator /opt/tp/
+	cp Camera.cfg /opt/tp/
+	
+serviceCam:installCam
+	cp aggregatorCam.service /etc/systemd/system/
+	sudo systemctl enable aggregatorCam
+	sudo systemctl start aggregatorCam

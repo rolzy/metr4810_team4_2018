@@ -120,8 +120,6 @@ void forkAndExecute (const char *path, char *const args[]) {
 	}
 }    
 
-
-
 void init_serial(int *fd) {
 	if (configuration.serialPort != NULL && configuration.serialPort !=0) {
 		struct termios toptions;
@@ -151,7 +149,6 @@ void init_serial(int *fd) {
 	}
 }
 
-
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
 {
 	int i;
@@ -179,13 +176,12 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 	for (int i = 0; i < configuration.fliesLength; i++) {	
 		
 		if (configuration.files != NULL) {
-			if (strcmp(configuration.files[i]->MQTT_Topic , topicName) == 0) {
-				
-				
-				
+			if (configuration.serialCommands[i]->direction == '<') {
+				if (strcmp(configuration.files[i]->MQTT_Topic , topicName) == 0) {
+						
+				}
 			}
-		}
-		
+		}	
 	}
 	
 	//	printf("topicName:%s   %d \n ", topicName, configuration.execLength); 
@@ -194,9 +190,6 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 		if (configuration.execs != NULL) {
 			// printf("||comparing with %s||", configuration.execs[i]->MQTT_Topic);
 			if (strcmp(configuration.execs[i]->MQTT_Topic , topicName) == 0) {
-				
-				
-				
 				char inBuf[100];
 				stpcpy(inBuf,configuration.execs[i]->filePath);
 				
@@ -215,16 +208,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 				putchar ('\n');
 
 				forkAndExecute(argv[0], argv); 
-
-				
 			}
 		}
-		
 	}
-	
-	
-	
-	
 
 	payloadptr = message->payload;
 	for (i = 0; i < message->payloadlen; i++)
@@ -363,8 +349,6 @@ void set_up_file_commands(config_t *cfg){
 		configuration.files = temp_commands;
 	}
 }
-
-
 
 void set_up_exec_commands(config_t *cfg){
 	config_setting_t *setting;
@@ -609,10 +593,6 @@ int main(int argc, char **argv)
 
 		// ch = getchar();
 	} while (1);
-
-	write(fd, "led1:L\n", 7);
-	write(fd, "\n", 1);
-	usleep(3500000);
 	return (EXIT_SUCCESS);
 }
 
