@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/motor.dir/examples/motor.cpp.o  -o motor -rdynamic libmsp_fcu.so libmspclient.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/build 

@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/msp_connection_test.dir/examples/msp_connection_test.cpp.o  -o msp_connection_test -rdynamic libmsp.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/build 

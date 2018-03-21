@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/fcu_arm.dir/examples/fcu_arm_test.cpp.o  -o fcu_arm -rdynamic libmsp_fcu.so libmspclient.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/build 
