@@ -1,1 +1,1 @@
-/usr/bin/c++      CMakeFiles/cleanflight_read_test.dir/examples/cleanflight_read_test.cpp.o  -o cleanflight_read_test -rdynamic libmsp.so libmsp_msg_print.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/build 
+/usr/bin/c++      CMakeFiles/cleanflight_read_test.dir/examples/cleanflight_read_test.cpp.o  -o cleanflight_read_test -rdynamic libmsp.so libmsp_msg_print.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build 

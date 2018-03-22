@@ -60,9 +60,9 @@ stdint.h
 msp_id.hpp
 ../inc/msp/msp_id.hpp
 
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/src/FlightController.cpp
+/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/FlightController.cpp
 FlightController.hpp
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/src/FlightController.hpp
+/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/FlightController.hpp
 iostream
 -
 

@@ -30,15 +30,15 @@ stdint.h
 msp_id.hpp
 ../inc/msp/msp_id.hpp
 
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/src/Client.cpp
+/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/Client.cpp
 Client.hpp
 -
 SerialPortImpl.cpp
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/src/SerialPortImpl.cpp
+/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/SerialPortImpl.cpp
 iostream
 -
 
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/msp/src/SerialPortImpl.cpp
+/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/SerialPortImpl.cpp
 asio.hpp
 -
 
