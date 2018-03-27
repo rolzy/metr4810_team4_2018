@@ -242,16 +242,6 @@ void init_mqtt(MQTTClient *client) {
 		exit(EXIT_FAILURE);
 	}
 
-	
-	MQTTClient_message pubmsg = MQTTClient_message_initializer;
-			MQTTClient_deliveryToken token;
-			pubmsg.payload = "Connected";
-			pubmsg.payloadlen = strlen(pubmsg.payload) - 1;;
-			pubmsg.qos = 1;
-			pubmsg.retained = 0;
-			MQTTClient_publishMessage(client,  "/status/agg", &pubmsg, &token);
-	
-	
 	for (int i = 0 ; i < configuration.commandsLength ; i++) {
 		if (configuration.serialCommands[i]->direction == '<') {
 			printf("Subscribing to topic %s for client %s using QoS%d\n"
