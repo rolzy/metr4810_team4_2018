@@ -109,7 +109,6 @@
   <ItemGroup>
     <Content Include="Queens_ImageControl.dll" />
     <Content Include="Queens_ImageControl.xml" />
-    <Content Include="triangle.fx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

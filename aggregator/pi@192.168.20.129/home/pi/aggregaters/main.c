@@ -230,8 +230,8 @@ void init_mqtt(MQTTClient *client) {
 	
 	MQTTClient_willOptions lastWil = MQTTClient_willOptions_initializer;
 	lastWil.topicName = "/status/agg";
-	lastWil.message = "Disconnected"
-	
+	lastWil.message = "Disconnected";
+	 
 	conn_opts.will = &lastWil;
 	conn_opts.keepAliveInterval = 20;
 	conn_opts.cleansession = 1;
