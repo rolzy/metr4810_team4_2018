@@ -104,7 +104,7 @@
             this.tbxAddress.Name = "tbxAddress";
             this.tbxAddress.Size = new System.Drawing.Size(418, 20);
             this.tbxAddress.TabIndex = 1;
-            this.tbxAddress.Text = "192.168.20.151";
+            this.tbxAddress.Text = "192.168.20.129";
             // 
             // label1
             // 
