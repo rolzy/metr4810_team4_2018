@@ -149,8 +149,7 @@ void init_serial(int *fd) {
 	}
 }
 
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
-{
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message){
 	int i;
 	char* payloadptr;
 	printf("Message arrived\n");
@@ -174,9 +173,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 	}
 	
 	for (int i = 0; i < configuration.fliesLength; i++) {	
-		
 		if (configuration.files != NULL) {
-			if (configuration.serialCommands[i]->direction == '<') {
+			if (configuration.files[i]->direction == '<') {
 				if (strcmp(configuration.files[i]->MQTT_Topic , topicName) == 0) {
 						
 				}
@@ -229,6 +227,12 @@ void init_mqtt(MQTTClient *client) {
 	int rc;
 	MQTTClient_create(client, configuration.mqttServer, configuration.CLIENTID,
 	MQTTCLIENT_PERSISTENCE_NONE, NULL);
+	
+	MQTTClient_willOptions lastWil = MQTTClient_willOptions_initializer;
+	lastWil.topicName = "/status/agg";
+	lastWil.message = "Disconnected";
+	 
+	conn_opts.will = &lastWil;
 	conn_opts.keepAliveInterval = 20;
 	conn_opts.cleansession = 1;
 	MQTTClient_setCallbacks(*client, NULL, connlost, msgarrvd, delivered);

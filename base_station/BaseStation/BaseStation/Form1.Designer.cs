@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnConnect = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tbxMessage = new System.Windows.Forms.TextBox();
@@ -52,12 +56,67 @@
             this.imageControl1 = new Queens_ImageControl.ImageControl();
             this.button1 = new System.Windows.Forms.Button();
             this.btnWebservice = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tvPhotos = new System.Windows.Forms.TreeView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.cbxAutoScr = new System.Windows.Forms.CheckBox();
+            this.gbxSensors = new System.Windows.Forms.GroupBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.lbxTargets = new System.Windows.Forms.ListBox();
+            this.btnYneg10 = new System.Windows.Forms.Button();
+            this.btnYpos10 = new System.Windows.Forms.Button();
+            this.btnXneg10 = new System.Windows.Forms.Button();
+            this.btnXpos10 = new System.Windows.Forms.Button();
+            this.tbTargetX = new System.Windows.Forms.TrackBar();
+            this.tbTargetY = new System.Windows.Forms.TrackBar();
+            this.btnXneg1 = new System.Windows.Forms.Button();
+            this.btnXpos1 = new System.Windows.Forms.Button();
+            this.btnYpos1 = new System.Windows.Forms.Button();
+            this.btnYneg1 = new System.Windows.Forms.Button();
+            this.btnHome = new System.Windows.Forms.Button();
+            this.btnTarget4 = new System.Windows.Forms.Button();
+            this.btnTarget3 = new System.Windows.Forms.Button();
+            this.btnTarget2 = new System.Windows.Forms.Button();
+            this.btnTarget1 = new System.Windows.Forms.Button();
+            this.btnNextTarget = new System.Windows.Forms.Button();
+            this.tbCurrentY = new System.Windows.Forms.TrackBar();
+            this.tbCurrentX = new System.Windows.Forms.TrackBar();
+            this.pbxLiveFeed = new System.Windows.Forms.PictureBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.lblTargetRoll = new System.Windows.Forms.Label();
+            this.lblTargetPitch = new System.Windows.Forms.Label();
+            this.lblCurrentYaw = new System.Windows.Forms.Label();
+            this.lblCurrentPitch = new System.Windows.Forms.Label();
+            this.lblCurrentRoll = new System.Windows.Forms.Label();
+            this.lblBatVoltage = new System.Windows.Forms.Label();
+            this.tbxSetPos = new System.Windows.Forms.TextBox();
+            this.btnSetPos = new System.Windows.Forms.Button();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbTargetX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbTargetY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbCurrentY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbCurrentX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxLiveFeed)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnConnect
             // 
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(436, 10);
+            this.btnConnect.Location = new System.Drawing.Point(725, 10);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 2;
@@ -68,7 +127,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(244, 351);
+            this.button2.Location = new System.Drawing.Point(244, 501);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(71, 23);
             this.button2.TabIndex = 8;
@@ -79,18 +138,16 @@
             // tbxMessage
             // 
             this.tbxMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbxMessage.Location = new System.Drawing.Point(12, 353);
+            this.tbxMessage.Location = new System.Drawing.Point(12, 503);
             this.tbxMessage.Name = "tbxMessage";
             this.tbxMessage.Size = new System.Drawing.Size(226, 20);
             this.tbxMessage.TabIndex = 7;
             // 
             // rtbSubscribe
             // 
-            this.rtbSubscribe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.rtbSubscribe.Location = new System.Drawing.Point(12, 39);
+            this.rtbSubscribe.Location = new System.Drawing.Point(6, 15);
             this.rtbSubscribe.Name = "rtbSubscribe";
-            this.rtbSubscribe.Size = new System.Drawing.Size(305, 256);
+            this.rtbSubscribe.Size = new System.Drawing.Size(284, 193);
             this.rtbSubscribe.TabIndex = 3;
             this.rtbSubscribe.TabStop = false;
             this.rtbSubscribe.Text = "";
@@ -102,15 +159,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxAddress.Location = new System.Drawing.Point(12, 12);
             this.tbxAddress.Name = "tbxAddress";
-            this.tbxAddress.Size = new System.Drawing.Size(418, 20);
+            this.tbxAddress.Size = new System.Drawing.Size(707, 20);
             this.tbxAddress.TabIndex = 1;
-            this.tbxAddress.Text = "192.168.20.151";
+            this.tbxAddress.Text = "192.168.20.129";
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 337);
+            this.label1.Location = new System.Drawing.Point(12, 487);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 5;
@@ -120,7 +177,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 298);
+            this.label2.Location = new System.Drawing.Point(12, 448);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 7;
@@ -129,7 +186,7 @@
             // tbxTopic
             // 
             this.tbxTopic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbxTopic.Location = new System.Drawing.Point(12, 314);
+            this.tbxTopic.Location = new System.Drawing.Point(12, 464);
             this.tbxTopic.Name = "tbxTopic";
             this.tbxTopic.Size = new System.Drawing.Size(303, 20);
             this.tbxTopic.TabIndex = 6;
@@ -137,7 +194,7 @@
             // btnLedOn
             // 
             this.btnLedOn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLedOn.Location = new System.Drawing.Point(412, 348);
+            this.btnLedOn.Location = new System.Drawing.Point(221, 203);
             this.btnLedOn.Name = "btnLedOn";
             this.btnLedOn.Size = new System.Drawing.Size(75, 23);
             this.btnLedOn.TabIndex = 9;
@@ -148,7 +205,7 @@
             // btnLedOff
             // 
             this.btnLedOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLedOff.Location = new System.Drawing.Point(412, 319);
+            this.btnLedOff.Location = new System.Drawing.Point(221, 174);
             this.btnLedOff.Name = "btnLedOff";
             this.btnLedOff.Size = new System.Drawing.Size(75, 23);
             this.btnLedOff.TabIndex = 10;
@@ -162,7 +219,7 @@
             this.cbxAutoScroll.AutoSize = true;
             this.cbxAutoScroll.Checked = true;
             this.cbxAutoScroll.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxAutoScroll.Location = new System.Drawing.Point(542, 14);
+            this.cbxAutoScroll.Location = new System.Drawing.Point(831, 14);
             this.cbxAutoScroll.Name = "cbxAutoScroll";
             this.cbxAutoScroll.Size = new System.Drawing.Size(75, 17);
             this.cbxAutoScroll.TabIndex = 10;
@@ -174,7 +231,7 @@
             // 
             this.cbxRGB1R.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxRGB1R.AutoSize = true;
-            this.cbxRGB1R.Location = new System.Drawing.Point(332, 320);
+            this.cbxRGB1R.Location = new System.Drawing.Point(141, 175);
             this.cbxRGB1R.Name = "cbxRGB1R";
             this.cbxRGB1R.Size = new System.Drawing.Size(34, 17);
             this.cbxRGB1R.TabIndex = 11;
@@ -186,7 +243,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(327, 304);
+            this.label3.Location = new System.Drawing.Point(136, 159);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 12;
@@ -196,7 +253,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(369, 304);
+            this.label4.Location = new System.Drawing.Point(178, 159);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(39, 13);
             this.label4.TabIndex = 13;
@@ -206,7 +263,7 @@
             // 
             this.cbxRGB1B.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxRGB1B.AutoSize = true;
-            this.cbxRGB1B.Location = new System.Drawing.Point(333, 357);
+            this.cbxRGB1B.Location = new System.Drawing.Point(142, 212);
             this.cbxRGB1B.Name = "cbxRGB1B";
             this.cbxRGB1B.Size = new System.Drawing.Size(33, 17);
             this.cbxRGB1B.TabIndex = 14;
@@ -218,7 +275,7 @@
             // 
             this.cbxRGB1G.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxRGB1G.AutoSize = true;
-            this.cbxRGB1G.Location = new System.Drawing.Point(332, 338);
+            this.cbxRGB1G.Location = new System.Drawing.Point(141, 193);
             this.cbxRGB1G.Name = "cbxRGB1G";
             this.cbxRGB1G.Size = new System.Drawing.Size(34, 17);
             this.cbxRGB1G.TabIndex = 15;
@@ -230,7 +287,7 @@
             // 
             this.cbxRGB2G.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxRGB2G.AutoSize = true;
-            this.cbxRGB2G.Location = new System.Drawing.Point(372, 338);
+            this.cbxRGB2G.Location = new System.Drawing.Point(181, 193);
             this.cbxRGB2G.Name = "cbxRGB2G";
             this.cbxRGB2G.Size = new System.Drawing.Size(34, 17);
             this.cbxRGB2G.TabIndex = 18;
@@ -242,7 +299,7 @@
             // 
             this.cbxRGB2B.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxRGB2B.AutoSize = true;
-            this.cbxRGB2B.Location = new System.Drawing.Point(372, 357);
+            this.cbxRGB2B.Location = new System.Drawing.Point(181, 212);
             this.cbxRGB2B.Name = "cbxRGB2B";
             this.cbxRGB2B.Size = new System.Drawing.Size(33, 17);
             this.cbxRGB2B.TabIndex = 17;
@@ -254,7 +311,7 @@
             // 
             this.cbxRGB2R.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxRGB2R.AutoSize = true;
-            this.cbxRGB2R.Location = new System.Drawing.Point(371, 320);
+            this.cbxRGB2R.Location = new System.Drawing.Point(180, 175);
             this.cbxRGB2R.Name = "cbxRGB2R";
             this.cbxRGB2R.Size = new System.Drawing.Size(34, 17);
             this.cbxRGB2R.TabIndex = 16;
@@ -265,7 +322,7 @@
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(623, 10);
+            this.btnClear.Location = new System.Drawing.Point(912, 10);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 19;
@@ -276,7 +333,7 @@
             // btnTakePhoto
             // 
             this.btnTakePhoto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTakePhoto.Location = new System.Drawing.Point(630, 320);
+            this.btnTakePhoto.Location = new System.Drawing.Point(919, 470);
             this.btnTakePhoto.Name = "btnTakePhoto";
             this.btnTakePhoto.Size = new System.Drawing.Size(75, 53);
             this.btnTakePhoto.TabIndex = 21;
@@ -291,23 +348,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageControl1.Image = null;
             this.imageControl1.initialimage = null;
-            this.imageControl1.Location = new System.Drawing.Point(333, 39);
+            this.imageControl1.Location = new System.Drawing.Point(296, 15);
             this.imageControl1.Name = "imageControl1";
             this.imageControl1.Origin = new System.Drawing.Point(0, 0);
             this.imageControl1.PanButton = System.Windows.Forms.MouseButtons.Left;
             this.imageControl1.PanMode = true;
             this.imageControl1.ScrollbarsVisible = true;
-            this.imageControl1.Size = new System.Drawing.Size(365, 265);
+            this.imageControl1.Size = new System.Drawing.Size(728, 469);
             this.imageControl1.StretchImageToFit = false;
             this.imageControl1.TabIndex = 22;
             this.imageControl1.ZoomFactor = 1D;
             this.imageControl1.ZoomOnMouseWheel = true;
-            this.imageControl1.Load += new System.EventHandler(this.imageControl1_Load);
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(528, 319);
+            this.button1.Location = new System.Drawing.Point(817, 469);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 23);
             this.button1.TabIndex = 24;
@@ -318,7 +374,7 @@
             // btnWebservice
             // 
             this.btnWebservice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnWebservice.Location = new System.Drawing.Point(528, 348);
+            this.btnWebservice.Location = new System.Drawing.Point(817, 498);
             this.btnWebservice.Name = "btnWebservice";
             this.btnWebservice.Size = new System.Drawing.Size(96, 23);
             this.btnWebservice.TabIndex = 23;
@@ -326,39 +382,575 @@
             this.btnWebservice.UseVisualStyleBackColor = true;
             this.btnWebservice.Click += new System.EventHandler(this.btnWebservice_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Location = new System.Drawing.Point(12, 39);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(979, 406);
+            this.tabControl1.TabIndex = 25;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tvPhotos);
+            this.tabPage1.Controls.Add(this.rtbSubscribe);
+            this.tabPage1.Controls.Add(this.imageControl1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(971, 380);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Main";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tvPhotos
+            // 
+            this.tvPhotos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvPhotos.Location = new System.Drawing.Point(7, 215);
+            this.tvPhotos.Name = "tvPhotos";
+            this.tvPhotos.Size = new System.Drawing.Size(283, 171);
+            this.tvPhotos.TabIndex = 23;
+            this.tvPhotos.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvPhotos_BeforeExpand);
+            this.tvPhotos.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvPhotos_NodeMouseDoubleClick);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button5);
+            this.tabPage2.Controls.Add(this.button4);
+            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.cbxAutoScr);
+            this.tabPage2.Controls.Add(this.gbxSensors);
+            this.tabPage2.Controls.Add(this.chart1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(896, 315);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "PID Setings";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button5.Location = new System.Drawing.Point(144, 286);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(130, 23);
+            this.button5.TabIndex = 32;
+            this.button5.Text = "RandomSensor2";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.Location = new System.Drawing.Point(280, 286);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(130, 23);
+            this.button4.TabIndex = 31;
+            this.button4.Text = "RandomSensor3";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button3.Location = new System.Drawing.Point(3, 286);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(130, 23);
+            this.button3.TabIndex = 30;
+            this.button3.Text = "RandomSensor1";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // cbxAutoScr
+            // 
+            this.cbxAutoScr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxAutoScr.AutoSize = true;
+            this.cbxAutoScr.Location = new System.Drawing.Point(436, 262);
+            this.cbxAutoScr.Name = "cbxAutoScr";
+            this.cbxAutoScr.Size = new System.Drawing.Size(77, 17);
+            this.cbxAutoScr.TabIndex = 2;
+            this.cbxAutoScr.Text = "Auto Scroll";
+            this.cbxAutoScr.UseVisualStyleBackColor = true;
+            // 
+            // gbxSensors
+            // 
+            this.gbxSensors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxSensors.Location = new System.Drawing.Point(520, 7);
+            this.gbxSensors.Name = "gbxSensors";
+            this.gbxSensors.Size = new System.Drawing.Size(412, 254);
+            this.gbxSensors.TabIndex = 1;
+            this.gbxSensors.TabStop = false;
+            this.gbxSensors.Text = "Sensors";
+            // 
+            // chart1
+            // 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(6, 6);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(507, 255);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(896, 315);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Camera Config";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.btnSetPos);
+            this.tabPage4.Controls.Add(this.tbxSetPos);
+            this.tabPage4.Controls.Add(this.lbxTargets);
+            this.tabPage4.Controls.Add(this.btnYneg10);
+            this.tabPage4.Controls.Add(this.btnYpos10);
+            this.tabPage4.Controls.Add(this.btnXneg10);
+            this.tabPage4.Controls.Add(this.btnXpos10);
+            this.tabPage4.Controls.Add(this.tbTargetX);
+            this.tabPage4.Controls.Add(this.tbTargetY);
+            this.tabPage4.Controls.Add(this.btnXneg1);
+            this.tabPage4.Controls.Add(this.btnXpos1);
+            this.tabPage4.Controls.Add(this.btnYpos1);
+            this.tabPage4.Controls.Add(this.btnYneg1);
+            this.tabPage4.Controls.Add(this.btnHome);
+            this.tabPage4.Controls.Add(this.btnTarget4);
+            this.tabPage4.Controls.Add(this.btnTarget3);
+            this.tabPage4.Controls.Add(this.btnTarget2);
+            this.tabPage4.Controls.Add(this.btnTarget1);
+            this.tabPage4.Controls.Add(this.btnNextTarget);
+            this.tabPage4.Controls.Add(this.tbCurrentY);
+            this.tabPage4.Controls.Add(this.tbCurrentX);
+            this.tabPage4.Controls.Add(this.pbxLiveFeed);
+            this.tabPage4.Controls.Add(this.checkBox1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(908, 333);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Orentation";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // lbxTargets
+            // 
+            this.lbxTargets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbxTargets.FormattingEnabled = true;
+            this.lbxTargets.Items.AddRange(new object[] {
+            "12 10",
+            "10 -10",
+            "25 30",
+            "30 30",
+            "40 30",
+            "45 0",
+            "-50 -50",
+            "50 -50",
+            "50 50",
+            "-50 50"});
+            this.lbxTargets.Location = new System.Drawing.Point(446, 4);
+            this.lbxTargets.Name = "lbxTargets";
+            this.lbxTargets.Size = new System.Drawing.Size(119, 212);
+            this.lbxTargets.TabIndex = 25;
+            // 
+            // btnYneg10
+            // 
+            this.btnYneg10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnYneg10.Location = new System.Drawing.Point(704, 226);
+            this.btnYneg10.Name = "btnYneg10";
+            this.btnYneg10.Size = new System.Drawing.Size(35, 23);
+            this.btnYneg10.TabIndex = 24;
+            this.btnYneg10.Text = "-5";
+            this.btnYneg10.UseVisualStyleBackColor = true;
+            this.btnYneg10.Click += new System.EventHandler(this.btnYneg10_Click);
+            // 
+            // btnYpos10
+            // 
+            this.btnYpos10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnYpos10.Location = new System.Drawing.Point(704, 109);
+            this.btnYpos10.Name = "btnYpos10";
+            this.btnYpos10.Size = new System.Drawing.Size(35, 23);
+            this.btnYpos10.TabIndex = 23;
+            this.btnYpos10.Text = "+5";
+            this.btnYpos10.UseVisualStyleBackColor = true;
+            this.btnYpos10.Click += new System.EventHandler(this.btnYpos10_Click);
+            // 
+            // btnXneg10
+            // 
+            this.btnXneg10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnXneg10.Location = new System.Drawing.Point(624, 167);
+            this.btnXneg10.Name = "btnXneg10";
+            this.btnXneg10.Size = new System.Drawing.Size(35, 23);
+            this.btnXneg10.TabIndex = 22;
+            this.btnXneg10.Text = "-5";
+            this.btnXneg10.UseVisualStyleBackColor = true;
+            this.btnXneg10.Click += new System.EventHandler(this.btnXneg10_Click);
+            // 
+            // btnXpos10
+            // 
+            this.btnXpos10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnXpos10.Location = new System.Drawing.Point(781, 167);
+            this.btnXpos10.Name = "btnXpos10";
+            this.btnXpos10.Size = new System.Drawing.Size(37, 23);
+            this.btnXpos10.TabIndex = 21;
+            this.btnXpos10.Text = "+5";
+            this.btnXpos10.UseVisualStyleBackColor = true;
+            this.btnXpos10.Click += new System.EventHandler(this.btnXpos10_Click);
+            // 
+            // tbTargetX
+            // 
+            this.tbTargetX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTargetX.Location = new System.Drawing.Point(446, 292);
+            this.tbTargetX.Maximum = 45;
+            this.tbTargetX.Minimum = -45;
+            this.tbTargetX.Name = "tbTargetX";
+            this.tbTargetX.Size = new System.Drawing.Size(442, 45);
+            this.tbTargetX.TabIndex = 20;
+            this.tbTargetX.Scroll += new System.EventHandler(this.tbCurrentX_Scroll);
+            // 
+            // tbTargetY
+            // 
+            this.tbTargetY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTargetY.Location = new System.Drawing.Point(861, 14);
+            this.tbTargetY.Maximum = 45;
+            this.tbTargetY.Minimum = -45;
+            this.tbTargetY.Name = "tbTargetY";
+            this.tbTargetY.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.tbTargetY.Size = new System.Drawing.Size(45, 254);
+            this.tbTargetY.TabIndex = 19;
+            this.tbTargetY.Scroll += new System.EventHandler(this.tbCurrentY_Scroll);
+            // 
+            // btnXneg1
+            // 
+            this.btnXneg1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnXneg1.Location = new System.Drawing.Point(665, 167);
+            this.btnXneg1.Name = "btnXneg1";
+            this.btnXneg1.Size = new System.Drawing.Size(35, 23);
+            this.btnXneg1.TabIndex = 18;
+            this.btnXneg1.Text = "-1";
+            this.btnXneg1.UseVisualStyleBackColor = true;
+            this.btnXneg1.Click += new System.EventHandler(this.btnXneg1_Click);
+            // 
+            // btnXpos1
+            // 
+            this.btnXpos1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnXpos1.Location = new System.Drawing.Point(738, 167);
+            this.btnXpos1.Name = "btnXpos1";
+            this.btnXpos1.Size = new System.Drawing.Size(37, 23);
+            this.btnXpos1.TabIndex = 17;
+            this.btnXpos1.Text = "+1";
+            this.btnXpos1.UseVisualStyleBackColor = true;
+            this.btnXpos1.Click += new System.EventHandler(this.btnXpos1_Click);
+            // 
+            // btnYpos1
+            // 
+            this.btnYpos1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnYpos1.Location = new System.Drawing.Point(704, 138);
+            this.btnYpos1.Name = "btnYpos1";
+            this.btnYpos1.Size = new System.Drawing.Size(35, 23);
+            this.btnYpos1.TabIndex = 16;
+            this.btnYpos1.Text = "+1";
+            this.btnYpos1.UseVisualStyleBackColor = true;
+            this.btnYpos1.Click += new System.EventHandler(this.btnYpos1_Click);
+            // 
+            // btnYneg1
+            // 
+            this.btnYneg1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnYneg1.Location = new System.Drawing.Point(704, 197);
+            this.btnYneg1.Name = "btnYneg1";
+            this.btnYneg1.Size = new System.Drawing.Size(35, 23);
+            this.btnYneg1.TabIndex = 15;
+            this.btnYneg1.Text = "-1";
+            this.btnYneg1.UseVisualStyleBackColor = true;
+            this.btnYneg1.Click += new System.EventHandler(this.btnYneg1_Click);
+            // 
+            // btnHome
+            // 
+            this.btnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHome.Location = new System.Drawing.Point(678, 28);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Size = new System.Drawing.Size(75, 23);
+            this.btnHome.TabIndex = 14;
+            this.btnHome.Text = "Home (0,0)";
+            this.btnHome.UseVisualStyleBackColor = true;
+            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
+            // 
+            // btnTarget4
+            // 
+            this.btnTarget4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTarget4.Location = new System.Drawing.Point(759, -1);
+            this.btnTarget4.Name = "btnTarget4";
+            this.btnTarget4.Size = new System.Drawing.Size(75, 23);
+            this.btnTarget4.TabIndex = 13;
+            this.btnTarget4.Text = "Target4";
+            this.btnTarget4.UseVisualStyleBackColor = true;
+            this.btnTarget4.Click += new System.EventHandler(this.btnTarget4_Click);
+            // 
+            // btnTarget3
+            // 
+            this.btnTarget3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTarget3.Location = new System.Drawing.Point(678, -1);
+            this.btnTarget3.Name = "btnTarget3";
+            this.btnTarget3.Size = new System.Drawing.Size(75, 23);
+            this.btnTarget3.TabIndex = 12;
+            this.btnTarget3.Text = "Target3";
+            this.btnTarget3.UseVisualStyleBackColor = true;
+            this.btnTarget3.Click += new System.EventHandler(this.btnTarget3_Click);
+            // 
+            // btnTarget2
+            // 
+            this.btnTarget2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTarget2.Location = new System.Drawing.Point(759, -30);
+            this.btnTarget2.Name = "btnTarget2";
+            this.btnTarget2.Size = new System.Drawing.Size(75, 23);
+            this.btnTarget2.TabIndex = 11;
+            this.btnTarget2.Text = "Target2";
+            this.btnTarget2.UseVisualStyleBackColor = true;
+            this.btnTarget2.Click += new System.EventHandler(this.btnTarget2_Click);
+            // 
+            // btnTarget1
+            // 
+            this.btnTarget1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTarget1.Location = new System.Drawing.Point(678, -30);
+            this.btnTarget1.Name = "btnTarget1";
+            this.btnTarget1.Size = new System.Drawing.Size(75, 23);
+            this.btnTarget1.TabIndex = 10;
+            this.btnTarget1.Text = "Target1";
+            this.btnTarget1.UseVisualStyleBackColor = true;
+            this.btnTarget1.Click += new System.EventHandler(this.btnTarget1_Click);
+            // 
+            // btnNextTarget
+            // 
+            this.btnNextTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNextTarget.Location = new System.Drawing.Point(446, 227);
+            this.btnNextTarget.Name = "btnNextTarget";
+            this.btnNextTarget.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnNextTarget.Size = new System.Drawing.Size(119, 23);
+            this.btnNextTarget.TabIndex = 6;
+            this.btnNextTarget.Text = "Next";
+            this.btnNextTarget.UseVisualStyleBackColor = true;
+            this.btnNextTarget.Click += new System.EventHandler(this.btnNextTarget_Click);
+            // 
+            // tbCurrentY
+            // 
+            this.tbCurrentY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCurrentY.Enabled = false;
+            this.tbCurrentY.Location = new System.Drawing.Point(840, 14);
+            this.tbCurrentY.Maximum = 45;
+            this.tbCurrentY.Minimum = -45;
+            this.tbCurrentY.Name = "tbCurrentY";
+            this.tbCurrentY.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.tbCurrentY.Size = new System.Drawing.Size(45, 254);
+            this.tbCurrentY.TabIndex = 4;
+            // 
+            // tbCurrentX
+            // 
+            this.tbCurrentX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCurrentX.Enabled = false;
+            this.tbCurrentX.Location = new System.Drawing.Point(445, 274);
+            this.tbCurrentX.Maximum = 45;
+            this.tbCurrentX.Minimum = -45;
+            this.tbCurrentX.Name = "tbCurrentX";
+            this.tbCurrentX.Size = new System.Drawing.Size(442, 45);
+            this.tbCurrentX.TabIndex = 3;
+            // 
+            // pbxLiveFeed
+            // 
+            this.pbxLiveFeed.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxLiveFeed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxLiveFeed.Location = new System.Drawing.Point(3, 3);
+            this.pbxLiveFeed.Name = "pbxLiveFeed";
+            this.pbxLiveFeed.Size = new System.Drawing.Size(436, 265);
+            this.pbxLiveFeed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxLiveFeed.TabIndex = 2;
+            this.pbxLiveFeed.TabStop = false;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(3, 288);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(70, 17);
+            this.checkBox1.TabIndex = 1;
+            this.checkBox1.Text = "Live feed";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.btnLedOff);
+            this.tabPage5.Controls.Add(this.btnLedOn);
+            this.tabPage5.Controls.Add(this.cbxRGB1R);
+            this.tabPage5.Controls.Add(this.label3);
+            this.tabPage5.Controls.Add(this.label4);
+            this.tabPage5.Controls.Add(this.cbxRGB1B);
+            this.tabPage5.Controls.Add(this.cbxRGB1G);
+            this.tabPage5.Controls.Add(this.cbxRGB2R);
+            this.tabPage5.Controls.Add(this.cbxRGB2B);
+            this.tabPage5.Controls.Add(this.cbxRGB2G);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(971, 380);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Status";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 200;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // lblTargetRoll
+            // 
+            this.lblTargetRoll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTargetRoll.AutoSize = true;
+            this.lblTargetRoll.Location = new System.Drawing.Point(606, 487);
+            this.lblTargetRoll.Name = "lblTargetRoll";
+            this.lblTargetRoll.Size = new System.Drawing.Size(62, 13);
+            this.lblTargetRoll.TabIndex = 28;
+            this.lblTargetRoll.Text = "Target Roll:";
+            // 
+            // lblTargetPitch
+            // 
+            this.lblTargetPitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTargetPitch.AutoSize = true;
+            this.lblTargetPitch.Location = new System.Drawing.Point(606, 474);
+            this.lblTargetPitch.Name = "lblTargetPitch";
+            this.lblTargetPitch.Size = new System.Drawing.Size(68, 13);
+            this.lblTargetPitch.TabIndex = 27;
+            this.lblTargetPitch.Text = "Target Pitch:";
+            // 
+            // lblCurrentYaw
+            // 
+            this.lblCurrentYaw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentYaw.AutoSize = true;
+            this.lblCurrentYaw.Location = new System.Drawing.Point(708, 500);
+            this.lblCurrentYaw.Name = "lblCurrentYaw";
+            this.lblCurrentYaw.Size = new System.Drawing.Size(68, 13);
+            this.lblCurrentYaw.TabIndex = 31;
+            this.lblCurrentYaw.Text = "Current Yaw:";
+            // 
+            // lblCurrentPitch
+            // 
+            this.lblCurrentPitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentPitch.AutoSize = true;
+            this.lblCurrentPitch.Location = new System.Drawing.Point(708, 474);
+            this.lblCurrentPitch.Name = "lblCurrentPitch";
+            this.lblCurrentPitch.Size = new System.Drawing.Size(71, 13);
+            this.lblCurrentPitch.TabIndex = 30;
+            this.lblCurrentPitch.Text = "Current Pitch:";
+            // 
+            // lblCurrentRoll
+            // 
+            this.lblCurrentRoll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCurrentRoll.AutoSize = true;
+            this.lblCurrentRoll.Location = new System.Drawing.Point(708, 487);
+            this.lblCurrentRoll.Name = "lblCurrentRoll";
+            this.lblCurrentRoll.Size = new System.Drawing.Size(65, 13);
+            this.lblCurrentRoll.TabIndex = 29;
+            this.lblCurrentRoll.Text = "Current Roll:";
+            // 
+            // lblBatVoltage
+            // 
+            this.lblBatVoltage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBatVoltage.AutoSize = true;
+            this.lblBatVoltage.Location = new System.Drawing.Point(442, 474);
+            this.lblBatVoltage.Name = "lblBatVoltage";
+            this.lblBatVoltage.Size = new System.Drawing.Size(82, 13);
+            this.lblBatVoltage.TabIndex = 32;
+            this.lblBatVoltage.Text = "Battery Voltage:";
+            // 
+            // tbxSetPos
+            // 
+            this.tbxSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSetPos.Location = new System.Drawing.Point(572, -28);
+            this.tbxSetPos.Name = "tbxSetPos";
+            this.tbxSetPos.Size = new System.Drawing.Size(100, 20);
+            this.tbxSetPos.TabIndex = 26;
+            // 
+            // btnSetPos
+            // 
+            this.btnSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetPos.Location = new System.Drawing.Point(572, -2);
+            this.btnSetPos.Name = "btnSetPos";
+            this.btnSetPos.Size = new System.Drawing.Size(100, 23);
+            this.btnSetPos.TabIndex = 27;
+            this.btnSetPos.Text = "button6";
+            this.btnSetPos.UseVisualStyleBackColor = true;
+            this.btnSetPos.Click += new System.EventHandler(this.btnSetPos_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 392);
+            this.ClientSize = new System.Drawing.Size(1003, 542);
+            this.Controls.Add(this.lblBatVoltage);
+            this.Controls.Add(this.lblCurrentYaw);
+            this.Controls.Add(this.lblCurrentPitch);
+            this.Controls.Add(this.lblCurrentRoll);
+            this.Controls.Add(this.lblTargetRoll);
+            this.Controls.Add(this.lblTargetPitch);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnWebservice);
-            this.Controls.Add(this.imageControl1);
             this.Controls.Add(this.btnTakePhoto);
             this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.cbxRGB2G);
-            this.Controls.Add(this.cbxRGB2B);
-            this.Controls.Add(this.cbxRGB2R);
-            this.Controls.Add(this.cbxRGB1G);
-            this.Controls.Add(this.cbxRGB1B);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.cbxRGB1R);
             this.Controls.Add(this.cbxAutoScroll);
-            this.Controls.Add(this.btnLedOff);
-            this.Controls.Add(this.btnLedOn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbxTopic);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbxAddress);
-            this.Controls.Add(this.rtbSubscribe);
             this.Controls.Add(this.tbxMessage);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnConnect);
             this.Name = "Form1";
-            this.Text = "Base Station";
+            this.Text = "Team 4";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbTargetX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbTargetY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbCurrentY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbCurrentX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxLiveFeed)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,6 +982,50 @@
         private Queens_ImageControl.ImageControl imageControl1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnWebservice;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox gbxSensors;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.CheckBox cbxAutoScr;
+        private System.Windows.Forms.TreeView tvPhotos;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.PictureBox pbxLiveFeed;
+        private System.Windows.Forms.Button btnNextTarget;
+        private System.Windows.Forms.TrackBar tbCurrentY;
+        private System.Windows.Forms.TrackBar tbCurrentX;
+        private System.Windows.Forms.Button btnTarget1;
+        private System.Windows.Forms.Button btnTarget4;
+        private System.Windows.Forms.Button btnTarget3;
+        private System.Windows.Forms.Button btnTarget2;
+        private System.Windows.Forms.Button btnHome;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Label lblTargetRoll;
+        private System.Windows.Forms.Label lblTargetPitch;
+        private System.Windows.Forms.Label lblCurrentYaw;
+        private System.Windows.Forms.Label lblCurrentPitch;
+        private System.Windows.Forms.Label lblCurrentRoll;
+        private System.Windows.Forms.Label lblBatVoltage;
+        private System.Windows.Forms.Button btnYneg10;
+        private System.Windows.Forms.Button btnYpos10;
+        private System.Windows.Forms.Button btnXneg10;
+        private System.Windows.Forms.Button btnXpos10;
+        private System.Windows.Forms.TrackBar tbTargetX;
+        private System.Windows.Forms.TrackBar tbTargetY;
+        private System.Windows.Forms.Button btnXneg1;
+        private System.Windows.Forms.Button btnXpos1;
+        private System.Windows.Forms.Button btnYpos1;
+        private System.Windows.Forms.Button btnYneg1;
+        private System.Windows.Forms.ListBox lbxTargets;
+        private System.Windows.Forms.Button btnSetPos;
+        private System.Windows.Forms.TextBox tbxSetPos;
     }
 }
 
