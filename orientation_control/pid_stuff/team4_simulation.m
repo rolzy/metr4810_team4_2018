@@ -12,7 +12,7 @@ clear all;
 %% Variables
 
 s = tf('s');    %Laplace variable
-I = 0.0009375;  %MOI of spacecraft 
+I = 0.0186805;  %MOI of spacecraft 
 Kt = 0.002387;  %Torque Constant of Turnigy D1104
 
 %% Transfer Function
