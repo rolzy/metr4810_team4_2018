@@ -183,6 +183,9 @@ msp_msg_print_LIB_DEPENDS:STATIC=
 //Dependencies for the target
 mspclient_LIB_DEPENDS:STATIC=general;-lpthread;
 
+//Dependencies for target
+pid_LIB_DEPENDS:STATIC=
+
 
 ########################
 # INTERNAL cache entries

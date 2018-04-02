@@ -52,6 +52,8 @@ types.hpp
 deserialise.hpp
 ../inc/msp/deserialise.hpp
 
+../inc/msp/pid.hpp
+
 ../inc/msp/types.hpp
 vector
 -
@@ -65,4 +67,6 @@ iostream
 -
 FlightController.hpp
 /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/FlightController.hpp
+pid.hpp
+/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/pid.hpp
 

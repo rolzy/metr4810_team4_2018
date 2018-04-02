@@ -7,5 +7,6 @@ CMakeFiles/motor.dir/examples/motor.cpp.o
  ../inc/msp/deserialise.hpp
  ../inc/msp/msp_id.hpp
  ../inc/msp/msp_msg.hpp
+ ../inc/msp/pid.hpp
  ../inc/msp/types.hpp
  /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/motor.cpp

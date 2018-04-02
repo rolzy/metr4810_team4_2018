@@ -6,6 +6,7 @@ CMakeFiles/motor.dir/examples/motor.cpp.o: ../inc/msp/FlightController.hpp
 CMakeFiles/motor.dir/examples/motor.cpp.o: ../inc/msp/deserialise.hpp
 CMakeFiles/motor.dir/examples/motor.cpp.o: ../inc/msp/msp_id.hpp
 CMakeFiles/motor.dir/examples/motor.cpp.o: ../inc/msp/msp_msg.hpp
+CMakeFiles/motor.dir/examples/motor.cpp.o: ../inc/msp/pid.hpp
 CMakeFiles/motor.dir/examples/motor.cpp.o: ../inc/msp/types.hpp
 CMakeFiles/motor.dir/examples/motor.cpp.o: ../examples/motor.cpp
 

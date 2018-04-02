@@ -168,6 +168,19 @@ client_async_test/fast:
 .PHONY : client_async_test/fast
 
 #=============================================================================
+# Target rules for targets named motor
+
+# Build rule for target.
+motor: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 motor
+.PHONY : motor
+
+# fast build rule for target.
+motor/fast:
+	$(MAKE) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/build
+.PHONY : motor/fast
+
+#=============================================================================
 # Target rules for targets named msp_fcu
 
 # Build rule for target.
@@ -179,19 +192,6 @@ msp_fcu: cmake_check_build_system
 msp_fcu/fast:
 	$(MAKE) -f CMakeFiles/msp_fcu.dir/build.make CMakeFiles/msp_fcu.dir/build
 .PHONY : msp_fcu/fast
-
-#=============================================================================
-# Target rules for targets named mspclient
-
-# Build rule for target.
-mspclient: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 mspclient
-.PHONY : mspclient
-
-# fast build rule for target.
-mspclient/fast:
-	$(MAKE) -f CMakeFiles/mspclient.dir/build.make CMakeFiles/mspclient.dir/build
-.PHONY : mspclient/fast
 
 #=============================================================================
 # Target rules for targets named msp_msg_print
@@ -220,6 +220,32 @@ msp/fast:
 .PHONY : msp/fast
 
 #=============================================================================
+# Target rules for targets named mspclient
+
+# Build rule for target.
+mspclient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mspclient
+.PHONY : mspclient
+
+# fast build rule for target.
+mspclient/fast:
+	$(MAKE) -f CMakeFiles/mspclient.dir/build.make CMakeFiles/mspclient.dir/build
+.PHONY : mspclient/fast
+
+#=============================================================================
+# Target rules for targets named pid
+
+# Build rule for target.
+pid: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pid
+.PHONY : pid
+
+# fast build rule for target.
+pid/fast:
+	$(MAKE) -f CMakeFiles/pid.dir/build.make CMakeFiles/pid.dir/build
+.PHONY : pid/fast
+
+#=============================================================================
 # Target rules for targets named fcu_custom_type
 
 # Build rule for target.
@@ -244,19 +270,6 @@ msp_connection_test: cmake_check_build_system
 msp_connection_test/fast:
 	$(MAKE) -f CMakeFiles/msp_connection_test.dir/build.make CMakeFiles/msp_connection_test.dir/build
 .PHONY : msp_connection_test/fast
-
-#=============================================================================
-# Target rules for targets named motor
-
-# Build rule for target.
-motor: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 motor
-.PHONY : motor
-
-# fast build rule for target.
-motor/fast:
-	$(MAKE) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/build
-.PHONY : motor/fast
 
 #=============================================================================
 # Target rules for targets named msp_read_test
@@ -714,6 +727,33 @@ src/msg_print.cpp.s:
 	$(MAKE) -f CMakeFiles/msp_msg_print.dir/build.make CMakeFiles/msp_msg_print.dir/src/msg_print.cpp.s
 .PHONY : src/msg_print.cpp.s
 
+src/pid.o: src/pid.cpp.o
+
+.PHONY : src/pid.o
+
+# target to build an object file
+src/pid.cpp.o:
+	$(MAKE) -f CMakeFiles/pid.dir/build.make CMakeFiles/pid.dir/src/pid.cpp.o
+.PHONY : src/pid.cpp.o
+
+src/pid.i: src/pid.cpp.i
+
+.PHONY : src/pid.i
+
+# target to preprocess a source file
+src/pid.cpp.i:
+	$(MAKE) -f CMakeFiles/pid.dir/build.make CMakeFiles/pid.dir/src/pid.cpp.i
+.PHONY : src/pid.cpp.i
+
+src/pid.s: src/pid.cpp.s
+
+.PHONY : src/pid.s
+
+# target to generate assembly for a file
+src/pid.cpp.s:
+	$(MAKE) -f CMakeFiles/pid.dir/build.make CMakeFiles/pid.dir/src/pid.cpp.s
+.PHONY : src/pid.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -726,13 +766,14 @@ help:
 	@echo "... install/strip"
 	@echo "... install"
 	@echo "... client_async_test"
+	@echo "... motor"
 	@echo "... msp_fcu"
-	@echo "... mspclient"
 	@echo "... msp_msg_print"
 	@echo "... msp"
+	@echo "... mspclient"
+	@echo "... pid"
 	@echo "... fcu_custom_type"
 	@echo "... msp_connection_test"
-	@echo "... motor"
 	@echo "... msp_read_test"
 	@echo "... client_read_test"
 	@echo "... fcu_test"
@@ -782,6 +823,9 @@ help:
 	@echo "... src/msg_print.o"
 	@echo "... src/msg_print.i"
 	@echo "... src/msg_print.s"
+	@echo "... src/pid.o"
+	@echo "... src/pid.i"
+	@echo "... src/pid.s"
 .PHONY : help
 
 
