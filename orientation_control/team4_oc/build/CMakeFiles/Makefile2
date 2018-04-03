@@ -101,8 +101,8 @@ clean: CMakeFiles/client_async_test.dir/clean
 # Target rules for target CMakeFiles/motor.dir
 
 # All Build rule for target.
-CMakeFiles/motor.dir/all: CMakeFiles/msp_fcu.dir/all
-CMakeFiles/motor.dir/all: CMakeFiles/mspclient.dir/all
+CMakeFiles/motor.dir/all: CMakeFiles/msp_msg_print.dir/all
+CMakeFiles/motor.dir/all: CMakeFiles/msp.dir/all
 CMakeFiles/motor.dir/all: CMakeFiles/pid.dir/all
 	$(MAKE) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/depend
 	$(MAKE) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/build

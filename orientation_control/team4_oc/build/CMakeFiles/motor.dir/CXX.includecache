@@ -6,30 +6,28 @@
 
 #IncludeRegexTransform: 
 
-../inc/msp/Client.hpp
-string
+../inc/msp/MSP.hpp
+types.hpp
+../inc/msp/types.hpp
+stdexcept
 -
-thread
+chrono
 -
 mutex
 -
-condition_variable
+memory
 -
-map
--
-types.hpp
-../inc/msp/types.hpp
-
-../inc/msp/FlightController.hpp
-Client.hpp
-../inc/msp/Client.hpp
-msp_msg.hpp
-../inc/msp/msp_msg.hpp
 
 ../inc/msp/deserialise.hpp
 types.hpp
 ../inc/msp/types.hpp
 cstdlib
+-
+
+../inc/msp/msg_print.hpp
+msp_msg.hpp
+../inc/msp/msp_msg.hpp
+ostream
 -
 
 ../inc/msp/msp_id.hpp
@@ -65,8 +63,22 @@ msp_id.hpp
 /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/motor.cpp
 iostream
 -
-FlightController.hpp
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/FlightController.hpp
+MSP.hpp
+-
+msp_msg.hpp
+-
+msg_print.hpp
+-
 pid.hpp
 /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/pid.hpp
+stdio.h
+-
+sys/select.h
+-
+sys/ioctl.h
+-
+termios.h
+-
+stropts.h
+-
 
