@@ -164,6 +164,26 @@ public:
         return sendData(uint8_t(id), data);
     }
 
+	/**
+	* @brief sendData send raw data and ID to flight controller, accepts any uint8 id
+	* @param id message ID
+	* @param data raw data
+	* @return true on success
+	* @return false on failure
+	*/
+	bool sendMotor(const uint8_t id, const MotorVector &data = MotorVector(0));
+
+	/**
+	* @brief sendData send raw data and ID to flight controller, only accepts registered message ID
+	* @param id message ID
+	* @param data raw data
+	* @return true on success
+	* @return false on failure
+	*/
+	bool sendMotor(const msp::ID id, const MotorVector &data = MotorVector(0)) {
+		return sendMotor(uint8_t(id), data);
+	}
+
     /**
      * @brief send encode message and send payload
      * @param response message sent to FC
@@ -200,6 +220,8 @@ private:
      */
     uint8_t crc(const uint8_t id, const ByteVector &data);
 
+	uint16_t crc16(const uint8_t id, const MotorVector &data);
+
     /**
      * @brief write write data vector to device
      * @param data raw data vector
@@ -207,6 +229,8 @@ private:
      * @return false on failure
      */
     bool write(const std::vector<uint8_t> &data);
+
+	bool write16(const std::vector<uint16_t> &data);
 
     /**
      * @brief read read data vector from device

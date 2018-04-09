@@ -13,7 +13,7 @@ clear all;
 
 s = tf('s');    %Laplace variable
 I = 0.0186805;  %MOI of spacecraft 
-Kt = 0.002387;  %Torque Constant of Turnigy D1104
+Kt = 0.00417;   %Torque Constant of Turnigy D1104
 
 %% Transfer Function
 num = Kt;
@@ -26,4 +26,4 @@ theta_current = feedback(H, 1);
 %rlocus(theta_current)
 
 %% SISO tool
-
+controlSystemDesigner(theta_current)

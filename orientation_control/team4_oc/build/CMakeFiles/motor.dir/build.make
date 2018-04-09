@@ -93,6 +93,8 @@ motor: CMakeFiles/motor.dir/build.make
 motor: libpid.so
 motor: libmsp.so
 motor: libmsp_msg_print.so
+motor: libmsp_fcu.so
+motor: libmspclient.so
 motor: CMakeFiles/motor.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable motor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/motor.dir/link.txt --verbose=$(VERBOSE)

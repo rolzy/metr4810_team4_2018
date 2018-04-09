@@ -179,6 +179,9 @@ public:
      */
     bool setRc(const std::vector<uint16_t> channels);
 
+	/* METR4810 Original FUnction */
+	bool setOrientation(const uint16_t rA, const uint16_t d);
+
     bool setMotors(const std::array<uint16_t,msp::msg::N_MOTOR> &motor_values);
 
     /**

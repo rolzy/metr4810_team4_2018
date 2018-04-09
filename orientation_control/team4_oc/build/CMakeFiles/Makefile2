@@ -101,8 +101,10 @@ clean: CMakeFiles/client_async_test.dir/clean
 # Target rules for target CMakeFiles/motor.dir
 
 # All Build rule for target.
+CMakeFiles/motor.dir/all: CMakeFiles/msp_fcu.dir/all
 CMakeFiles/motor.dir/all: CMakeFiles/msp_msg_print.dir/all
 CMakeFiles/motor.dir/all: CMakeFiles/msp.dir/all
+CMakeFiles/motor.dir/all: CMakeFiles/mspclient.dir/all
 CMakeFiles/motor.dir/all: CMakeFiles/pid.dir/all
 	$(MAKE) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/depend
 	$(MAKE) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/build
@@ -116,7 +118,7 @@ all: CMakeFiles/motor.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/motor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/motor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles 0
 .PHONY : CMakeFiles/motor.dir/rule

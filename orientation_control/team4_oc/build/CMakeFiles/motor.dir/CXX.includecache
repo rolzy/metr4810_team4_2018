@@ -6,17 +6,25 @@
 
 #IncludeRegexTransform: 
 
-../inc/msp/MSP.hpp
-types.hpp
-../inc/msp/types.hpp
-stdexcept
+../inc/msp/Client.hpp
+string
 -
-chrono
+thread
 -
 mutex
 -
-memory
+condition_variable
 -
+map
+-
+types.hpp
+../inc/msp/types.hpp
+
+../inc/msp/FlightController.hpp
+Client.hpp
+../inc/msp/Client.hpp
+msp_msg.hpp
+../inc/msp/msp_msg.hpp
 
 ../inc/msp/deserialise.hpp
 types.hpp
@@ -63,11 +71,11 @@ msp_id.hpp
 /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/motor.cpp
 iostream
 -
-MSP.hpp
--
 msp_msg.hpp
 -
 msg_print.hpp
+-
+FlightController.hpp
 -
 pid.hpp
 /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/pid.hpp

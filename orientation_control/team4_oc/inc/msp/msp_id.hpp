@@ -121,9 +121,9 @@ enum class ID : uint8_t {
     MSP_ANALOG      = 110,
     MSP_RC_TUNING   = 111,
     MSP_PID         = 112,
-    MSP_BOX         = 113,
-    MSP_MISC        = 114,
-    MSP_MOTOR_PINS  = 115,
+    MSP_HELLO       = 113,
+    MSP_SET_ORIENTATION = 114,
+    MSP_GET_ORIENTATION = 115,
     MSP_BOXNAMES    = 116,
     MSP_PIDNAMES    = 117,
     MSP_WP          = 118,
@@ -151,6 +151,9 @@ enum class ID : uint8_t {
     MSP_SET_MOTOR       = 214,
     MSP_SET_NAV_CONFIG  = 215,
 
+	MSP_MISC = 216,
+	MSP_MOTOR_PINS = 223,
+
     MSP_SET_ACC_TRIM    = 239,
     MSP_ACC_TRIM        = 240,
     MSP_BIND            = 241,
@@ -159,6 +162,8 @@ enum class ID : uint8_t {
 
     MSP_DEBUGMSG        = 253,
     MSP_DEBUG           = 254,
+
+    MSP_BOX             = 255,
 };
 
 } // namespace msp
