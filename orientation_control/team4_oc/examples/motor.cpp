@@ -4,7 +4,7 @@
 // Testing MSP 
 
 #include <iostream>
-//#include <MSP.hpp>
+#include <msp_id.hpp>
 #include <msp_msg.hpp>
 #include <msg_print.hpp>
 #include <FlightController.hpp>
@@ -60,6 +60,10 @@ public:
 		std::cout << hello.message << std::endl;
 	}
 
+	void onRc(const msp::msg::Rc& rc) {
+		std::cout << rc << std::endl;
+	}
+
 	void onGetOrientation(const msp::msg::GetOrientation& getOrientation) {
 		std::cout << "Right Ascention is " << getOrientation.rightAscention << " and the declination is " << getOrientation.declination << std::endl;
 	}
@@ -89,7 +93,7 @@ int main(int argc, char *argv[]) {
 	std::array<uint16_t, msp::msg::N_MOTOR> speed = { 1500, 1500, 1500, 1500, 0, 0, 0, 0 };  /* Speed Byte Vector, sent to the motors */
 
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
-	fcu.subscribe(&App::onGetOrientation, &app, 0.1);
+	fcu.subscribe(&App::onRc, &app, 0.1);
 
 	/* Connect to the flight controller */
 	/*std::cout << "Connecting FCU..." << std::endl;
@@ -134,14 +138,22 @@ int main(int argc, char *argv[]) {
 
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
-			float prompt;
-			std::cout << "What is your new setpoint?" << std::endl;
-			while (!(std::cin >> prompt)) {
+			fcu.unsubscribe(msp::ID::MSP_RC);
+			float prompt1, prompt2;
+			std::cout << "What is your new desired right ascention?" << std::endl;
+			while (!(std::cin >> prompt1)) {
 				std::cin.clear();
 				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input. Please enter a float between -3.5 and 3.5." << std::endl;
+				std::cout << "Invalid input. Please enter a float between 0 and 7." << std::endl;
 			}
-			fcu.setOrientation(0, 0);
+			std::cout << "What is your new desired declination?" << std::endl;
+			while (!(std::cin >> prompt2)) {
+				std::cin.clear();
+				std::cin.ignore(1000, '\n');
+				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
+			}
+			fcu.setOrientation(prompt1*10, prompt2*10);
+			fcu.subscribe(&App::onRc, &app, 0.1);
 		}
 	}
 }

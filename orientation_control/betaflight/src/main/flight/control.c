@@ -31,11 +31,81 @@
 
 #include "io/gps.h"
 
+#include "rx/rx.h"
+#include "rx/msp.h"
+
 #include "sensors/gyro.h"
 #include "sensors/acceleration.h"
 
-float rightAscention, declination;
+/* User Inputs */
+float rightAscentionAngle, declinationAngle;
 
+pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float ki, float kd)
+{
+	pid->input = in;
+	pid->output = out;
+	pid->setpoint = set;
+
+	setOutputLimits(pid, 1000, 2000);
+
+	// Set default sample time to 100 ms
+	pid->sampleTime = 100;
+
+	tunePID(pid, kp, ki, kd);
+
+	pid->lastTime = millis();
+
+	return pid;
+}
+
+bool pid_need_compute(pid_t pid)
+{
+	// Check if the PID period has elapsed
+	return(millis() - pid->lastTime >= pid->sampleTime) ? true : false;
+}
+
+void computePID(pid_t pid)
+{
+	float currAng = *(pid->input);
+	float error = (*(pid->setpoint)) - currAng;   /* Find the difference between setpoint and current angle */
+
+	pid->integral += (pid->Ki * error);   /* Add to accumulative integral term */
+	if (pid->integral > pid->outMax) pid->integral = pid->outMax;       /* If the integral term is above the allowed output range, clamp it */
+	else if (pid->integral < pid->outMin) pid->integral = pid->outMin;  /* If the integral term is below the allowed output range, clamp it */
+	
+	float deltaInput = currAng - pid->lastInput;   /* Rate of change of desired angle */
+													 
+	/* Compute PID output */
+	float Output = pid->Kp * error + pid->integral - pid->Kd * deltaInput;   /* Calculate output term */
+	if (Output > pid->outMax) Output = pid->outMax;                          /* If the output term is above the allowed output range, clamp it */
+	else if (Output < pid->outMin) Output = pid->outMin;                     /* If the output term is below the allowed output range, clamp it */
+
+	/* Store variables for next iteration */
+	(*pid->output) = Output;
+	pid->lastInput = currAng;
+	pid->lastTime = millis();
+}
+
+/* Function to tune PID constants */
+void tunePID(pid_t pid, float kp, float ki, float kd) {
+	/* If the constants are negative values, return nothing */
+	if (kp<0 || ki<0 || kd<0) return;
+
+	pid->Kp = kp;
+	pid->Ki = ki * (pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
+	pid->Kd = kd / (pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
+}
+
+/* Function to set output limits */
+void setOutputLimits(pid_t pid, float Min, float Max)
+{
+	if (Min >= Max) return;
+	pid->outMin = Min;
+	pid->outMax = Max;
+}
+
+
+/* Functions to interface with Betaflight */
 PG_REGISTER_ARRAY_WITH_RESET_FN(controlProfile_t, MAX_PROFILE_COUNT, controlProfiles, PG_CONTROL_PROFILE, 2);
 
 void resetControlProfile(controlProfile_t *controlProfile)
@@ -55,8 +125,8 @@ void pgResetFn_controlProfiles(controlProfile_t *controlProfiles)
 
 void controlInitPosition(const controlProfile_t *controlProfile)
 {
-	rightAscention = controlProfile->rA;
-	declination = controlProfile->d;
+	rightAscentionAngle = controlProfile->rA;
+	declinationAngle = controlProfile->d;
 }
 
 void controlInit(const controlProfile_t *controlProfile)

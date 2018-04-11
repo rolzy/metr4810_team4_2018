@@ -66,6 +66,10 @@ public:
         return client.hasSubscription(id);
     }
 
+	void unsubscribe(const msp::ID& id) {
+		return client.unsubscribe(id);
+	}
+
     /**
      * @brief getSubscription get pointer to subscription
      * @param id message ID

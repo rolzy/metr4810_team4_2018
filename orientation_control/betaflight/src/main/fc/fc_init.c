@@ -137,6 +137,7 @@
 
 #include "telemetry/telemetry.h"
 
+#include "flight/control.h"
 #include "flight/failsafe.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
@@ -516,6 +517,8 @@ void init(void)
     }
 
     systemState |= SYSTEM_STATE_SENSORS_READY;
+
+	controlInit(currentControlProfile);
 
     // gyro.targetLooptime set in sensorsAutodetect(),
     // so we are ready to call validateAndFixGyroConfig(), pidInit(), and setAccelerationFilter()
