@@ -534,7 +534,7 @@ static void detectAndApplySignalLossBehaviour(void)
 #endif
 
     rxFlightChannelsValid = true;
-    for (int channel = 2; channel < rxChannelCount; channel++) {
+    for (int channel = 4; channel < rxChannelCount; channel++) {
         uint16_t sample = rcRaw[channel];
 
         const bool validPulse = useValueFromRx && isPulseValid(sample);
@@ -564,7 +564,7 @@ static void detectAndApplySignalLossBehaviour(void)
     } else {
         rxIsInFailsafeMode = true;
         failsafeOnValidDataFailed();
-        for (int channel = 2; channel < rxChannelCount; channel++) {
+        for (int channel = 4; channel < rxChannelCount; channel++) {
             rcData[channel] = getRxfailValue(channel);
         }
     }

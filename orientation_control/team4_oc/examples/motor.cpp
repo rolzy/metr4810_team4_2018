@@ -35,7 +35,6 @@ int _kbhit() {
 	return bytesWaiting;
 }
 
-float Input; 
 class App {
 public:
 	std::string name;
@@ -49,11 +48,7 @@ public:
 	}
 
 	void onAttitude(const msp::msg::Attitude& attitude) {
-		if (attitude.heading > 180) {
-			Input = attitude.heading - 360; /* Convert angles over 180 to negative (-179 to 180) */
-		} else {
-			Input = attitude.heading;
-		}
+		std::cout << "Right Ascention is " << attitude.heading-180 << " and the declination is " << attitude.ang_y << std::endl;
 	}
 
 	void onHello(const msp::msg::Hello& hello) {
@@ -79,66 +74,20 @@ int main(int argc, char *argv[]) {
 	/* Operation Variables */
     const std::string device = (argc>1) ? std::string(argv[1]) : "/dev/ttyUSB0";  /* Define COM port*/
     const size_t baudrate = (argc>2) ? std::stoul(argv[2]) : 115200;              /* Baud rate of the system */
-	float Output;
-	float Setpoint = 0;                                                 /* PID Input, Output and Desired Angle */
-
-	//msp::MSP msp(device, baudrate);  /* Initialize MSP class */
-	//msp.setWait(1);                  /* Wait time (ms) between sending and receiving */
 
 	fcu::FlightController fcu(device, baudrate);
 	fcu.initialise();
 
-	PID pid(&Input, &Output, &Setpoint, 50, 0.0048, 0, 0);  /* Initialize PID class */
-
-	std::array<uint16_t, msp::msg::N_MOTOR> speed = { 1500, 1500, 1500, 1500, 0, 0, 0, 0 };  /* Speed Byte Vector, sent to the motors */
-
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
 	fcu.subscribe(&App::onRc, &app, 0.1);
-
-	/* Connect to the flight controller */
-	/*std::cout << "Connecting FCU..." << std::endl;
-	msp::msg::Ident ident;
-	if (msp.request_wait(ident, 10)) {
-		std::cout << "MSP version " << size_t(ident.version) << " ready" << std::endl;
-	}
-	std::cout << "ready" << std::endl;
-
-	msp::msg::SetMotor motor; 
-	msp::client::Client client;*/
+	//fcu.subscribe(&App::onAttitude, &app, 0.1);
 
 	fcu.setOrientation(35, 35);
 	while (true) {
-		/* Receive attitude data*/
-		//msp::msg::Attitude attitude;
-		//if (msp.request_block(attitude))
-		//	if (attitude.heading > 180) {
-		//		Input = attitude.heading - 360; /* Convert angles over 180 to negative (-179 to 180) */
-		//	} else {
-		//		Input = attitude.heading;
-		//	}
-		//else
-		//	std::cerr << "unsupported: " << size_t(attitude.id()) << std::endl;	
-
-		/* Compute PID */
-		//pid.Compute();
-
-		///* Adjust byte vector and send it to the FCU */
-		//if ((speed[0] >= 1476) && (((uint16_t)Output) < 1476)) {
-		//	speed[0] = (uint16_t)1476;
-		//	fcu.setMotors(speed);
-		//	std::this_thread::sleep_for(std::chrono::seconds(1));
-		//}
-		//else if ((speed[0] <= 1476) && (((uint16_t)Output) > 1476)) {
-		//	speed[0] = (uint16_t)1476;
-		//	fcu.setMotors(speed);
-		//	std::this_thread::sleep_for(std::chrono::seconds(1));
-		//}
-		//speed[0] = (uint16_t)Output;
-		//fcu.setMotors(speed);
-
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
 			fcu.unsubscribe(msp::ID::MSP_RC);
+			//fcu.unsubscribe(msp::ID::MSP_ATTITUDE);
 			float prompt1, prompt2;
 			std::cout << "What is your new desired right ascention?" << std::endl;
 			while (!(std::cin >> prompt1)) {
@@ -154,6 +103,7 @@ int main(int argc, char *argv[]) {
 			}
 			fcu.setOrientation(prompt1*10, prompt2*10);
 			fcu.subscribe(&App::onRc, &app, 0.1);
+			//fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include <platform.h>
 
@@ -46,11 +47,12 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float k
 	pid->output = out;
 	pid->setpoint = set;
 
-	setOutputLimits(pid, 1000, 2000);
+	setOutputLimits(pid, 0, 200000);
 
 	// Set default sample time to 100 ms
 	pid->sampleTime = 100;
 
+	setDirection(pid, E_PID_DIRECT);
 	tunePID(pid, kp, ki, kd);
 
 	pid->lastTime = millis();
@@ -64,26 +66,43 @@ bool pid_need_compute(pid_t pid)
 	return(millis() - pid->lastTime >= pid->sampleTime) ? true : false;
 }
 
-void computePID(pid_t pid)
+void computePID(pid_t pid, int num)
 {
 	float currAng = *(pid->input);
-	float error = (*(pid->setpoint)) - currAng;   /* Find the difference between setpoint and current angle */
+	float gain = 30.826;                                   /* Gain of the system */
+	float error = ((*(pid->setpoint)) - currAng) * gain;   /* Find the difference between setpoint and current angle */
 
-	pid->integral += (pid->Ki * error);   /* Add to accumulative integral term */
+	pid->integral += (pid->Ki * error);                                 /* Add to accumulative integral term */
 	if (pid->integral > pid->outMax) pid->integral = pid->outMax;       /* If the integral term is above the allowed output range, clamp it */
 	else if (pid->integral < pid->outMin) pid->integral = pid->outMin;  /* If the integral term is below the allowed output range, clamp it */
 	
 	float deltaInput = currAng - pid->lastInput;   /* Rate of change of desired angle */
 													 
 	/* Compute PID output */
-	float Output = pid->Kp * error + pid->integral - pid->Kd * deltaInput;   /* Calculate output term */
-	if (Output > pid->outMax) Output = pid->outMax;                          /* If the output term is above the allowed output range, clamp it */
-	else if (Output < pid->outMin) Output = pid->outMin;                     /* If the output term is below the allowed output range, clamp it */
+	float Output = pid->Kp * error + pid->integral - pid->Kd * deltaInput;         /* Calculate output term */
+	if (Output > pid->outMax) Output = pid->outMax;                                /* If the output term is above the allowed output range, clamp it */
+	else if (Output < pid->outMin) Output = pid->outMin;                           /* If the output term is below the allowed output range, clamp it */
+
+	rcData[num] = (int)Output;
 
 	/* Store variables for next iteration */
 	(*pid->output) = Output;
 	pid->lastInput = currAng;
 	pid->lastTime = millis();
+}
+
+double computePPM(double in, int num) {
+	/* Compute the required acceleration from torque value (rad/s^2) */
+	double req_acc = ((double)in / 0.3392);
+
+	/* Compute the required velocity from acceleration value (rad/s) */
+	double req_vel = req_acc * 0.1 + (abs(1500 - rcData[num]) * 1.04719755);
+
+	double req_RPM = req_vel / 0.14719755;
+	int req_PPM = 1500 + req_RPM / 100;
+	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
+	else if (req_PPM < 1000) req_PPM = 1000;
+	return req_PPM;
 }
 
 /* Function to tune PID constants */
@@ -104,6 +123,15 @@ void setOutputLimits(pid_t pid, float Min, float Max)
 	pid->outMax = Max;
 }
 
+void setDirection(pid_t pid, enum pid_control_directions dir)
+{
+	if (pid->direction != dir) {
+		pid->Kp = (0 - pid->Kp);
+		pid->Ki = (0 - pid->Ki);
+		pid->Kd = (0 - pid->Kd);
+	}
+	pid->direction = dir;
+}
 
 /* Functions to interface with Betaflight */
 PG_REGISTER_ARRAY_WITH_RESET_FN(controlProfile_t, MAX_PROFILE_COUNT, controlProfiles, PG_CONTROL_PROFILE, 2);

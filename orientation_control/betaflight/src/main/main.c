@@ -32,6 +32,7 @@
 
 #include "scheduler/scheduler.h"
 
+/* Initialize two PID structs, one for right ascention and one for declination */
 struct pid_controller rightAscention;
 struct pid_controller declination;
 
@@ -47,13 +48,14 @@ float setpoint_2 = 0.0;
 float output_1 = 0.0;
 float output_2 = 0.0;
 
-float kp_1 = 2, ki_1 = 0.005, kd_1 = 1.0;
-float kp_2 = 2, ki_2 = 0.005, kd_2 = 1.0;
+float kp_1 = 0.556, ki_1 = 1.0, kd_1 = 0.028;
+float kp_2 = 0.556, ki_2 = 1.0, kd_2 = 0.028;
 
 int main(void)
 {
     init();
 
+	/* Create two PID sessions */
 	pid_1 = pid_create(&rightAscention, &yaw, &output_1, &setpoint_1, kp_1, ki_1, kd_1);
 	pid_2 = pid_create(&declination, &pitch, &output_2, &setpoint_2, kp_2, ki_2, kd_2);
 
@@ -63,18 +65,33 @@ int main(void)
 #ifdef SIMULATOR_BUILD
         delayMicroseconds_real(50); // max rate 20kHz
 #endif
+
+		/* Check if the time elapsed since last PID iteration is over the sample time */
 		if (pid_need_compute(pid_1)) {
-			yaw = (float)DECIDEGREES_TO_DEGREES(attitude.values.yaw);
-			setpoint_1 = currentControlProfile->rA;
-			computePID(pid_1);
-			rcData[0] = output_1;
+			/* Read the current orientation in radians */
+			yaw = ((double)DECIDEGREES_TO_DEGREES(attitude.values.yaw)-180) * 0.0174533;
+			if (yaw - setpoint_1 < 0) {
+				setDirection(pid_1, E_PID_DIRECT);
+			}
+			else {
+				setDirection(pid_1, E_PID_REVERSE);
+			}
+			setpoint_1 = (double)currentControlProfile->rA * 0.0174533;
+			computePID(pid_1, 0);
+			rcData[2] = (int)(yaw);
 		}
 		
 		if (pid_need_compute(pid_2)) {
-			pitch = (float)attitude.values.pitch;
-			setpoint_2 = currentControlProfile->d;
-			computePID(pid_2);
-			rcData[1] = output_2;
+			pitch = (double)DECIDEGREES_TO_DEGREES(attitude.values.pitch)*-0.0174533;
+			if (pitch - setpoint_2 < 0) {
+				setDirection(pid_2, E_PID_DIRECT);
+			}
+			else {
+				setDirection(pid_2, E_PID_REVERSE);
+			}
+			setpoint_2 = (double)currentControlProfile->d * 0.0174533;
+			computePID(pid_2, 1);
+			rcData[3] = (int)(pitch);
 		}
     }
     return 0;

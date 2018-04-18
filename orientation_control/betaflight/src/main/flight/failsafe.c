@@ -129,10 +129,10 @@ static void failsafeActivate(void)
 
 static void failsafeApplyControlInput(void)
 {
-    for (int i = 2; i < 3; i++) {
-        rcData[i] = rxConfig()->midrc;
-    }
-    rcData[THROTTLE] = failsafeConfig()->failsafe_throttle;
+    //for (int i = 0; i < 3; i++) {
+        //rcData[i] = rxConfig()->midrc;
+    //}
+    //rcData[THROTTLE] = failsafeConfig()->failsafe_throttle;
 }
 
 bool failsafeIsReceivingRxData(void)

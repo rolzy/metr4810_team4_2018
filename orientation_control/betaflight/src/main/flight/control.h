@@ -5,6 +5,11 @@
 
 #pragma once
 
+enum pid_control_directions {
+	E_PID_DIRECT,
+	E_PID_REVERSE,
+};
+
 struct pid_controller {
 	// Input, output and setpoint
 	float * input; //!< Current Process Value
@@ -23,6 +28,8 @@ struct pid_controller {
 				  // Time related
 	timeMs_t lastTime; //!< Stores the time when the control loop ran last time
 	uint32_t sampleTime; //!< Defines the PID sample time
+
+	enum pid_control_directions direction;
 };
 
 typedef struct pid_controller * pid_t;
@@ -31,9 +38,11 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float k
 
 bool pid_need_compute(pid_t pid);
 
-void computePID(pid_t pid);
+void computePID(pid_t pid, int num);
+double computePPM(double in, int num);
 void tunePID(pid_t pid, float kp, float ki, float kd);
 void setOutputLimits(pid_t pid, float Min, float Max);
+void setDirection(pid_t pid, enum pid_control_directions dir);
 
 typedef struct controlProfile_s {
 	float rA;
