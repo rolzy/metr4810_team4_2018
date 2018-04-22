@@ -38,8 +38,8 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float k
 
 bool pid_need_compute(pid_t pid);
 
-void computePID(pid_t pid, int num);
-double computePPM(double in, int num);
+void computePID(pid_t pid);
+void computePPM(double in, int num);
 void tunePID(pid_t pid, float kp, float ki, float kd);
 void setOutputLimits(pid_t pid, float Min, float Max);
 void setDirection(pid_t pid, enum pid_control_directions dir);

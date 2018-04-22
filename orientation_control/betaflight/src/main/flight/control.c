@@ -47,7 +47,7 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float k
 	pid->output = out;
 	pid->setpoint = set;
 
-	setOutputLimits(pid, 0, 200000);
+	setOutputLimits(pid, -200000, 200000);
 
 	// Set default sample time to 100 ms
 	pid->sampleTime = 100;
@@ -66,7 +66,7 @@ bool pid_need_compute(pid_t pid)
 	return(millis() - pid->lastTime >= pid->sampleTime) ? true : false;
 }
 
-void computePID(pid_t pid, int num)
+void computePID(pid_t pid)
 {
 	float currAng = *(pid->input);
 	float gain = 30.826;                                   /* Gain of the system */
@@ -83,26 +83,24 @@ void computePID(pid_t pid, int num)
 	if (Output > pid->outMax) Output = pid->outMax;                                /* If the output term is above the allowed output range, clamp it */
 	else if (Output < pid->outMin) Output = pid->outMin;                           /* If the output term is below the allowed output range, clamp it */
 
-	rcData[num] = (int)Output;
-
 	/* Store variables for next iteration */
 	(*pid->output) = Output;
 	pid->lastInput = currAng;
 	pid->lastTime = millis();
 }
 
-double computePPM(double in, int num) {
+void computePPM(double in, int num) {
 	/* Compute the required acceleration from torque value (rad/s^2) */
-	double req_acc = ((double)in / 0.3392);
+	double req_acc = ((double)in / 0.0003392);
 
 	/* Compute the required velocity from acceleration value (rad/s) */
-	double req_vel = req_acc * 0.1 + (abs(1500 - rcData[num]) * 1.04719755);
+	double req_vel = req_acc * 0.1 + (abs(1500 - rcData[num]) * 0.104719755);
 
 	double req_RPM = req_vel / 0.14719755;
 	int req_PPM = 1500 + req_RPM / 100;
 	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
 	else if (req_PPM < 1000) req_PPM = 1000;
-	return req_PPM;
+	rcData[num] = req_PPM;
 }
 
 /* Function to tune PID constants */
@@ -111,8 +109,8 @@ void tunePID(pid_t pid, float kp, float ki, float kd) {
 	if (kp<0 || ki<0 || kd<0) return;
 
 	pid->Kp = kp;
-	pid->Ki = ki * (pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
-	pid->Kd = kd / (pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
+	pid->Ki = ki * ((float)pid->sampleTime / 1000.0);  /* Calculate the mathematical equivalent incorporating the sample time*/
+	pid->Kd = kd / ((float)pid->sampleTime / 1000.0);  /* Calculate the mathematical equivalent incorporating the sample time*/
 }
 
 /* Function to set output limits */
