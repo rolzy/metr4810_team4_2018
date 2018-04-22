@@ -5,9 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace DSN_Transmitter
 {
@@ -85,6 +88,19 @@ namespace DSN_Transmitter
         {
             String Buffer = spRecieve.ReadLine();
             appendText(rtbLog,Buffer);
+
+            string topic = Buffer.Split(':')[0];
+            string payload = Buffer.Split(':')[1];
+            // create client instance 
+            MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+
+            string clientId = Guid.NewGuid().ToString();
+            client.Connect(clientId);
+
+
+            // publish a message on "/home/temperature" topic with QoS 2 
+            client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            client.Disconnect();
         }
 
 

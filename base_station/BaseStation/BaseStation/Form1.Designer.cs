@@ -68,6 +68,8 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnSetPos = new System.Windows.Forms.Button();
+            this.tbxSetPos = new System.Windows.Forms.TextBox();
             this.lbxTargets = new System.Windows.Forms.ListBox();
             this.btnYneg10 = new System.Windows.Forms.Button();
             this.btnYpos10 = new System.Windows.Forms.Button();
@@ -98,8 +100,9 @@
             this.lblCurrentPitch = new System.Windows.Forms.Label();
             this.lblCurrentRoll = new System.Windows.Forms.Label();
             this.lblBatVoltage = new System.Windows.Forms.Label();
-            this.tbxSetPos = new System.Windows.Forms.TextBox();
-            this.btnSetPos = new System.Windows.Forms.Button();
+            this.spTransmit = new System.IO.Ports.SerialPort(this.components);
+            this.cbxPorts = new System.Windows.Forms.ComboBox();
+            this.btnDSN = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -120,7 +123,7 @@
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 2;
-            this.btnConnect.Text = "Connect";
+            this.btnConnect.Text = "Subscribe";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -155,11 +158,10 @@
             // 
             // tbxAddress
             // 
-            this.tbxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxAddress.Location = new System.Drawing.Point(12, 12);
+            this.tbxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxAddress.Location = new System.Drawing.Point(372, 12);
             this.tbxAddress.Name = "tbxAddress";
-            this.tbxAddress.Size = new System.Drawing.Size(707, 20);
+            this.tbxAddress.Size = new System.Drawing.Size(347, 20);
             this.tbxAddress.TabIndex = 1;
             this.tbxAddress.Text = "192.168.20.129";
             // 
@@ -433,7 +435,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(896, 315);
+            this.tabPage2.Size = new System.Drawing.Size(971, 380);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "PID Setings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -516,7 +518,7 @@
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(896, 315);
+            this.tabPage3.Size = new System.Drawing.Size(971, 380);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera Config";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -548,10 +550,29 @@
             this.tabPage4.Controls.Add(this.checkBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(908, 333);
+            this.tabPage4.Size = new System.Drawing.Size(971, 380);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Orentation";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btnSetPos
+            // 
+            this.btnSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetPos.Location = new System.Drawing.Point(572, -2);
+            this.btnSetPos.Name = "btnSetPos";
+            this.btnSetPos.Size = new System.Drawing.Size(100, 23);
+            this.btnSetPos.TabIndex = 27;
+            this.btnSetPos.Text = "button6";
+            this.btnSetPos.UseVisualStyleBackColor = true;
+            this.btnSetPos.Click += new System.EventHandler(this.btnSetPos_Click);
+            // 
+            // tbxSetPos
+            // 
+            this.tbxSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSetPos.Location = new System.Drawing.Point(572, -28);
+            this.tbxSetPos.Name = "tbxSetPos";
+            this.tbxSetPos.Size = new System.Drawing.Size(100, 20);
+            this.tbxSetPos.TabIndex = 26;
             // 
             // lbxTargets
             // 
@@ -891,30 +912,32 @@
             this.lblBatVoltage.TabIndex = 32;
             this.lblBatVoltage.Text = "Battery Voltage:";
             // 
-            // tbxSetPos
+            // cbxPorts
             // 
-            this.tbxSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxSetPos.Location = new System.Drawing.Point(572, -28);
-            this.tbxSetPos.Name = "tbxSetPos";
-            this.tbxSetPos.Size = new System.Drawing.Size(100, 20);
-            this.tbxSetPos.TabIndex = 26;
+            this.cbxPorts.FormattingEnabled = true;
+            this.cbxPorts.Location = new System.Drawing.Point(16, 13);
+            this.cbxPorts.Name = "cbxPorts";
+            this.cbxPorts.Size = new System.Drawing.Size(146, 21);
+            this.cbxPorts.TabIndex = 33;
+            this.cbxPorts.DropDown += new System.EventHandler(this.comboBoxPorts_DropDown);
             // 
-            // btnSetPos
+            // btnDSN
             // 
-            this.btnSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetPos.Location = new System.Drawing.Point(572, -2);
-            this.btnSetPos.Name = "btnSetPos";
-            this.btnSetPos.Size = new System.Drawing.Size(100, 23);
-            this.btnSetPos.TabIndex = 27;
-            this.btnSetPos.Text = "button6";
-            this.btnSetPos.UseVisualStyleBackColor = true;
-            this.btnSetPos.Click += new System.EventHandler(this.btnSetPos_Click);
+            this.btnDSN.Location = new System.Drawing.Point(169, 12);
+            this.btnDSN.Name = "btnDSN";
+            this.btnDSN.Size = new System.Drawing.Size(75, 23);
+            this.btnDSN.TabIndex = 34;
+            this.btnDSN.Text = "Connect";
+            this.btnDSN.UseVisualStyleBackColor = true;
+            this.btnDSN.Click += new System.EventHandler(this.btnDSN_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 542);
+            this.Controls.Add(this.btnDSN);
+            this.Controls.Add(this.cbxPorts);
             this.Controls.Add(this.lblBatVoltage);
             this.Controls.Add(this.lblCurrentYaw);
             this.Controls.Add(this.lblCurrentPitch);
@@ -937,6 +960,7 @@
             this.Name = "Form1";
             this.Text = "Team 4";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -1026,6 +1050,9 @@
         private System.Windows.Forms.ListBox lbxTargets;
         private System.Windows.Forms.Button btnSetPos;
         private System.Windows.Forms.TextBox tbxSetPos;
+        private System.IO.Ports.SerialPort spTransmit;
+        private System.Windows.Forms.ComboBox cbxPorts;
+        private System.Windows.Forms.Button btnDSN;
     }
 }
 

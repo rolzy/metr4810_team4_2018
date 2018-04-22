@@ -17,6 +17,7 @@ using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.IO.Ports;
 
 namespace BaseStation
 {
@@ -59,18 +60,20 @@ namespace BaseStation
             tvPhotos.Nodes.Add(node);
         }
 
+
+        MqttClient client;
         private void button1_Click(object sender, EventArgs e)
         {
             if (btnConnect.Text.Equals("Disconnect"))
             {
-                btnConnect.Text = "Connect";
-            //    client.Disconnect();
+                btnConnect.Text = "Subscribe";
+                client.Disconnect();
             } else 
             {
                 btnConnect.Text = "Disconnect";
                 // btnConnect.Enabled = false;
                 // create client instance 
-                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+                client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
                 // register to message received 
                 client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
@@ -430,6 +433,8 @@ namespace BaseStation
 
         private void sendMessage(string topic,string payload)
         {
+
+            /*
             // create client instance 
             MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
@@ -439,7 +444,42 @@ namespace BaseStation
 
             // publish a message on "/home/temperature" topic with QoS 2 
             client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            */
 
+
+            if (spTransmit.IsOpen)
+            {
+                spTransmit.Write(topic + ':' + payload + '\n');
+            }
+
+        }
+
+
+
+        private void btnDSN_Click(object sender, EventArgs e)
+        {
+            if (cbxPorts.SelectedIndex > -1)
+            {
+                MessageBox.Show(String.Format("You selected port '{0}'", cbxPorts.SelectedItem));
+                 var port = spTransmit;
+                if (!port.IsOpen)
+                {
+                    port.PortName = cbxPorts.SelectedItem.ToString();
+                    port.BaudRate = 1200;
+                    port.Open();
+                    btnDSN.Text = "Disconnect";
+                }
+                else
+                {
+                    port.Close();
+                    btnDSN.Text = "Connect";
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a port first");
+            }
         }
 
 
@@ -737,6 +777,18 @@ namespace BaseStation
                 }
 
             }
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            cbxPorts.DataSource = SerialPort.GetPortNames();
+        }
+
+
+        private void comboBoxPorts_DropDown(object sender, EventArgs e)
+        {
+            cbxPorts.DataSource = SerialPort.GetPortNames();
         }
     }
 }
