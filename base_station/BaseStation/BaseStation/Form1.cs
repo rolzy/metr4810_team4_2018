@@ -13,19 +13,6 @@ using System.Windows.Forms;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-using SlimDX;
-
-using SlimDX.D3DCompiler;
-
-using SlimDX.Direct3D11;
-
-using SlimDX.DXGI;
-
-using SlimDX.Windows;
-
-using Device = SlimDX.Direct3D11.Device;
-
-using Resource = SlimDX.Direct3D11.Resource;
 using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
@@ -595,7 +582,7 @@ namespace BaseStation
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            pbxLiveFeed.Load("http://192.168.20.129/html/cam_pic.php?");
+            pbxLiveFeed.Load("http://" + tbxAddress.Text +"/html/cam_pic.php?");
         }
 
 
