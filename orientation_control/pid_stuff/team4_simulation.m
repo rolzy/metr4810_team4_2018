@@ -11,13 +11,14 @@ clear all;
 
 %% Variables
 
-s = tf('s');    %Laplace variable
-I = 0.0186805;  %MOI of spacecraft 
-Kt = 0.002387;  %Torque Constant of Turnigy D1104
+s = tf('s');              % Laplace variable
+I_craft = 0.0186805;      % MOI of spacecraft
+I_flywheel = 0.000003392; % MOI of flywheel
+Kt = 0.00417;             % Torque Constant of 2290kV rated motor
 
 %% Transfer Function
-num = Kt;
-den = I*s^2;
+num = 1;
+den = I_craft*s^2;
 H = num/den;
 theta_current = feedback(H, 1);
 
@@ -26,4 +27,11 @@ theta_current = feedback(H, 1);
 %rlocus(theta_current)
 
 %% SISO tool
+controlSystemDesigner(H)
+
+%% Compensator
+%num = 0.6677*s^2 + 5.641*s + 11.512;
+%den = s;
+%C = tf([0.6677, 5.641, 11.512],[1,0]);
+%fb=bandwidth(theta_current, -3)
 

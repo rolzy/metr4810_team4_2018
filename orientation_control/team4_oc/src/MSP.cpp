@@ -201,6 +201,21 @@ bool MSP::sendData(const uint8_t id, const ByteVector &data) {
     return write(msg);
 }
 
+bool MSP::sendMotor(const uint8_t id, const MotorVector &data) {
+	MotorVector msg;
+	msg.reserve(6 + data.size());
+
+	msg.push_back('$');
+	msg.push_back('M');
+	msg.push_back('<');
+	msg.push_back(uint16_t(data.size()));                // data size
+	msg.push_back(id);                                  // message_id
+	msg.insert(msg.end(), data.begin(), data.end());    // data
+	msg.push_back(crc16(id, data));                     // crc
+
+	return write16(msg);
+}
+
 DataID MSP::receiveData() {
     // wait for correct preamble start
     if(hasData()<1) {
@@ -255,6 +270,15 @@ uint8_t MSP::crc(const uint8_t id, const ByteVector &data) {
     return crc;
 }
 
+uint16_t MSP::crc16(const uint8_t id, const MotorVector &data) {
+	uint16_t crc = uint16_t(data.size()) ^ id;
+
+	for (uint16_t d : data)
+		crc = crc ^ d;
+
+	return crc;
+}
+
 bool MSP::write(const std::vector<uint8_t> &data) {
     std::lock_guard<std::mutex> lock(lock_write);
     try {
@@ -264,6 +288,17 @@ bool MSP::write(const std::vector<uint8_t> &data) {
     catch(const asio::system_error &e) {
         throw NoConnection(device, e.what());
     }
+}
+
+bool MSP::write16(const std::vector<uint16_t> &data) {
+	std::lock_guard<std::mutex> lock(lock_write);
+	try {
+		const std::size_t bytes_written = asio::write(pimpl->port, asio::buffer(data.data(), data.size()));
+		return (bytes_written == data.size());
+	}
+	catch (const asio::system_error &e) {
+		throw NoConnection(device, e.what());
+	}
 }
 
 size_t MSP::read(std::vector<uint8_t> &data) {

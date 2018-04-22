@@ -143,6 +143,14 @@ bool FlightController::setRc(const std::vector<uint16_t> channels) {
     return client.respond(rc, false);
 }
 
+/* METR4810 Original Function */
+bool FlightController::setOrientation(const uint16_t rA, const uint16_t d) {
+	msp::msg::SetOrientation orientation;
+	orientation.rightAscention = rA;
+	orientation.declination = d;
+	return client.respond(orientation);
+}
+
 bool FlightController::setMotors(const std::array<uint16_t,msp::msg::N_MOTOR> &motor_values) {
     if(isFirmwareMultiWii() && !hasDynBal()) {
         throw std::runtime_error(

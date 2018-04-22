@@ -300,6 +300,12 @@ public:
         return (subscriptions.count(id)==1);
     }
 
+	void unsubscribe(const msp::ID& id) {
+		if (subscriptions.count(id) == 1) {
+			delete subscriptions[id];
+		}
+	}
+
     /**
      * @brief getSubscription get pointer to subscription
      * @param id message ID

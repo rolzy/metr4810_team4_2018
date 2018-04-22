@@ -39,6 +39,9 @@ target_link_libraries(mspclient ${CMAKE_THREAD_LIBS_INIT})
 add_library(msp_fcu ${MSP_SOURCE_DIR}/FlightController.cpp)
 target_link_libraries(msp_fcu mspclient)
 
+# PID library
+add_library(pid ${MSP_SOURCE_DIR}/pid.cpp)
+
 
 ################################################################################
 ### examples / tests
@@ -64,7 +67,7 @@ add_executable(fcu_motors examples/fcu_motor_test.cpp)
 target_link_libraries(fcu_motors msp_fcu)
 
 add_executable(motor examples/motor.cpp)
-target_link_libraries(motor msp_fcu)
+target_link_libraries(motor pid msp msp_msg_print mspclient msp_fcu)
 
 # subscribing with custom type
 add_executable(fcu_custom_type examples/fcu_custom_type.cpp)

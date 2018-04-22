@@ -595,7 +595,30 @@ struct Box : public Request {
     }
 };
 
-// MSP_MISC: 114
+// MSP_HELLO: 113
+struct Hello : public Request {
+	ID id() const { return ID::MSP_HELLO; }
+
+	double message;
+
+	void decode(const std::vector<uint8_t> &data) {
+		message = deserialise_uint16(data, 0);
+	}
+};
+
+// MSP_GET_ORIENTATION: 115
+struct GetOrientation : public Request {
+	ID id() const { return ID::MSP_GET_ORIENTATION; }
+
+	double rightAscention, declination;
+
+	void decode(const std::vector<uint8_t> &data) {
+		rightAscention = deserialise_uint16(data, 0);
+		declination = deserialise_uint16(data, 2);
+	}
+};
+
+// MSP_MISC: 256
 struct Misc : public Request {
     ID id() const { return ID::MSP_MISC; }
 
@@ -624,7 +647,7 @@ struct Misc : public Request {
     }
 };
 
-// MSP_MOTOR_PINS: 115
+// MSP_MOTOR_PINS: 257
 struct MotorPins : public Request {
     ID id() const { return ID::MSP_MOTOR_PINS; }
 
@@ -852,6 +875,22 @@ struct Debug : public Request {
 
 /////////////////////////////////////////////////////////////////////
 /// Response (2xx)
+
+// MSP_SET_ORIENTATION: 114
+// Original function, set right ascention and declination variables in naze. 
+struct SetOrientation : public Response {
+	ID id() const { return ID::MSP_SET_ORIENTATION; }
+
+	uint16_t rightAscention;
+	uint16_t declination;
+
+	std::vector<uint8_t> encode() const {
+		std::vector<uint8_t> data;
+		serialise_uint16(rightAscention, data);
+		serialise_uint16(declination, data);
+		return data;
+	}
+};
 
 // MSP_SET_RAW_RC: 200
 // This message is accepted but ignored on betaflight 3.0.1 onwards

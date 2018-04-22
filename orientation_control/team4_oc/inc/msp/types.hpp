@@ -12,6 +12,8 @@ namespace msp {
  */
 typedef std::vector<uint8_t> ByteVector;
 
+typedef std::vector<uint16_t> MotorVector;
+
 
 /////////////////////////////////////////////////////////////////////
 /// Generic message types

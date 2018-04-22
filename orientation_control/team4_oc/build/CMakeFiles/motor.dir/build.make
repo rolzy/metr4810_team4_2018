@@ -90,6 +90,9 @@ motor_EXTERNAL_OBJECTS =
 
 motor: CMakeFiles/motor.dir/examples/motor.cpp.o
 motor: CMakeFiles/motor.dir/build.make
+motor: libpid.so
+motor: libmsp.so
+motor: libmsp_msg_print.so
 motor: libmsp_fcu.so
 motor: libmspclient.so
 motor: CMakeFiles/motor.dir/link.txt
