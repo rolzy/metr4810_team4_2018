@@ -78,7 +78,7 @@ namespace BaseStation
                 // register to message received 
                 client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
-                string clientId = Guid.NewGuid().ToString();
+                string clientId = "BaseStation";//Guid.NewGuid().ToString();
                 try
                 {
                     client.Connect(clientId);
@@ -96,10 +96,12 @@ namespace BaseStation
             }
 
         delegate void setTextCallback(object obj, string text);
+        delegate void setTrackBarCallback(object obj, int text);
         delegate void appendTextCallback(object obj, string text);
         delegate void addControlCallback(Control obj);
 
         delegate void AddnodeTreeviewCallback(string name);
+
 
 
         private void appendText(object obj ,string text)
@@ -124,6 +126,26 @@ namespace BaseStation
                     textBox.Text = "I am not rich";
                 }
                
+            }
+        }
+
+        private void setTrackbar(object obj, int value)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.tbCurrentY.InvokeRequired)
+            {
+                setTrackBarCallback d = new setTrackBarCallback(setTrackbar);
+                this.Invoke(d, new object[] { obj, value });
+            }
+            else
+            {
+
+                if (obj is TrackBar trackBar)
+                {
+                    trackBar.Value= value;
+                }
             }
         }
 
@@ -398,15 +420,18 @@ namespace BaseStation
 
                 switch (name)
                 {
-                    case "batVoltage":
+                    case "bat":
                         setText(lblBatVoltage, name + ": " + message);
                         break;
-                    case "currentPos":
+                    case "Pos":
                         var split = message.Split(':');
-                        if (split.Length == 2)
+                        if (split.Length >= 2)
                         {
                             setText(lblCurrentPitch, "Current Pitch: " + split[0]);
                             setText(lblCurrentRoll, "Current Roll: " + split[1]);
+                            setTrackbar( tbCurrentX ,int.Parse(split[0]));
+                            setTrackbar(tbCurrentY, int.Parse(split[1]));
+ 
                         }
                         if (split.Length == 3)
                         {
@@ -451,6 +476,12 @@ namespace BaseStation
             {
                 spTransmit.Write(topic + ':' + payload + '\n');
             }
+            else
+            {
+                MessageBox.Show("Connect to DSN");
+                cbxPorts.DataSource = SerialPort.GetPortNames();
+
+            }
 
         }
 
@@ -460,8 +491,7 @@ namespace BaseStation
         {
             if (cbxPorts.SelectedIndex > -1)
             {
-                MessageBox.Show(String.Format("You selected port '{0}'", cbxPorts.SelectedItem));
-                 var port = spTransmit;
+               var port = spTransmit;
                 if (!port.IsOpen)
                 {
                     port.PortName = cbxPorts.SelectedItem.ToString();
@@ -540,6 +570,17 @@ namespace BaseStation
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+     
+        if (client.IsConnected)
+        {
+            client.Disconnect();
+        }
+
+        if (spTransmit.IsOpen)
+        {
+            spTransmit.Close();
+        }
+            
             System.Windows.Forms.Application.Exit();
         }
 
@@ -655,8 +696,8 @@ namespace BaseStation
             tbTargetX.Value = (int) X;
             tbTargetY.Value = (int) Y;
 
-            sendMessage("/status/currentPos", X+":"+Y);
-            sendMessage("/control/targetPos", X+":"+Y);
+            sendMessage("/status/Pos", X+":"+Y);
+            sendMessage("/control/Pos", X+":"+Y);
         }
        
 

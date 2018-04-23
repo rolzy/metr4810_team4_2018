@@ -63,10 +63,32 @@ namespace DSN_Transmitter
             }
         }
 
-
+        //  client;
+        MqttClient client;
         private void btnOpenMQTT_Click(object sender, EventArgs e)
         {
+            if (btnOpenMQTT.Text.Equals("Disconnect"))
+            {
+                btnOpenMQTT.Text = "Subscribe";
+                client.Disconnect();
+            }
+            else
+            {
+                btnOpenMQTT.Text = "Disconnect";
+                // btnConnect.Enabled = false;
+                // create client instance 
+                client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
+                string clientId = "DSNtransmit";
+                try
+                {
+                    client.Connect(clientId);
+                }
+                catch
+                {
+                    MessageBox.Show("could not connect.");
+                }
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -84,31 +106,34 @@ namespace DSN_Transmitter
             comboBoxPorts.DataSource = SerialPort.GetPortNames();
         }
 
+        
         private void spRecieve_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             String Buffer = spRecieve.ReadLine();
-            appendText(rtbLog,Buffer);
+        
 
-            string topic = Buffer.Split(':')[0];
-            string payload = Buffer.Split(':')[1];
-            // create client instance 
-            MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+            int seperatorPos = Buffer.IndexOf(':');
 
-            string clientId = Guid.NewGuid().ToString();
-            client.Connect(clientId);
+            string topic = Buffer.Substring(0,seperatorPos);
+            string payload = Buffer.Substring(seperatorPos+1); /// ignore the seperator
 
-
-            // publish a message on "/home/temperature" topic with QoS 2 
-            client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-            client.Disconnect();
+            appendText(rtbLog, topic + "---" + payload + Environment.NewLine);
+  
+            // publish a message on "topic" topic with QoS 2 
+            if (client.IsConnected)
+            {
+                client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            }
+            else
+            {
+                MessageBox.Show("Not connected to MQTT.");
+            }
         }
 
 
 
         delegate void setTextCallback(object obj, string text);
         delegate void appendTextCallback(object obj, string text);
-
-        delegate void AddnodeTreeviewCallback(string name);
 
 
         private void appendText(object obj, string text)
@@ -166,9 +191,25 @@ namespace DSN_Transmitter
             }
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (client.IsConnected)
+            {
+                client.Disconnect();
+            }
 
+            if (spRecieve.IsOpen)
+            {
+                spRecieve.Close();
+            }
+        }
 
-
-
+        private void rtbLog_TextChanged(object sender, EventArgs e)
+        {
+           // if (cbxAutoScroll.Checked)
+            {
+                rtbLog.ScrollToCaret();
+            }
+        }
     }
 }

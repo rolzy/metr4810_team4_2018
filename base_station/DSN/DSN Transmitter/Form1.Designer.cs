@@ -42,9 +42,10 @@
             // btnopenComport
             // 
             this.btnopenComport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnopenComport.Location = new System.Drawing.Point(427, 6);
+            this.btnopenComport.Location = new System.Drawing.Point(320, 5);
+            this.btnopenComport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnopenComport.Name = "btnopenComport";
-            this.btnopenComport.Size = new System.Drawing.Size(75, 23);
+            this.btnopenComport.Size = new System.Drawing.Size(56, 19);
             this.btnopenComport.TabIndex = 0;
             this.btnopenComport.Text = "Connect";
             this.btnopenComport.UseVisualStyleBackColor = true;
@@ -55,9 +56,10 @@
             this.comboBoxPorts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxPorts.FormattingEnabled = true;
-            this.comboBoxPorts.Location = new System.Drawing.Point(130, 5);
+            this.comboBoxPorts.Location = new System.Drawing.Point(98, 4);
+            this.comboBoxPorts.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxPorts.Name = "comboBoxPorts";
-            this.comboBoxPorts.Size = new System.Drawing.Size(291, 24);
+            this.comboBoxPorts.Size = new System.Drawing.Size(219, 21);
             this.comboBoxPorts.TabIndex = 1;
             this.comboBoxPorts.DropDown += new System.EventHandler(this.comboBoxPorts_DropDown);
             this.comboBoxPorts.SelectedIndexChanged += new System.EventHandler(this.comboBoxPorts_SelectedIndexChanged);
@@ -65,9 +67,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(9, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 17);
+            this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Com Port";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -75,9 +78,10 @@
             // btnOpenMQTT
             // 
             this.btnOpenMQTT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenMQTT.Location = new System.Drawing.Point(427, 36);
+            this.btnOpenMQTT.Location = new System.Drawing.Point(320, 29);
+            this.btnOpenMQTT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnOpenMQTT.Name = "btnOpenMQTT";
-            this.btnOpenMQTT.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenMQTT.Size = new System.Drawing.Size(56, 19);
             this.btnOpenMQTT.TabIndex = 3;
             this.btnOpenMQTT.Text = "Connect";
             this.btnOpenMQTT.UseVisualStyleBackColor = true;
@@ -87,18 +91,20 @@
             // 
             this.tbxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxAddress.Location = new System.Drawing.Point(130, 36);
+            this.tbxAddress.Location = new System.Drawing.Point(98, 29);
+            this.tbxAddress.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbxAddress.Name = "tbxAddress";
-            this.tbxAddress.Size = new System.Drawing.Size(291, 22);
+            this.tbxAddress.Size = new System.Drawing.Size(219, 20);
             this.tbxAddress.TabIndex = 4;
             this.tbxAddress.Text = "192.168.1.137";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 36);
+            this.label2.Location = new System.Drawing.Point(9, 29);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 17);
+            this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "MQTT Server";
             // 
@@ -107,11 +113,13 @@
             this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbLog.Location = new System.Drawing.Point(15, 79);
+            this.rtbLog.Location = new System.Drawing.Point(11, 64);
+            this.rtbLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(487, 375);
+            this.rtbLog.Size = new System.Drawing.Size(366, 305);
             this.rtbLog.TabIndex = 6;
             this.rtbLog.Text = "";
+            this.rtbLog.TextChanged += new System.EventHandler(this.rtbLog_TextChanged);
             // 
             // spRecieve
             // 
@@ -120,9 +128,9 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 466);
+            this.ClientSize = new System.Drawing.Size(386, 379);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbxAddress);
@@ -130,8 +138,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxPorts);
             this.Controls.Add(this.btnopenComport);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "DSN Transmitter";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
