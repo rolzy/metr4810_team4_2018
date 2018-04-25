@@ -69,6 +69,9 @@ target_link_libraries(fcu_motors msp_fcu)
 add_executable(motor examples/motor.cpp)
 target_link_libraries(motor pid msp msp_msg_print mspclient msp_fcu)
 
+add_executable(sensing examples/sensing.cpp)
+target_link_libraries(sensing msp msp_msg_print mspclient msp_fcu)
+
 # subscribing with custom type
 add_executable(fcu_custom_type examples/fcu_custom_type.cpp)
 target_link_libraries(fcu_custom_type msp_fcu)

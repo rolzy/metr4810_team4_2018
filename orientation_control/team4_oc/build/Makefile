@@ -168,6 +168,19 @@ client_async_test/fast:
 .PHONY : client_async_test/fast
 
 #=============================================================================
+# Target rules for targets named sensing
+
+# Build rule for target.
+sensing: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sensing
+.PHONY : sensing
+
+# fast build rule for target.
+sensing/fast:
+	$(MAKE) -f CMakeFiles/sensing.dir/build.make CMakeFiles/sensing.dir/build
+.PHONY : sensing/fast
+
+#=============================================================================
 # Target rules for targets named motor
 
 # Build rule for target.
@@ -619,6 +632,33 @@ examples/msp_read_test.cpp.s:
 	$(MAKE) -f CMakeFiles/msp_read_test.dir/build.make CMakeFiles/msp_read_test.dir/examples/msp_read_test.cpp.s
 .PHONY : examples/msp_read_test.cpp.s
 
+examples/sensing.o: examples/sensing.cpp.o
+
+.PHONY : examples/sensing.o
+
+# target to build an object file
+examples/sensing.cpp.o:
+	$(MAKE) -f CMakeFiles/sensing.dir/build.make CMakeFiles/sensing.dir/examples/sensing.cpp.o
+.PHONY : examples/sensing.cpp.o
+
+examples/sensing.i: examples/sensing.cpp.i
+
+.PHONY : examples/sensing.i
+
+# target to preprocess a source file
+examples/sensing.cpp.i:
+	$(MAKE) -f CMakeFiles/sensing.dir/build.make CMakeFiles/sensing.dir/examples/sensing.cpp.i
+.PHONY : examples/sensing.cpp.i
+
+examples/sensing.s: examples/sensing.cpp.s
+
+.PHONY : examples/sensing.s
+
+# target to generate assembly for a file
+examples/sensing.cpp.s:
+	$(MAKE) -f CMakeFiles/sensing.dir/build.make CMakeFiles/sensing.dir/examples/sensing.cpp.s
+.PHONY : examples/sensing.cpp.s
+
 src/Client.o: src/Client.cpp.o
 
 .PHONY : src/Client.o
@@ -766,6 +806,7 @@ help:
 	@echo "... install/strip"
 	@echo "... install"
 	@echo "... client_async_test"
+	@echo "... sensing"
 	@echo "... motor"
 	@echo "... msp_fcu"
 	@echo "... msp_msg_print"
@@ -811,6 +852,9 @@ help:
 	@echo "... examples/msp_read_test.o"
 	@echo "... examples/msp_read_test.i"
 	@echo "... examples/msp_read_test.s"
+	@echo "... examples/sensing.o"
+	@echo "... examples/sensing.i"
+	@echo "... examples/sensing.s"
 	@echo "... src/Client.o"
 	@echo "... src/Client.i"
 	@echo "... src/Client.s"

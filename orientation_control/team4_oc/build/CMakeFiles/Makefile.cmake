@@ -51,6 +51,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/client_async_test.dir/DependInfo.cmake"
+  "CMakeFiles/sensing.dir/DependInfo.cmake"
   "CMakeFiles/motor.dir/DependInfo.cmake"
   "CMakeFiles/msp_fcu.dir/DependInfo.cmake"
   "CMakeFiles/msp_msg_print.dir/DependInfo.cmake"
