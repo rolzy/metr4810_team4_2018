@@ -13,23 +13,11 @@ using System.Windows.Forms;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-using SlimDX;
-
-using SlimDX.D3DCompiler;
-
-using SlimDX.Direct3D11;
-
-using SlimDX.DXGI;
-
-using SlimDX.Windows;
-
-using Device = SlimDX.Direct3D11.Device;
-
-using Resource = SlimDX.Direct3D11.Resource;
 using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.IO.Ports;
 
 namespace BaseStation
 {
@@ -72,23 +60,25 @@ namespace BaseStation
             tvPhotos.Nodes.Add(node);
         }
 
+
+        MqttClient client;
         private void button1_Click(object sender, EventArgs e)
         {
             if (btnConnect.Text.Equals("Disconnect"))
             {
-                btnConnect.Text = "Connect";
-            //    client.Disconnect();
+                btnConnect.Text = "Subscribe";
+                client.Disconnect();
             } else 
             {
                 btnConnect.Text = "Disconnect";
                 // btnConnect.Enabled = false;
                 // create client instance 
-                MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+                client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
                 // register to message received 
                 client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
-                string clientId = Guid.NewGuid().ToString();
+                string clientId = "BaseStation";//Guid.NewGuid().ToString();
                 try
                 {
                     client.Connect(clientId);
@@ -106,10 +96,12 @@ namespace BaseStation
             }
 
         delegate void setTextCallback(object obj, string text);
+        delegate void setTrackBarCallback(object obj, int text);
         delegate void appendTextCallback(object obj, string text);
         delegate void addControlCallback(Control obj);
 
         delegate void AddnodeTreeviewCallback(string name);
+
 
 
         private void appendText(object obj ,string text)
@@ -134,6 +126,26 @@ namespace BaseStation
                     textBox.Text = "I am not rich";
                 }
                
+            }
+        }
+
+        private void setTrackbar(object obj, int value)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.tbCurrentY.InvokeRequired)
+            {
+                setTrackBarCallback d = new setTrackBarCallback(setTrackbar);
+                this.Invoke(d, new object[] { obj, value });
+            }
+            else
+            {
+
+                if (obj is TrackBar trackBar)
+                {
+                    trackBar.Value= value;
+                }
             }
         }
 
@@ -408,15 +420,18 @@ namespace BaseStation
 
                 switch (name)
                 {
-                    case "batVoltage":
+                    case "bat":
                         setText(lblBatVoltage, name + ": " + message);
                         break;
-                    case "currentPos":
+                    case "Pos":
                         var split = message.Split(':');
-                        if (split.Length == 2)
+                        if (split.Length >= 2)
                         {
                             setText(lblCurrentPitch, "Current Pitch: " + split[0]);
                             setText(lblCurrentRoll, "Current Roll: " + split[1]);
+                            setTrackbar( tbCurrentX ,int.Parse(split[0]));
+                            setTrackbar(tbCurrentY, int.Parse(split[1]));
+ 
                         }
                         if (split.Length == 3)
                         {
@@ -443,6 +458,8 @@ namespace BaseStation
 
         private void sendMessage(string topic,string payload)
         {
+
+            /*
             // create client instance 
             MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
@@ -452,7 +469,47 @@ namespace BaseStation
 
             // publish a message on "/home/temperature" topic with QoS 2 
             client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            */
 
+
+            if (spTransmit.IsOpen)
+            {
+                spTransmit.Write(topic + ':' + payload + '\n');
+            }
+            else
+            {
+                MessageBox.Show("Connect to DSN");
+                cbxPorts.DataSource = SerialPort.GetPortNames();
+
+            }
+
+        }
+
+
+
+        private void btnDSN_Click(object sender, EventArgs e)
+        {
+            if (cbxPorts.SelectedIndex > -1)
+            {
+               var port = spTransmit;
+                if (!port.IsOpen)
+                {
+                    port.PortName = cbxPorts.SelectedItem.ToString();
+                    port.BaudRate = 1200;
+                    port.Open();
+                    btnDSN.Text = "Disconnect";
+                }
+                else
+                {
+                    port.Close();
+                    btnDSN.Text = "Connect";
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a port first");
+            }
         }
 
 
@@ -513,6 +570,17 @@ namespace BaseStation
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+     
+        if (client.IsConnected)
+        {
+            client.Disconnect();
+        }
+
+        if (spTransmit.IsOpen)
+        {
+            spTransmit.Close();
+        }
+            
             System.Windows.Forms.Application.Exit();
         }
 
@@ -595,7 +663,7 @@ namespace BaseStation
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            pbxLiveFeed.Load("http://192.168.20.129/html/cam_pic.php?");
+            pbxLiveFeed.Load("http://" + tbxAddress.Text +"/html/cam_pic.php?");
         }
 
 
@@ -628,8 +696,8 @@ namespace BaseStation
             tbTargetX.Value = (int) X;
             tbTargetY.Value = (int) Y;
 
-            sendMessage("/status/currentPos", X+":"+Y);
-            sendMessage("/control/targetPos", X+":"+Y);
+            sendMessage("/status/Pos", X+":"+Y);
+            sendMessage("/control/Pos", X+":"+Y);
         }
        
 
@@ -750,6 +818,18 @@ namespace BaseStation
                 }
 
             }
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            cbxPorts.DataSource = SerialPort.GetPortNames();
+        }
+
+
+        private void comboBoxPorts_DropDown(object sender, EventArgs e)
+        {
+            cbxPorts.DataSource = SerialPort.GetPortNames();
         }
     }
 }

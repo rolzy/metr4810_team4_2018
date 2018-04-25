@@ -41,7 +41,7 @@ service:install
 	sudo systemctl start aggregator
 	
 
-installCam:aggregator stopDaemons
+installCam:aggregator
 	mkdir -p /opt/tp/
 	cp aggregator /opt/tp/
 	cp Camera.cfg /opt/tp/
