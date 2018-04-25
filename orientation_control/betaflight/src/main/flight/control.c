@@ -91,13 +91,13 @@ void computePID(pid_t pid)
 
 void computePPM(double in, int num) {
 	/* Compute the required acceleration from torque value (rad/s^2) */
-	double req_acc = ((double)in / 0.0003392);
+	double req_acc = ((double)in / 0.000339292);
 
 	/* Compute the required velocity from acceleration value (rad/s) */
-	double req_vel = req_acc * 0.1 + (abs(1500 - rcData[num]) * 0.104719755);
+	double req_vel = req_acc * 0.1 + (abs(1500 - rcData[num]) * 1.04719755);
 
-	double req_RPM = req_vel / 0.14719755;
-	int req_PPM = 1500 + req_RPM / 100;
+	double req_RPM = req_vel / 0.104719755;
+	int req_PPM = rcData[num] + (req_RPM / 10);
 	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
 	else if (req_PPM < 1000) req_PPM = 1000;
 	rcData[num] = req_PPM;
