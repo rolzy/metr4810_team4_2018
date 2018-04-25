@@ -456,22 +456,32 @@ namespace BaseStation
         }
 
 
-        private void sendMessage(string topic,string payload)
+        private void sendMessage(string topic, string payload)
         {
 
-            /*
-            // create client instance 
-            MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
 
-            string clientId = Guid.NewGuid().ToString();
-            client.Connect(clientId);
+            // create client instance 
+            //  MqttClient client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
+
+            //  string clientId = Guid.NewGuid().ToString();
+            // client.Connect(clientId);
 
 
             // publish a message on "/home/temperature" topic with QoS 2 
-            client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-            */
 
+            if (!cbxUseDSN.Checked) {
+                if (client.IsConnected)
+                {
+                    client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                }
+                else
+                {
+                    MessageBox.Show("Connect to DSN");
+                    cbxPorts.DataSource = SerialPort.GetPortNames();
 
+                }
+
+            } else { 
             if (spTransmit.IsOpen)
             {
                 spTransmit.Write(topic + ':' + payload + '\n');
@@ -482,6 +492,7 @@ namespace BaseStation
                 cbxPorts.DataSource = SerialPort.GetPortNames();
 
             }
+}
 
         }
 
