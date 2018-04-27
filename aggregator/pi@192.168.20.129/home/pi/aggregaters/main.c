@@ -190,6 +190,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 			if (strcmp(configuration.execs[i]->MQTT_Topic , topicName) == 0) {
 				char inBuf[100];
 				stpcpy(inBuf,configuration.execs[i]->filePath);
+				strcat(inBuf, message);
 				
 				char *argv[100];
 				int argc = 0;
@@ -432,9 +433,7 @@ void init_commands(config_t *cfg) {
 	set_up_serial_commands(cfg);
 	set_up_file_commands(cfg);
 	set_up_exec_commands(cfg);
-	
-	
-	
+		
 }
 
 
@@ -488,6 +487,7 @@ void process_serial(MQTTClient client,char* buf){
 	
 }
 
+sddsf:dfsdf
 
 void process_files(MQTTClient client){
 	for (int i = 0; i < configuration.fliesLength; i++) {	

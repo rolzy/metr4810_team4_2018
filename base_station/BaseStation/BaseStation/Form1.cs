@@ -470,7 +470,7 @@ namespace BaseStation
             // publish a message on "/home/temperature" topic with QoS 2 
 
             if (!cbxUseDSN.Checked) {
-                if (client.IsConnected)
+                if (client != null && client.IsConnected)
                 {
                     client.Publish(topic, Encoding.UTF8.GetBytes(payload), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                 }
@@ -574,15 +574,23 @@ namespace BaseStation
         {
             sendMessage("/webserver/disable", "1");
             Thread.Sleep(500);
-            sendMessage("/camera/takePhoto", "1");
+
+            string args = " -q " + cbxQuality.SelectedText;
+            args += " -ISO " + cbxISO.SelectedText;
+            args += " -ex " + cbxExposure.SelectedText;
+            args += " -t 0";
+            args += " -n"; // no preview
+            args += " -o /var/cam.jpg";
+
+
+            sendMessage("/camera/takePhoto", args);
             Thread.Sleep(100);
             sendMessage("/webserver/enable", "1");
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-     
-        if (client.IsConnected)
+        if (client != null && client.IsConnected)
         {
             client.Disconnect();
         }
@@ -842,5 +850,6 @@ namespace BaseStation
         {
             cbxPorts.DataSource = SerialPort.GetPortNames();
         }
+
     }
 }
