@@ -64,13 +64,18 @@ namespace BaseStation
         MqttClient client;
         private void button1_Click(object sender, EventArgs e)
         {
+            btnConnect.Enabled = false;
             if (btnConnect.Text.Equals("Disconnect"))
             {
                 btnConnect.Text = "Subscribe";
-                client.Disconnect();
+                if(client!= null && client.IsConnected)
+                {
+                    client.Disconnect();
+                }
+               
             } else 
             {
-                btnConnect.Text = "Disconnect";
+                
                 // btnConnect.Enabled = false;
                 // create client instance 
                 client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
@@ -82,18 +87,19 @@ namespace BaseStation
                 try
                 {
                     client.Connect(clientId);
+                    btnConnect.Text = "Disconnect";
                 }
                 catch
                 {
-
+                    MessageBox.Show("Could not connect to Server");
 
                 }
 
                 // subscribe to the topic "/home/temperature" with QoS 2 
                 client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
             }
-
-            }
+            btnConnect.Enabled = true;
+        }
 
         delegate void setTextCallback(object obj, string text);
         delegate void setTrackBarCallback(object obj, int text);
@@ -567,7 +573,11 @@ namespace BaseStation
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            rtbSubscribe.Clear();
+            if (MessageBox.Show("Are you sure you want to clear the MQTT log", "Clear Log?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                rtbSubscribe.Clear();
+            }
+                
         }
 
         private void btnTakePhoto_Click(object sender, EventArgs e)
