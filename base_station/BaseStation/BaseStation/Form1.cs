@@ -70,7 +70,15 @@ namespace BaseStation
                 btnConnect.Text = "Subscribe";
                 if(client!= null && client.IsConnected)
                 {
-                    client.Disconnect();
+                    try
+                    {
+                        client.Disconnect();
+                    } 
+                    catch
+                    {
+
+                    }
+                    
                 }
                
             } else 
@@ -349,7 +357,7 @@ namespace BaseStation
                 AddnodeTreeview(name);
 
                 imageControl1.Image = x;// ResizeImage(x, pictureBox1.Width, pictureBox1.Height);
-               
+                imageControl1.ZoomFactor = (float)imageControl1.Height / x.Height;
             }
             else if(e.Topic.StartsWith(topicGraph))
             {
@@ -833,20 +841,14 @@ namespace BaseStation
 
         private void btnSetPos_Click(object sender, EventArgs e)
         {
-            var split = tbxSetPos.Text.Split(' ');
-
-            lbxTargets.SelectedIndex = rtbTargetsIndex;
-
-            if (split.Length == 2)
+            float x = 0, y = 0;
+            if (float.TryParse(tbxSetPosX.Text, out x) &&
+            float.TryParse(tbxSetPosY.Text, out y))
             {
-                float x = 0, y = 0;
-                if (float.TryParse(split[0], out x) &&
-                float.TryParse(split[1], out y))
-                {
-                    setPosition(x, y);
-                }
-
+                setPosition(x, y);
             }
+
+            
         }
 
 
