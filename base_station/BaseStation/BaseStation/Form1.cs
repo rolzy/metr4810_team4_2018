@@ -64,13 +64,26 @@ namespace BaseStation
         MqttClient client;
         private void button1_Click(object sender, EventArgs e)
         {
+            btnConnect.Enabled = false;
             if (btnConnect.Text.Equals("Disconnect"))
             {
                 btnConnect.Text = "Subscribe";
-                client.Disconnect();
+                if(client!= null && client.IsConnected)
+                {
+                    try
+                    {
+                        client.Disconnect();
+                    } 
+                    catch
+                    {
+
+                    }
+                    
+                }
+               
             } else 
             {
-                btnConnect.Text = "Disconnect";
+                
                 // btnConnect.Enabled = false;
                 // create client instance 
                 client = new MqttClient(IPAddress.Parse(tbxAddress.Text));
@@ -82,18 +95,19 @@ namespace BaseStation
                 try
                 {
                     client.Connect(clientId);
+                    btnConnect.Text = "Disconnect";
                 }
                 catch
                 {
-
+                    MessageBox.Show("Could not connect to Server");
 
                 }
 
                 // subscribe to the topic "/home/temperature" with QoS 2 
                 client.Subscribe(new string[] { "#" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
             }
-
-            }
+            btnConnect.Enabled = true;
+        }
 
         delegate void setTextCallback(object obj, string text);
         delegate void setTrackBarCallback(object obj, int text);
@@ -343,7 +357,7 @@ namespace BaseStation
                 AddnodeTreeview(name);
 
                 imageControl1.Image = x;// ResizeImage(x, pictureBox1.Width, pictureBox1.Height);
-               
+                imageControl1.ZoomFactor = (float)imageControl1.Height / x.Height;
             }
             else if(e.Topic.StartsWith(topicGraph))
             {
@@ -567,7 +581,11 @@ namespace BaseStation
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            rtbSubscribe.Clear();
+            if (MessageBox.Show("Are you sure you want to clear the MQTT log", "Clear Log?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                rtbSubscribe.Clear();
+            }
+                
         }
 
         private void btnTakePhoto_Click(object sender, EventArgs e)
@@ -823,20 +841,14 @@ namespace BaseStation
 
         private void btnSetPos_Click(object sender, EventArgs e)
         {
-            var split = tbxSetPos.Text.Split(' ');
-
-            lbxTargets.SelectedIndex = rtbTargetsIndex;
-
-            if (split.Length == 2)
+            float x = 0, y = 0;
+            if (float.TryParse(tbxSetPosX.Text, out x) &&
+            float.TryParse(tbxSetPosY.Text, out y))
             {
-                float x = 0, y = 0;
-                if (float.TryParse(split[0], out x) &&
-                float.TryParse(split[1], out y))
-                {
-                    setPosition(x, y);
-                }
-
+                setPosition(x, y);
             }
+
+            
         }
 
 
