@@ -28,11 +28,11 @@ stdint.h
 msp_id.hpp
 ../inc/msp/msp_id.hpp
 
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/MSP.cpp
+/home/pi/orientation_control/team4_oc/src/MSP.cpp
 MSP.hpp
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/MSP.hpp
+/home/pi/orientation_control/team4_oc/src/MSP.hpp
 SerialPortImpl.cpp
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/SerialPortImpl.cpp
+/home/pi/orientation_control/team4_oc/src/SerialPortImpl.cpp
 future
 -
 iostream
@@ -40,7 +40,7 @@ iostream
 type_traits
 -
 
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/src/SerialPortImpl.cpp
+/home/pi/orientation_control/team4_oc/src/SerialPortImpl.cpp
 asio.hpp
 -
 

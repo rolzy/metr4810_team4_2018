@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/cleanflight_read_test.cpp" "/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles/cleanflight_read_test.dir/examples/cleanflight_read_test.cpp.o"
+  "/home/pi/orientation_control/team4_oc/examples/cleanflight_read_test.cpp" "/home/pi/orientation_control/team4_oc/build/CMakeFiles/cleanflight_read_test.dir/examples/cleanflight_read_test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -20,8 +20,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles/msp.dir/DependInfo.cmake"
-  "/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build/CMakeFiles/msp_msg_print.dir/DependInfo.cmake"
+  "/home/pi/orientation_control/team4_oc/build/CMakeFiles/msp.dir/DependInfo.cmake"
+  "/home/pi/orientation_control/team4_oc/build/CMakeFiles/msp_msg_print.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

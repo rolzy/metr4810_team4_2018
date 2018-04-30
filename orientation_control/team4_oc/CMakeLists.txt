@@ -20,6 +20,11 @@ set(MSP_SOURCE_DIR src)
 set(MSP_INCLUDE_DIR inc/msp)
 include_directories(${MSP_INCLUDE_DIR})
 
+set(LIBCONFIG_DIR /usr/local/lib)
+find_library(libconfig NAME config HINTS LIBCONFIG_DIR)
+message(STATUS "${libconfig}")
+find_library(mqtt NAME paho-mqtt3c HINTS LIBCONFIG_DIR)
+message(STATUS "${mqtt}")
 
 ################################################################################
 ### libraries
@@ -71,6 +76,9 @@ target_link_libraries(motor pid msp msp_msg_print mspclient msp_fcu)
 
 add_executable(sensing examples/sensing.cpp)
 target_link_libraries(sensing msp msp_msg_print mspclient msp_fcu)
+
+add_executable(control examples/control.cpp)
+target_link_libraries(control "${libconfig}" "${mqtt}" msp msp_msg_print mspclient msp_fcu)
 
 # subscribing with custom type
 add_executable(fcu_custom_type examples/fcu_custom_type.cpp)

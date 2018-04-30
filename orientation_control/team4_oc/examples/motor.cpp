@@ -79,14 +79,14 @@ int main(int argc, char *argv[]) {
 	fcu.initialise();
 
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
-	fcu.subscribe(&App::onRc, &app, 0.1);
+	fcu.subscribe(&App::onGetOrientation, &app, 0.1);
 	//fcu.subscribe(&App::onAttitude, &app, 0.1);
 
 	fcu.setOrientation(35, 35);
 	while (true) {
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
-			fcu.unsubscribe(msp::ID::MSP_RC);
+			fcu.unsubscribe(msp::ID::MSP_GET_ORIENTATION);
 			//fcu.unsubscribe(msp::ID::MSP_ATTITUDE);
 			float prompt1, prompt2;
 			std::cout << "What is your new desired right ascention?" << std::endl;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
 			}
 			fcu.setOrientation(prompt1*10, prompt2*10);
-			fcu.subscribe(&App::onRc, &app, 0.1);
+			fcu.subscribe(&App::onGetOrientation, &app, 0.1);
 			//fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}
 	}

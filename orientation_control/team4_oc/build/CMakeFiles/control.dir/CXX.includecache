@@ -66,7 +66,7 @@ stdint.h
 msp_id.hpp
 ../inc/msp/msp_id.hpp
 
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/control.cpp
+/home/pi/orientation_control/team4_oc/examples/control.cpp
 iostream
 -
 msp_id.hpp
@@ -80,7 +80,7 @@ FlightController.hpp
 libconfig.h
 -
 MQTTClient.h
-/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/examples/MQTTClient.h
+/home/pi/orientation_control/team4_oc/examples/MQTTClient.h
 stdio.h
 -
 sys/select.h
@@ -96,5 +96,7 @@ string.h
 fcntl.h
 -
 unistd.h
+-
+stdlib.h
 -
 

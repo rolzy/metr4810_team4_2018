@@ -18,6 +18,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -41,6 +42,9 @@ typedef struct config {
 } CONFIGURATION;
 
 CONFIGURATION configuration;
+
+fcu::FlightController g_fcu("/dev/ttyUSB0", 115200);
+msp::msg::GetOrientation orientation;
 
 class App {
 public:
@@ -89,13 +93,6 @@ void connlost(void *context, char *cause)
 {
 	printf("\nConnection lost\n");
 	printf("     cause: %s\n", cause);
-}
-
-static char *myStrDup(char *str) {
-	char *other = (char*)malloc(strlen(str) + 1);
-	if (other != NULL)
-		strcpy(other, str);
-	return other;
 }
 
 void forkAndExecute(const char *path, char *const args[]) {
@@ -202,7 +199,10 @@ void process_serial(MQTTClient client, char* buf) {
 
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) {
 	int i;
-	char* payloadptr;
+	double coords[2];
+	char *payloadptr, **ap, *token[2];
+	char *payloadCopy = strdup((char*)message->payload);
+
 	printf("Message arrived\n");
 	printf("     topic: %s\n", topicName);
 	printf("   message: ");
@@ -210,25 +210,42 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 
 	for (int i = 0; i < configuration.commandsLength; i++) {
 		//  printf("||comparing with %s||", serialCommands[i]->MQTT_Topic);
-		if (fd != -1) { // check for serial port;	
+		if (fd != -1) { // check for serial port;
 			if (strcmp(configuration.serialCommands[i]->MQTT_Topic, topicName) == 0) {
 
 				write(fd, configuration.serialCommands[i]->serialKey, strlen(configuration.serialCommands[i]->serialKey));
 				write(fd, ":", 1);
-
 				write(fd, message->payload, message->payloadlen);
 				write(fd, "/n", 1);
 				break;
 			}
 		}
 	}
-
 	payloadptr = (char*)message->payload;
 	for (i = 0; i < message->payloadlen; i++)
 	{
 		putchar(*payloadptr++);
 	}
 	putchar('\n');
+
+	if (strcmp(topicName, "/control/Pos") == 0) {
+		for(ap=token; (*ap = strsep(&payloadCopy,":")) != NULL;) {
+			if (**ap != '\0') {
+				++ap;
+			}
+		}
+		*ap = NULL;
+		for(int i=0; i<2; i++) {
+			coords[i] = atof(token[i]) + 45;
+		}
+		g_fcu.setOrientation(coords[0]*10, coords[1]*10);
+
+	}
+	if(g_fcu.request(orientation,0.1)){
+		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention, orientation.declination);
+	} else {
+		perror("Error receiving orientation");
+	}
 	MQTTClient_freeMessage(&message);
 	MQTTClient_free(topicName);
 	return 1;
@@ -258,7 +275,7 @@ void init_mqtt(MQTTClient *client) {
 	for (int i = 0; i < configuration.commandsLength; i++) {
 		if (configuration.serialCommands[i]->direction == '<') {
 			printf("Subscribing to topic %s for client %s using QoS%d\n"
-				, configuration.serialCommands[i]->MQTT_Topic, "arduino", configuration.serialCommands[i]->QOS);
+				, configuration.serialCommands[i]->MQTT_Topic, "", configuration.serialCommands[i]->QOS);
 
 			MQTTClient_subscribe(*client, configuration.serialCommands[i]->MQTT_Topic, configuration.serialCommands[i]->QOS);
 		}
@@ -348,9 +365,14 @@ void init_commands(config_t *cfg) {
 
 int main(int argc, char *argv[]) {
 	/* Operation Variables */
-	const std::string device = (argc>1) ? std::string(argv[1]) : "/dev/ttyUSB0";  /* Define COM port*/
-	const size_t baudrate = (argc>2) ? std::stoul(argv[2]) : 115200;              /* Baud rate of the system */
-
+	g_fcu.initialise();
+	g_fcu.setOrientation(200,200);
+	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
+	if(g_fcu.request(orientation,0.1)){
+		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention, orientation.declination);
+	} else {
+		perror("Error receiving orientation");
+	}
 	char const* configFile = "Control.cfg";
 	config_t cfg;
 	config_init(&cfg);
@@ -372,11 +394,8 @@ int main(int argc, char *argv[]) {
 	init_mqtt(&client);
 	config_destroy(&cfg);
 
-	fcu::FlightController fcu(device, baudrate);
-	fcu.initialise();
+	g_fcu.setOrientation(300,300);
 
-	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
-	
 	do
 	{
 		if (fd != -1) {

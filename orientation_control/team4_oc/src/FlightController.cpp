@@ -1,6 +1,7 @@
 #include "FlightController.hpp"
 
 #include <iostream>
+#include <stdio.h>
 
 namespace fcu {
 
@@ -145,10 +146,12 @@ bool FlightController::setRc(const std::vector<uint16_t> channels) {
 
 /* METR4810 Original Function */
 bool FlightController::setOrientation(const uint16_t rA, const uint16_t d) {
+	perror("Set Orientation FlightController.cpp");
 	msp::msg::SetOrientation orientation;
 	orientation.rightAscention = rA;
 	orientation.declination = d;
-	return client.respond(orientation);
+	perror("Finish Orientation FlightController.cpp");
+	return client.respond(orientation, false);
 }
 
 bool FlightController::setMotors(const std::array<uint16_t,msp::msg::N_MOTOR> &motor_values) {
