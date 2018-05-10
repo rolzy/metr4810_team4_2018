@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/control.dir/examples/control.cpp.o  -o control -Wl,-rpath,/usr/local/lib:/home/pi/orientation_control/team4_oc/build -rdynamic /usr/local/lib/libconfig.so /usr/local/lib/libpaho-mqtt3c.so libmsp.so libmsp_msg_print.so libmsp_fcu.so libmspclient.so -lpthread 

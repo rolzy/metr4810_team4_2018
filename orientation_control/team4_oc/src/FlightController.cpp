@@ -146,12 +146,19 @@ bool FlightController::setRc(const std::vector<uint16_t> channels) {
 
 /* METR4810 Original Function */
 bool FlightController::setOrientation(const uint16_t rA, const uint16_t d) {
-	perror("Set Orientation FlightController.cpp");
 	msp::msg::SetOrientation orientation;
 	orientation.rightAscention = rA;
 	orientation.declination = d;
-	perror("Finish Orientation FlightController.cpp");
 	return client.respond(orientation, false);
+}
+
+/* METR4810 Original Function */
+bool FlightController::setPID(const uint16_t kp, const uint16_t ki, const uint16_t kd) {
+	msp::msg::SetPID pid;
+	pid.kp = kp;
+	pid.ki = ki;
+	pid.kd = kd;
+	return client.respond(pid, false);
 }
 
 bool FlightController::setMotors(const std::array<uint16_t,msp::msg::N_MOTOR> &motor_values) {

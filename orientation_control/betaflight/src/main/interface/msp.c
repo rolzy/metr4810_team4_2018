@@ -804,9 +804,14 @@ static bool mspProcessOutCommand(uint8_t cmdMSP, sbuf_t *dst)
             for (int i = 0; i < 3; i++) {
                 sbufWriteU16(dst, gyroRateDps(i));
             }
-            for (int i = 0; i < 3; i++) {
-                sbufWriteU16(dst, mag.magADC[i]);
-            }
+			for (int i = 0; i < 3; i++) {
+				if (mag.magADC[i] > 0) {
+					sbufWriteU16(dst, mag.magADC[i]);
+				}
+				else {
+					sbufWriteU16(dst, 5000 + mag.magADC[i]);
+				}
+			}
         }
         break;
 
@@ -856,6 +861,12 @@ static bool mspProcessOutCommand(uint8_t cmdMSP, sbuf_t *dst)
 	case MSP_GET_ORIENTATION:
 		sbufWriteU16(dst, currentControlProfile->rA);
 		sbufWriteU16(dst, currentControlProfile->d);
+		break;
+
+	case MSP_GET_PID_METR:
+		sbufWriteU16(dst, currentControlProfile->kp);
+		sbufWriteU16(dst, currentControlProfile->ki);
+		sbufWriteU16(dst, currentControlProfile->kd);
 		break;
 
     case MSP_MOTOR:
@@ -1440,6 +1451,13 @@ static mspResult_e mspProcessInCommand(uint8_t cmdMSP, sbuf_t *src)
 		currentControlProfile->rA = (float)sbufReadU16(src)/10;
 		currentControlProfile->d = (float)sbufReadU16(src)/10;
 		controlInitPosition(currentControlProfile);
+		break;
+
+	case MSP_SET_PID_METR:
+		currentControlProfile->kp = (float)sbufReadU16(src) / 10;
+		currentControlProfile->ki = (float)sbufReadU16(src) / 10;
+		currentControlProfile->kd = (float)sbufReadU16(src) / 10;
+		controlInitPID(currentControlProfile);
 		break;
 
     case MSP_SET_ACC_TRIM:

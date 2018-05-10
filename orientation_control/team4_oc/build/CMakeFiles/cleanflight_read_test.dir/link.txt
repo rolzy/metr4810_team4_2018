@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/cleanflight_read_test.dir/examples/cleanflight_read_test.cpp.o  -o cleanflight_read_test -Wl,-rpath,/home/pi/orientation_control/team4_oc/build -rdynamic libmsp.so libmsp_msg_print.so -lpthread 

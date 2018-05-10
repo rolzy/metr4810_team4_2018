@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/fcu_custom_type.dir/examples/fcu_custom_type.cpp.o  -o fcu_custom_type -Wl,-rpath,/home/pi/orientation_control/team4_oc/build -rdynamic libmsp_fcu.so libmspclient.so -lpthread 

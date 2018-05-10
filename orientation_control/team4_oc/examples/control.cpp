@@ -45,6 +45,9 @@ CONFIGURATION configuration;
 
 fcu::FlightController g_fcu("/dev/ttyUSB0", 115200);
 msp::msg::GetOrientation orientation;
+MQTTClient client;
+
+char buf[20];
 
 class App {
 public:
@@ -59,7 +62,16 @@ public:
 	}
 
 	void onAttitude(const msp::msg::Attitude& attitude) {
-		std::cout << "Right Ascention is " << attitude.heading - 180 << " and the declination is " << attitude.ang_y << std::endl;
+		//std::cout << "Right Ascention is " << attitude.heading - 180 << " and the declination is " << attitude.ang_y << std::endl;
+		sprintf(buf, "%d:%d", attitude.heading-180, (int)attitude.ang_y*10); 
+		MQTTClient_message pubmsg = MQTTClient_message_initializer;
+		MQTTClient_deliveryToken token;
+		pubmsg.payload = buf;
+		pubmsg.payloadlen = strlen((const char*)pubmsg.payload) - 1;
+		pubmsg.qos = 0;
+		pubmsg.retained = 0;
+		MQTTClient_publishMessage(client,
+			"/status/Pos", &pubmsg, &token);
 	}
 
 	void onHello(const msp::msg::Hello& hello) {
@@ -71,7 +83,7 @@ public:
 	}
 
 	void onGetOrientation(const msp::msg::GetOrientation& getOrientation) {
-		std::cout << "Right Ascention is " << getOrientation.rightAscention << " and the declination is " << getOrientation.declination << std::endl;
+		//std::cout << "Right Ascention is " << getOrientation.rightAscention << " and the declination is " << getOrientation.declination << std::endl;
 	}
 
 private:
@@ -242,7 +254,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 
 	}
 	if(g_fcu.request(orientation,0.1)){
-		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention, orientation.declination);
+		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention-45, orientation.declination-45);
 	} else {
 		perror("Error receiving orientation");
 	}
@@ -369,7 +381,7 @@ int main(int argc, char *argv[]) {
 	g_fcu.setOrientation(200,200);
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
 	if(g_fcu.request(orientation,0.1)){
-		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention, orientation.declination);
+		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention-45, orientation.declination-45);
 	} else {
 		perror("Error receiving orientation");
 	}
@@ -390,12 +402,11 @@ int main(int argc, char *argv[]) {
 	char buf[64] = "temp text";
 	init_serial(&fd);
 
-	MQTTClient client;
 	init_mqtt(&client);
 	config_destroy(&cfg);
 
 	g_fcu.setOrientation(300,300);
-
+	g_fcu.subscribe(&App::onAttitude, &app, 0.5);
 	do
 	{
 		if (fd != -1) {

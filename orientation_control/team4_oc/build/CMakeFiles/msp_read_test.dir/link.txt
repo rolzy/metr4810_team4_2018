@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/msp_read_test.dir/examples/msp_read_test.cpp.o  -o msp_read_test -Wl,-rpath,/home/pi/orientation_control/team4_oc/build -rdynamic libmsp.so libmsp_msg_print.so -lpthread 

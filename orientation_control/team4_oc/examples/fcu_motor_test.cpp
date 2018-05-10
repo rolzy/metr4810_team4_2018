@@ -22,10 +22,32 @@ int main(int argc, char *argv[]) {
     fcu.initialise();
 
     // spin motors 1 to 4
-    fcu.setMotors({1100,1100,1100,1100,0,0,0,0});
+    fcu.setMotors({1400,1400,1400,1400,1400,1400,1400,1400});
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     // stop motors
-    fcu.setMotors({1500,1500,1500,1500,1500,1500,1500,1500});
+   fcu.setMotors({1300,1300,1300,1300,1300,1300,1300,1300});
+
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // stop motors
+    fcu.setMotors({1200,1200,1200,1200,1200,1200,1200,1200});
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // stop motors
+    fcu.setMotors({1100,1100,1100,1100,1100,1100,1100,1100});
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // stop motors
+    fcu.setMotors({1000,1000,1000,1000,1000,1000,1000,1000});
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    // stop motors
+    fcu.setMotors({1300,1300,1300,1300,1300,1300,1300,1300});
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // stop motors
+    fcu.setMotors({1488,1488,1488,1488,1488,1488,1488,1488});
+
 }

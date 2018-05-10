@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/sensing.dir/examples/sensing.cpp.o  -o sensing -Wl,-rpath,/home/pi/orientation_control/team4_oc/build -rdynamic libmsp.so libmsp_msg_print.so libmsp_fcu.so libmspclient.so -lpthread 

@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/fcu_motors.dir/examples/fcu_motor_test.cpp.o  -o fcu_motors -Wl,-rpath,/home/pi/orientation_control/team4_oc/build -rdynamic libmsp_fcu.so libmspclient.so -lpthread 

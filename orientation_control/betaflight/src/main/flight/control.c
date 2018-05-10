@@ -39,9 +39,9 @@
 #include "sensors/acceleration.h"
 
 /* User Inputs */
-float rightAscentionAngle, declinationAngle;
+float rightAscentionAngle, declinationAngle, kp, ki, kd;
 
-pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float ki, float kd)
+pid_t pid_create(pid_t pid, float* in, float* out, float* set)
 {
 	pid->input = in;
 	pid->output = out;
@@ -53,7 +53,7 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float k
 	pid->sampleTime = 100;
 
 	setDirection(pid, E_PID_DIRECT);
-	tunePID(pid, kp, ki, kd);
+	tunePID(pid);
 
 	pid->lastTime = millis();
 
@@ -91,26 +91,29 @@ void computePID(pid_t pid)
 
 void computePPM(double in, int num) {
 	/* Compute the required acceleration from torque value (rad/s^2) */
+	/* Divide required torque by the moment of inertia of flywheels */
 	double req_acc = ((double)in / 0.000339292);
 
 	/* Compute the required velocity from acceleration value (rad/s) */
+	/* Velocity = Acceleration * delta_t + omega_0 */
 	double req_vel = req_acc * 0.1 + (abs(1500 - rcData[num]) * 1.04719755);
 
-	double req_RPM = req_vel / 0.104719755;
-	int req_PPM = rcData[num] + (req_RPM / 10);
+	double req_RPM = req_vel / 0.504719755;							// 0.104719755
+	int req_PPM = 1500 + (req_RPM / 10);
 	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
 	else if (req_PPM < 1000) req_PPM = 1000;
 	rcData[num] = req_PPM;
+	motor_disarmed[num] = req_PPM;
 }
 
 /* Function to tune PID constants */
-void tunePID(pid_t pid, float kp, float ki, float kd) {
+void tunePID(pid_t pid) {
 	/* If the constants are negative values, return nothing */
 	if (kp<0 || ki<0 || kd<0) return;
 
 	pid->Kp = kp;
-	pid->Ki = ki * ((float)pid->sampleTime / 1000.0);  /* Calculate the mathematical equivalent incorporating the sample time*/
-	pid->Kd = kd / ((float)pid->sampleTime / 1000.0);  /* Calculate the mathematical equivalent incorporating the sample time*/
+	pid->Ki = ki * ((float)pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
+	pid->Kd = kd / ((float)pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
 }
 
 /* Function to set output limits */
@@ -138,7 +141,10 @@ void resetControlProfile(controlProfile_t *controlProfile)
 {
 	RESET_CONFIG(controlProfile_t, controlProfile,
 		.rA = 0.0,
-		.d = 0.0
+		.d = 0.0,
+		.kp = 0.556,
+		.ki = 0.0,
+		.kd = 0.028
 	);
 }
 
@@ -153,6 +159,13 @@ void controlInitPosition(const controlProfile_t *controlProfile)
 {
 	rightAscentionAngle = controlProfile->rA;
 	declinationAngle = controlProfile->d;
+}
+
+void controlInitPID(const controlProfile_t *controlProfile)
+{
+	kp = controlProfile->kp;
+	kp = controlProfile->ki;
+	kp = controlProfile->kd;
 }
 
 void controlInit(const controlProfile_t *controlProfile)
