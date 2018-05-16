@@ -53,11 +53,6 @@ int main(void)
 {
     init();
 
-	rcData[0] = 1500;
-	rcData[2] = 1500;
-	motor_disarmed[0] = 1500;
-	motor_disarmed[2] = 1500;
-
 	/* Create two PID sessions */
 	pid_1 = pid_create(&rightAscention, &yaw, &output_1, &setpoint_1);
 	pid_2 = pid_create(&declination, &pitch, &output_2, &setpoint_2);
@@ -65,37 +60,26 @@ int main(void)
     while (true) {
         scheduler();
         processLoopback();
+		//computeAttitude();
 #ifdef SIMULATOR_BUILD
         delayMicroseconds_real(50); // max rate 20kHz
 #endif
 
-		/* Check if the time elapsed since last PID iteration is over the sample time */
-		if (pid_need_compute(pid_1)) {
-			/* Read the current orientation in radians */
-			yaw = ((double)DECIDEGREES_TO_DEGREES(attitude.values.yaw)) * 0.0174533;
-			setpoint_1 = (double)currentControlProfile->rA * 0.0174533;
-			/* if (yaw - setpoint_1 < 0) {
-				setDirection(pid_1, E_PID_DIRECT);
-			}
-			else {
-				setDirection(pid_1, E_PID_REVERSE);
-			} */
-			computePID(pid_1);
-			computePPM(output_1, 0);
-		}
-		
-		if (pid_need_compute(pid_2)) {
-			pitch = (double)DECIDEGREES_TO_DEGREES(attitude.values.pitch)*-0.0174533;
-			setpoint_2 = (double)currentControlProfile->d * 0.0174533;
-			/* if (pitch - setpoint_2 < 0) {
-				setDirection(pid_2, E_PID_DIRECT);
-			}
-			else {
-				setDirection(pid_2, E_PID_REVERSE);
-			} */
-			computePID(pid_2);
-			computePPM(-output_2, 2);
-		}
+		///* Check if the time elapsed since last PID iteration is over the sample time */
+		//if (pid_need_compute(pid_1)) {
+		//	/* Read the current orientation in radians */
+		//	yaw = ((double)DECIDEGREES_TO_DEGREES(attitude.values.yaw) - 180) * 0.0174533;
+		//	setpoint_1 = (double)currentControlProfile->rA * 0.0174533;
+		//	computePID(pid_1);
+		//	//computePPM(-output_1, 0);
+		//}
+		//
+		//if (pid_need_compute(pid_2)) {
+		//	pitch = (double)DECIDEGREES_TO_DEGREES(attitude.values.pitch)*-0.0174533;
+		//	setpoint_2 = (double)currentControlProfile->d * 0.0174533;
+		//	computePID(pid_2);
+		//	//computePPM(-output_2, 2);
+		//}
     }
     return 0;
 }

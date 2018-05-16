@@ -307,38 +307,66 @@ void compassUpdate(timeUs_t currentTimeUs)
         DISABLE_STATE(CALIBRATE_MAG);
     }
 
-
 	if (magInit) {              // we apply offset only once mag calibration is done
-		mag.magADC[X] = (mag.magADC[X] - magZero->raw[X]) * magZero->scale[X];
-        mag.magADC[Y] = (mag.magADC[Y] - magZero->raw[Y]) * magZero->scale[Y];
-        mag.magADC[Z] = (mag.magADC[Z] - magZero->raw[Z]) * magZero->scale[Z];
-    }
+		mag.magADC[X] -= magZero->raw[X];
+		mag.magADC[Y] -= magZero->raw[Y];
+		mag.magADC[Z] -= magZero->raw[Z];
+	}
 
-    if (tCal != 0) {
-        if ((currentTimeUs - tCal) < 30000000) {    // 30s: you have 30s to turn the multi in all directions
-            LED0_TOGGLE;
-            for (int axis = 0; axis < 3; axis++) {
-                if (mag.magADC[axis] < magZeroTempMin.raw[axis])
-                    magZeroTempMin.raw[axis] = mag.magADC[axis];
-                if (mag.magADC[axis] > magZeroTempMax.raw[axis])
-                    magZeroTempMax.raw[axis] = mag.magADC[axis];
-            }
-        } else {
-            tCal = 0;
-			// Hard Iron Offset
-            for (int axis = 0; axis < 3; axis++) {
-                magZero->raw[axis] = (magZeroTempMin.raw[axis] + magZeroTempMax.raw[axis]) / 2; // Calculate offsets
-				magZero->scale[axis] = (magZeroTempMax.raw[axis] - magZeroTempMin.raw[axis]) / 2; // Average max chord lengths
-            }
+	if (tCal != 0) {
+		if ((currentTimeUs - tCal) < 30000000) {    // 30s: you have 30s to turn the multi in all directions
+			LED0_TOGGLE;
+			for (int axis = 0; axis < 3; axis++) {
+				if (mag.magADC[axis] < magZeroTempMin.raw[axis])
+					magZeroTempMin.raw[axis] = mag.magADC[axis];
+				if (mag.magADC[axis] > magZeroTempMax.raw[axis])
+					magZeroTempMax.raw[axis] = mag.magADC[axis];
+			}
+		}
+		else {
+			tCal = 0;
+			for (int axis = 0; axis < 3; axis++) {
+				magZero->raw[axis] = (magZeroTempMin.raw[axis] + magZeroTempMax.raw[axis]) / 2; // Calculate offsets
+			}
 
-			float avg_rad = (magZero->scale[0] + magZero->scale[1] + magZero->scale[2]) / 3;
-
-			magZero->scale[0] = avg_rad / ((float)magZero->scale[0]);
-			magZero->scale[1] = avg_rad / ((float)magZero->scale[1]);
-			magZero->scale[2] = avg_rad / ((float)magZero->scale[2]);
-
-            saveConfigAndNotify();
-        }
-    }
+			saveConfigAndNotify();
+		}
+	}
 }
 #endif // USE_MAG
+
+
+//	if (magInit) {              // we apply offset only once mag calibration is done
+//		mag.magADC[X] = (mag.magADC[X] - magZero->raw[X]) * magZero->scale[X];
+//        mag.magADC[Y] = (mag.magADC[Y] - magZero->raw[Y]) * magZero->scale[Y];
+//        mag.magADC[Z] = (mag.magADC[Z] - magZero->raw[Z]) * magZero->scale[Z];
+//    }
+//
+//    if (tCal != 0) {
+//        if ((currentTimeUs - tCal) < 30000000) {    // 30s: you have 30s to turn the multi in all directions
+//            LED0_TOGGLE;
+//            for (int axis = 0; axis < 3; axis++) {
+//                if (mag.magADC[axis] < magZeroTempMin.raw[axis])
+//                    magZeroTempMin.raw[axis] = mag.magADC[axis];
+//                if (mag.magADC[axis] > magZeroTempMax.raw[axis])
+//                    magZeroTempMax.raw[axis] = mag.magADC[axis];
+//            }
+//        } else {
+//            tCal = 0;
+//			// Hard Iron Offset
+//            for (int axis = 0; axis < 3; axis++) {
+//                magZero->raw[axis] = (magZeroTempMin.raw[axis] + magZeroTempMax.raw[axis]) / 2; // Calculate offsets
+//				magZero->scale[axis] = (magZeroTempMax.raw[axis] - magZeroTempMin.raw[axis]) / 2; // Average max chord lengths
+//            }
+//
+//			float avg_rad = (magZero->scale[0] + magZero->scale[1] + magZero->scale[2]) / 3;
+//
+//			magZero->scale[0] = avg_rad / ((float)magZero->scale[0]);
+//			magZero->scale[1] = avg_rad / ((float)magZero->scale[1]);
+//			magZero->scale[2] = avg_rad / ((float)magZero->scale[2]);
+//
+//            saveConfigAndNotify();
+//        }
+//    }
+//}
+//#endif // USE_MAG

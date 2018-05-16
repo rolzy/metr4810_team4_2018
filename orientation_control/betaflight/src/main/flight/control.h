@@ -43,6 +43,7 @@ void computePPM(double in, int num);
 void tunePID(pid_t pid);
 void setOutputLimits(pid_t pid, float Min, float Max);
 void setDirection(pid_t pid, enum pid_control_directions dir);
+void computeAttitude();
 
 typedef struct controlProfile_s {
 	float rA;

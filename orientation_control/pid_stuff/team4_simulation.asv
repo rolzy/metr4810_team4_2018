@@ -27,11 +27,10 @@ theta_current = feedback(H, 1);
 %rlocus(theta_current)
 
 %% SISO tool
-%controlSystemDesigner(H)
+controlSystemDesigner(H)
 
 compensator = 0.11108 * (1+0.61*s);
-discreteComp = c2d(compensator*H, 0.1, 'tustin');
-controlSystemDesigner(discreteComp)
+
 
 %% Compensator
 %num = 0.6677*s^2 + 5.641*s + 11.512;

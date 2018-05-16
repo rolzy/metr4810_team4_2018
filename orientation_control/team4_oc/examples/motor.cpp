@@ -48,7 +48,7 @@ public:
 	}
 
 	void onAttitude(const msp::msg::Attitude& attitude) {
-		std::cout << "Right Ascention is " << attitude.heading-180 << " and the declination is " << attitude.ang_y << std::endl;
+		std::cout << "Right Ascention is " << attitude.heading << " and the declination is " << attitude.ang_y << std::endl;
 	}
 
 	void onHello(const msp::msg::Hello& hello) {
@@ -83,13 +83,13 @@ int main(int argc, char *argv[]) {
 	fcu.initialise();
 
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
-	fcu.subscribe(&App::onGetPID, &app, 0.1);
+	fcu.subscribe(&App::onRc, &app, 0.1);
 	//fcu.subscribe(&App::onAttitude, &app, 0.1);
 
 	while (true) {
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
-			fcu.unsubscribe(msp::ID::MSP_GET_PID_METR);
+			fcu.unsubscribe(msp::ID::MSP_RC);
 			//fcu.unsubscribe(msp::ID::MSP_ATTITUDE);
 			float prompt1, prompt2, prompt3;
 			std::cout << "What is your new desired right ascention?" << std::endl;
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
 				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
 			}
 			fcu.setPID(prompt1*10, prompt2*10, prompt3*10);
-			fcu.subscribe(&App::onGetPID, &app, 0.1);
+			fcu.subscribe(&App::onRc, &app, 0.1);
 			//fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}
 	}
