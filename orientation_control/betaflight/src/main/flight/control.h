@@ -34,22 +34,27 @@ struct pid_controller {
 
 typedef struct pid_controller * pid_t;
 
-pid_t pid_create(pid_t pid, float* in, float* out, float* set, float kp, float ki, float kd);
+pid_t pid_create(pid_t pid, float* in, float* out, float* set);
 
 bool pid_need_compute(pid_t pid);
 
 void computePID(pid_t pid);
 void computePPM(double in, int num);
-void tunePID(pid_t pid, float kp, float ki, float kd);
+void tunePID(pid_t pid);
 void setOutputLimits(pid_t pid, float Min, float Max);
 void setDirection(pid_t pid, enum pid_control_directions dir);
+void computeAttitude();
 
 typedef struct controlProfile_s {
 	float rA;
 	float d;
+	float kp;
+	float ki;
+	float kd;
 } controlProfile_t;
 
 PG_DECLARE_ARRAY(controlProfile_t, MAX_PROFILE_COUNT, controlProfiles);
 
 void controlInitPosition(const controlProfile_t *controlProfile);
+void controlInitPID(const controlProfile_t *controlProfile);
 void controlInit(const controlProfile_t *controlProfile);

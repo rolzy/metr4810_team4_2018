@@ -291,7 +291,7 @@ void rxInit(void)
     rcSampleIndex = 0;
     needRxSignalMaxDelayUs = DELAY_10_HZ;
 
-    for (int i = 0; i < MAX_SUPPORTED_RC_CHANNEL_COUNT; i++) {
+    for (int i = 8; i < MAX_SUPPORTED_RC_CHANNEL_COUNT; i++) {
         rcData[i] = rxConfig()->midrc;
         rcInvalidPulsPeriod[i] = millis() + MAX_INVALID_PULS_TIME;
     }
@@ -534,7 +534,7 @@ static void detectAndApplySignalLossBehaviour(void)
 #endif
 
     rxFlightChannelsValid = true;
-    for (int channel = 4; channel < rxChannelCount; channel++) {
+    for (int channel = 8; channel < rxChannelCount; channel++) {
         uint16_t sample = rcRaw[channel];
 
         const bool validPulse = useValueFromRx && isPulseValid(sample);
@@ -564,7 +564,7 @@ static void detectAndApplySignalLossBehaviour(void)
     } else {
         rxIsInFailsafeMode = true;
         failsafeOnValidDataFailed();
-        for (int channel = 4; channel < rxChannelCount; channel++) {
+        for (int channel = 8; channel < rxChannelCount; channel++) {
             rcData[channel] = getRxfailValue(channel);
         }
     }

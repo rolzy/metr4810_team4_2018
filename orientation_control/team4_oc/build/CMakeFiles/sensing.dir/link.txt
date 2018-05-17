@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/sensing.dir/examples/sensing.cpp.o  -o sensing -rdynamic libmsp.so libmsp_msg_print.so libmsp_fcu.so libmspclient.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build 

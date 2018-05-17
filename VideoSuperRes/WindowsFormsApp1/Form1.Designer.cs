@@ -28,21 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.WindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.btnLoad = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.WindowsMediaPlayer)).BeginInit();
             this.SuspendLayout();
-            // 
-            // WindowsMediaPlayer
-            // 
-            this.WindowsMediaPlayer.Enabled = true;
-            this.WindowsMediaPlayer.Location = new System.Drawing.Point(12, 41);
-            this.WindowsMediaPlayer.Name = "WindowsMediaPlayer";
-            this.WindowsMediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("WindowsMediaPlayer.OcxState")));
-            this.WindowsMediaPlayer.Size = new System.Drawing.Size(420, 397);
-            this.WindowsMediaPlayer.TabIndex = 0;
             // 
             // btnLoad
             // 
@@ -71,17 +59,13 @@
             this.ClientSize = new System.Drawing.Size(865, 445);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.WindowsMediaPlayer);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.WindowsMediaPlayer)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private AxWMPLib.AxWindowsMediaPlayer WindowsMediaPlayer;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button button1;
     }

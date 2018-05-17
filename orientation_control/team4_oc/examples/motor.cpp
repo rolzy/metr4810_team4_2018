@@ -48,7 +48,7 @@ public:
 	}
 
 	void onAttitude(const msp::msg::Attitude& attitude) {
-		std::cout << "Right Ascention is " << attitude.heading-180 << " and the declination is " << attitude.ang_y << std::endl;
+		std::cout << "Right Ascention is " << attitude.heading << " and the declination is " << attitude.ang_y << std::endl;
 	}
 
 	void onHello(const msp::msg::Hello& hello) {
@@ -57,6 +57,10 @@ public:
 
 	void onRc(const msp::msg::Rc& rc) {
 		std::cout << rc << std::endl;
+	}
+
+	void onGetPID(const msp::msg::GetPID& pid) {
+		std::cout << pid.kp << " " << pid.ki << " " << pid.kd<< std::endl;
 	}
 
 	void onGetOrientation(const msp::msg::GetOrientation& getOrientation) {
@@ -82,13 +86,12 @@ int main(int argc, char *argv[]) {
 	fcu.subscribe(&App::onRc, &app, 0.1);
 	//fcu.subscribe(&App::onAttitude, &app, 0.1);
 
-	fcu.setOrientation(35, 35);
 	while (true) {
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
 			fcu.unsubscribe(msp::ID::MSP_RC);
 			//fcu.unsubscribe(msp::ID::MSP_ATTITUDE);
-			float prompt1, prompt2;
+			float prompt1, prompt2, prompt3;
 			std::cout << "What is your new desired right ascention?" << std::endl;
 			while (!(std::cin >> prompt1)) {
 				std::cin.clear();
@@ -101,7 +104,13 @@ int main(int argc, char *argv[]) {
 				std::cin.ignore(1000, '\n');
 				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
 			}
-			fcu.setOrientation(prompt1*10, prompt2*10);
+			std::cout << "What is your newefopa?" << std::endl;
+			while (!(std::cin >> prompt3)) {
+				std::cin.clear();
+				std::cin.ignore(1000, '\n');
+				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
+			}
+			fcu.setPID(prompt1*10, prompt2*10, prompt3*10);
 			fcu.subscribe(&App::onRc, &app, 0.1);
 			//fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}

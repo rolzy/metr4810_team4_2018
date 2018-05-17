@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC   -shared -Wl,-soname,libmsp_fcu.so -o libmsp_fcu.so CMakeFiles/msp_fcu.dir/src/FlightController.cpp.o libmspclient.so -lpthread -Wl,-rpath,/mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/orientation_control/team4_oc/build: 

@@ -76,7 +76,7 @@
             this.cbxExposure = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.btnSetPos = new System.Windows.Forms.Button();
-            this.tbxSetPos = new System.Windows.Forms.TextBox();
+            this.tbxSetPosX = new System.Windows.Forms.TextBox();
             this.lbxTargets = new System.Windows.Forms.ListBox();
             this.btnYneg10 = new System.Windows.Forms.Button();
             this.btnYpos10 = new System.Windows.Forms.Button();
@@ -111,6 +111,7 @@
             this.cbxPorts = new System.Windows.Forms.ComboBox();
             this.btnDSN = new System.Windows.Forms.Button();
             this.cbxUseDSN = new System.Windows.Forms.CheckBox();
+            this.tbxSetPosY = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -132,6 +133,7 @@
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 2;
+            this.btnConnect.TabStop = false;
             this.btnConnect.Text = "Subscribe";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.button1_Click);
@@ -172,6 +174,7 @@
             this.tbxAddress.Name = "tbxAddress";
             this.tbxAddress.Size = new System.Drawing.Size(347, 20);
             this.tbxAddress.TabIndex = 1;
+            this.tbxAddress.TabStop = false;
             this.tbxAddress.Text = "192.168.20.129";
             // 
             // label1
@@ -614,8 +617,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.tbxSetPosY);
             this.tabPage4.Controls.Add(this.btnSetPos);
-            this.tabPage4.Controls.Add(this.tbxSetPos);
+            this.tabPage4.Controls.Add(this.tbxSetPosX);
             this.tabPage4.Controls.Add(this.lbxTargets);
             this.tabPage4.Controls.Add(this.btnYneg10);
             this.tabPage4.Controls.Add(this.btnYpos10);
@@ -649,19 +653,20 @@
             this.btnSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSetPos.Location = new System.Drawing.Point(572, 37);
             this.btnSetPos.Name = "btnSetPos";
-            this.btnSetPos.Size = new System.Drawing.Size(100, 23);
-            this.btnSetPos.TabIndex = 27;
-            this.btnSetPos.Text = "button6";
+            this.btnSetPos.Size = new System.Drawing.Size(133, 28);
+            this.btnSetPos.TabIndex = 28;
+            this.btnSetPos.Text = "Go To";
             this.btnSetPos.UseVisualStyleBackColor = true;
             this.btnSetPos.Click += new System.EventHandler(this.btnSetPos_Click);
             // 
-            // tbxSetPos
+            // tbxSetPosX
             // 
-            this.tbxSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxSetPos.Location = new System.Drawing.Point(572, 11);
-            this.tbxSetPos.Name = "tbxSetPos";
-            this.tbxSetPos.Size = new System.Drawing.Size(100, 20);
-            this.tbxSetPos.TabIndex = 26;
+            this.tbxSetPosX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSetPosX.Location = new System.Drawing.Point(763, 14);
+            this.tbxSetPosX.Margin = new System.Windows.Forms.Padding(4);
+            this.tbxSetPosX.Name = "tbxSetPosX";
+            this.tbxSetPosX.Size = new System.Drawing.Size(61, 22);
+            this.tbxSetPosX.TabIndex = 26;
             // 
             // lbxTargets
             // 
@@ -1008,6 +1013,7 @@
             this.cbxPorts.Name = "cbxPorts";
             this.cbxPorts.Size = new System.Drawing.Size(146, 21);
             this.cbxPorts.TabIndex = 33;
+            this.cbxPorts.TabStop = false;
             this.cbxPorts.DropDown += new System.EventHandler(this.comboBoxPorts_DropDown);
             // 
             // btnDSN
@@ -1016,6 +1022,7 @@
             this.btnDSN.Name = "btnDSN";
             this.btnDSN.Size = new System.Drawing.Size(75, 23);
             this.btnDSN.TabIndex = 34;
+            this.btnDSN.TabStop = false;
             this.btnDSN.Text = "Connect";
             this.btnDSN.UseVisualStyleBackColor = true;
             this.btnDSN.Click += new System.EventHandler(this.btnDSN_Click);
@@ -1028,8 +1035,18 @@
             this.cbxUseDSN.Name = "cbxUseDSN";
             this.cbxUseDSN.Size = new System.Drawing.Size(73, 17);
             this.cbxUseDSN.TabIndex = 35;
+            this.cbxUseDSN.TabStop = false;
             this.cbxUseDSN.Text = "Use Dsn?";
             this.cbxUseDSN.UseVisualStyleBackColor = true;
+            // 
+            // tbxSetPosY
+            // 
+            this.tbxSetPosY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSetPosY.Location = new System.Drawing.Point(832, 14);
+            this.tbxSetPosY.Margin = new System.Windows.Forms.Padding(4);
+            this.tbxSetPosY.Name = "tbxSetPosY";
+            this.tbxSetPosY.Size = new System.Drawing.Size(64, 22);
+            this.tbxSetPosY.TabIndex = 27;
             // 
             // Form1
             // 
@@ -1152,7 +1169,7 @@
         private System.Windows.Forms.Button btnYneg1;
         private System.Windows.Forms.ListBox lbxTargets;
         private System.Windows.Forms.Button btnSetPos;
-        private System.Windows.Forms.TextBox tbxSetPos;
+        private System.Windows.Forms.TextBox tbxSetPosX;
         private System.IO.Ports.SerialPort spTransmit;
         private System.Windows.Forms.ComboBox cbxPorts;
         private System.Windows.Forms.Button btnDSN;
@@ -1164,6 +1181,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cbxQuality;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox tbxSetPosY;
     }
 }
 

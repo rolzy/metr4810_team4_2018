@@ -20,7 +20,13 @@ set(MSP_SOURCE_DIR src)
 set(MSP_INCLUDE_DIR inc/msp)
 include_directories(${MSP_INCLUDE_DIR})
 
+set(LIBCONFIG_DIR /usr/local/lib)
+find_library(libconfig NAME config HINTS LIBCONFIG_DIR)
+message(STATUS "${libconfig}")
+find_library(mqtt NAME paho-mqtt3c HINTS LIBCONFIG_DIR)
+message(STATUS "${mqtt}")
 
+find_package(PythonLibs 2.7)
 ################################################################################
 ### libraries
 
@@ -56,7 +62,8 @@ target_link_libraries(msp_read_test msp msp_msg_print)
 
 # testing publish/subscribe
 add_executable(fcu_test examples/fcu_test.cpp)
-target_link_libraries(fcu_test msp_fcu msp_msg_print)
+target_include_directories(fcu_test PRIVATE ${PYTHON_INCLUDE_DIRS})
+target_link_libraries(fcu_test "${PYTHON_LIBRARIES}" msp_fcu msp_msg_print)
 
 # test arming and disarming
 add_executable(fcu_arm examples/fcu_arm_test.cpp)
@@ -71,6 +78,9 @@ target_link_libraries(motor pid msp msp_msg_print mspclient msp_fcu)
 
 add_executable(sensing examples/sensing.cpp)
 target_link_libraries(sensing msp msp_msg_print mspclient msp_fcu)
+
+add_executable(control examples/control.cpp)
+target_link_libraries(control "${libconfig}" "${mqtt}" msp msp_msg_print mspclient msp_fcu)
 
 # subscribing with custom type
 add_executable(fcu_custom_type examples/fcu_custom_type.cpp)

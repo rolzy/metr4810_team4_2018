@@ -149,6 +149,7 @@ int Client::request_raw(const uint8_t id, ByteVector &data, const double timeout
 }
 
 bool Client::respond(const msp::Response &response, const bool wait_ack) {
+    perror("Client::respond");
     return respond_raw(uint8_t(response.id()), response.encode(), wait_ack);
 }
 
@@ -166,12 +167,14 @@ bool Client::respond_raw(const uint8_t id, const ByteVector &data, const bool wa
         const bool received = (request_received!=NULL) && (request_received->id==id);
         // unlock to wait for next message
         if(!received) { mutex_request.unlock(); }
+	perror("Client::respond_raw received");
         return received;
     });
 
     // check status, expect ACK without payload
     const bool success = request_received->status==OK;
     mutex_request.unlock();
+    perror("Client::Respond_raw");
     return success;
 }
 

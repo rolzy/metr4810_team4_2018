@@ -329,5 +329,7 @@
 
 // Roland's special MSP commands
 #define MSP_HELLO                113    //out message         Outputs 19959
-#define MSP_SET_ORIENTATION      114    //in message          PID loop
-#define MSP_GET_ORIENTATION      115    //out message         Outputs current right ascention & declination
+#define MSP_SET_ORIENTATION      114    //in message          Set orientation of craft
+#define MSP_GET_ORIENTATION      115    //out message         Outputs current desired right ascention & declination
+#define MSP_SET_PID_METR         203    //in message          Set PID parameters
+#define MSP_GET_PID_METR         207    //out message         Outputs current PID parameters

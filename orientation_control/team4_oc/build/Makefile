@@ -56,6 +56,16 @@ CMAKE_BINARY_DIR = /mnt/d/Stuff/Roland/Uni/2018Sem1Courses/metr4810_team4_2018/o
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,27 +87,6 @@ install/local: preinstall
 install/local/fast: install/local
 
 .PHONY : install/local/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
 
 # Special rule for the target install
 install: preinstall
@@ -168,6 +157,19 @@ client_async_test/fast:
 .PHONY : client_async_test/fast
 
 #=============================================================================
+# Target rules for targets named control
+
+# Build rule for target.
+control: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 control
+.PHONY : control
+
+# fast build rule for target.
+control/fast:
+	$(MAKE) -f CMakeFiles/control.dir/build.make CMakeFiles/control.dir/build
+.PHONY : control/fast
+
+#=============================================================================
 # Target rules for targets named sensing
 
 # Build rule for target.
@@ -206,6 +208,11 @@ msp_fcu/fast:
 	$(MAKE) -f CMakeFiles/msp_fcu.dir/build.make CMakeFiles/msp_fcu.dir/build
 .PHONY : msp_fcu/fast
 
+# Manual pre-install relink rule for target.
+msp_fcu/preinstall:
+	$(MAKE) -f CMakeFiles/msp_fcu.dir/build.make CMakeFiles/msp_fcu.dir/preinstall
+.PHONY : msp_fcu/preinstall
+
 #=============================================================================
 # Target rules for targets named msp_msg_print
 
@@ -232,6 +239,11 @@ msp/fast:
 	$(MAKE) -f CMakeFiles/msp.dir/build.make CMakeFiles/msp.dir/build
 .PHONY : msp/fast
 
+# Manual pre-install relink rule for target.
+msp/preinstall:
+	$(MAKE) -f CMakeFiles/msp.dir/build.make CMakeFiles/msp.dir/preinstall
+.PHONY : msp/preinstall
+
 #=============================================================================
 # Target rules for targets named mspclient
 
@@ -244,6 +256,11 @@ mspclient: cmake_check_build_system
 mspclient/fast:
 	$(MAKE) -f CMakeFiles/mspclient.dir/build.make CMakeFiles/mspclient.dir/build
 .PHONY : mspclient/fast
+
+# Manual pre-install relink rule for target.
+mspclient/preinstall:
+	$(MAKE) -f CMakeFiles/mspclient.dir/build.make CMakeFiles/mspclient.dir/preinstall
+.PHONY : mspclient/preinstall
 
 #=============================================================================
 # Target rules for targets named pid
@@ -442,6 +459,33 @@ examples/client_read_test.s: examples/client_read_test.cpp.s
 examples/client_read_test.cpp.s:
 	$(MAKE) -f CMakeFiles/client_read_test.dir/build.make CMakeFiles/client_read_test.dir/examples/client_read_test.cpp.s
 .PHONY : examples/client_read_test.cpp.s
+
+examples/control.o: examples/control.cpp.o
+
+.PHONY : examples/control.o
+
+# target to build an object file
+examples/control.cpp.o:
+	$(MAKE) -f CMakeFiles/control.dir/build.make CMakeFiles/control.dir/examples/control.cpp.o
+.PHONY : examples/control.cpp.o
+
+examples/control.i: examples/control.cpp.i
+
+.PHONY : examples/control.i
+
+# target to preprocess a source file
+examples/control.cpp.i:
+	$(MAKE) -f CMakeFiles/control.dir/build.make CMakeFiles/control.dir/examples/control.cpp.i
+.PHONY : examples/control.cpp.i
+
+examples/control.s: examples/control.cpp.s
+
+.PHONY : examples/control.s
+
+# target to generate assembly for a file
+examples/control.cpp.s:
+	$(MAKE) -f CMakeFiles/control.dir/build.make CMakeFiles/control.dir/examples/control.cpp.s
+.PHONY : examples/control.cpp.s
 
 examples/fcu_arm_test.o: examples/fcu_arm_test.cpp.o
 
@@ -800,12 +844,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... list_install_components"
 	@echo "... edit_cache"
 	@echo "... install/local"
-	@echo "... list_install_components"
-	@echo "... install/strip"
 	@echo "... install"
 	@echo "... client_async_test"
+	@echo "... control"
 	@echo "... sensing"
 	@echo "... motor"
 	@echo "... msp_fcu"
@@ -831,6 +875,9 @@ help:
 	@echo "... examples/client_read_test.o"
 	@echo "... examples/client_read_test.i"
 	@echo "... examples/client_read_test.s"
+	@echo "... examples/control.o"
+	@echo "... examples/control.i"
+	@echo "... examples/control.s"
 	@echo "... examples/fcu_arm_test.o"
 	@echo "... examples/fcu_arm_test.i"
 	@echo "... examples/fcu_arm_test.s"

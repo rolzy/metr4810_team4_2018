@@ -618,6 +618,19 @@ struct GetOrientation : public Request {
 	}
 };
 
+// MSP_GET_PID_METR: 207
+struct GetPID : public Request {
+	ID id() const { return ID::MSP_GET_PID_METR; }
+
+	float kp, ki, kd;
+
+	void decode(const std::vector<uint8_t> &data) {
+		kp = deserialise_uint16(data, 0);
+		ki = deserialise_uint16(data, 2);
+		kd = deserialise_uint16(data, 4);
+	}
+};
+
 // MSP_MISC: 256
 struct Misc : public Request {
     ID id() const { return ID::MSP_MISC; }
@@ -888,6 +901,22 @@ struct SetOrientation : public Response {
 		std::vector<uint8_t> data;
 		serialise_uint16(rightAscention, data);
 		serialise_uint16(declination, data);
+		return data;
+	}
+};
+
+struct SetPID : public Response {
+	ID id() const { return ID::MSP_SET_PID_METR; }
+
+	uint16_t kp;
+	uint16_t ki;
+	uint16_t kd;
+
+	std::vector<uint8_t> encode() const {
+		std::vector<uint8_t> data;
+		serialise_uint16(kp, data);
+		serialise_uint16(ki, data);
+		serialise_uint16(kd, data);
 		return data;
 	}
 };

@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Emgu;
 using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
+using Emgu.Util;
 using Emgu.CV.Superres;
 
+using Microsoft.Expression.Encoder;
+using Microsoft.Expression.Encoder.Profiles;
 
 
 namespace WindowsFormsApp1
@@ -24,15 +27,12 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        int Startindex;
-        bool playnext;
         string[] FileName;
         string[] FilePath;
 
+
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            Startindex = 0;
-            playnext = false;
             OpenFileDialog opnFileDlg = new OpenFileDialog();
             opnFileDlg.Multiselect = false;
             opnFileDlg.Filter = "(mp3,wav,mp4,mov,wmv,mpg,avi,3gp,flv)|*.mp3;*.wav;*.mp4;*.3gp;*.avi;*.mov;*.flv;*.wmv;*.mpg|all files|*.*";
@@ -40,40 +40,40 @@ namespace WindowsFormsApp1
             {
                 FileName = opnFileDlg.SafeFileNames;
                 FilePath = opnFileDlg.FileNames;
-
-                Startindex = 0;
-                playfile(0);
             }
         }
-        public void playfile(int playlistindex)
+
+        private void button1_Click(object sender, EventArgs e)
         {
-            //WindowsMediaPlayer.settings.autoStart = true;
-            //WindowsMediaPlayer.URL = FilePath[playlistindex];
-            //WindowsMediaPlayer.Ctlcontrols.next();
-            //WindowsMediaPlayer.Ctlcontrols.play();
+            SuperResolutionTest();
         }
-        public void Super(string filename)
+
+        public void SuperResolutionTest()
         {
             Mat frame = new Mat(); // input video frame
             Mat result = new Mat(); // output superresolution image
 
             //FrameSource _frameSource = new FrameSource(0); // input frames are obtained from WebCam or USB Camera
-            FrameSource _frameSource = new FrameSource(filename, false); // input frames are read from a file
+            FrameSource _frameSource = new FrameSource(@"C:\Users\Samantha\Documents\University\Fourth Year\METR4810\Data\Backlight\vi_0004_20180430_015632.mp4", false); // input frames are read from a file
             _frameSource.NextFrame(frame); // input frames are obtained from WebCam or USB Camera
 
-            for (int i = 0; i < 5; i++)
+            try
             {
-                frame.Save(@"C:\Users\Samantha\Documents\University\Fourth Year\METR4810\Data\SuperresTest\inputframe" + i.ToString("00") + ".png");
-                SuperResolution _superResolution = new SuperResolution(Emgu.CV.Superres.SuperResolution.OpticalFlowType.Btvl, _frameSource);
-                _superResolution.NextFrame(result); // output super resolution image
+                for (int i = 0; i < 5; i++)
+                {
+                    frame.Save(@"C:\Users\Samantha\Documents\University\Fourth Year\METR4810\Data\SuperresTest\In" + i.ToString("00i") + ".png");
 
-                result.Save(@"C:\Users\Samantha\Documents\University\Fourth Year\METR4810\Data\SuperresTest\outputframe" + i.ToString("00") + ".png");
+                    SuperResolution _superResolution = new SuperResolution(Emgu.CV.Superres.SuperResolution.OpticalFlowType.Btvl, _frameSource);
+                    _superResolution.NextFrame(result); // output super resolution image
 
+                    result.Save(@"C:\Users\Samantha\Documents\University\Fourth Year\METR4810\Data\SuperresTest\Out" + i.ToString("00i") + ".png");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
             }
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Super(FilePath[0]);
-        }
+
     }
 }
