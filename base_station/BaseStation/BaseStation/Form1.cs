@@ -19,6 +19,12 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.IO.Ports;
 
+using Emgu;
+using Emgu.CV;
+using Emgu.Util;
+using Emgu.CV.Util;
+using Emgu.CV.Structure;
+
 namespace BaseStation
 {
 
@@ -58,8 +64,13 @@ namespace BaseStation
             node.Nodes.Add("...");
 
             tvPhotos.Nodes.Add(node);
+
+            tbGamma.Minimum = 5;
+            tbGamma.Maximum = 50;
         }
 
+        Mat imgShow;
+        double _gamma = 0.5d;
 
         MqttClient client;
         private void button1_Click(object sender, EventArgs e)
@@ -325,8 +336,32 @@ namespace BaseStation
             TreeView view = (TreeView)sender;
             if (view.SelectedNode.Nodes.Count == 0)
             { 
-            FileStream stream = new FileStream(view.SelectedNode.FullPath, FileMode.Open, FileAccess.Read);
-            imageControl1.Image = Image.FromStream(stream);
+                FileStream stream = new FileStream(view.SelectedNode.FullPath, FileMode.Open, FileAccess.Read);
+                Bitmap bmpShow = new Bitmap(Image.FromStream(stream));
+                Image<Bgr, byte> imageShow = new Image<Bgr, byte>(bmpShow);
+                imgShow = imageShow.Mat;
+                ProcessFrame();
+            }
+        }
+
+        public void ProcessFrame()
+        {
+            
+            if (imgShow != null)
+            {
+                Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
+                //imageControl1.Image = imgShow.Bitmap;
+
+                Point _Origin = imageControl1.Origin;
+                //Point _pos = imageControl1.Image.;
+
+                Image<Gray, byte> result = imgShow.ToImage<Gray,byte>();
+                result._GammaCorrect(_gamma);
+                Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
+                imageControl1.Image = result.Bitmap;
+
+                imageControl1.Origin = _Origin;
+                lblGamma.Text = _gamma.ToString();
             }
         }
 
@@ -863,5 +898,11 @@ namespace BaseStation
             cbxPorts.DataSource = SerialPort.GetPortNames();
         }
 
+        private void tbGamma_Scroll(object sender, EventArgs e)
+        {
+            double _gam = tbGamma.Value;
+            _gamma = _gam / 10;
+            ProcessFrame();
+        }
     }
 }

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnConnect = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tbxMessage = new System.Windows.Forms.TextBox();
@@ -58,6 +58,9 @@
             this.btnWebservice = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lblGamma = new System.Windows.Forms.Label();
+            this.tbGamma = new System.Windows.Forms.TrackBar();
             this.tvPhotos = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
@@ -75,6 +78,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cbxExposure = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tbxSetPosY = new System.Windows.Forms.TextBox();
             this.btnSetPos = new System.Windows.Forms.Button();
             this.tbxSetPosX = new System.Windows.Forms.TextBox();
             this.lbxTargets = new System.Windows.Forms.ListBox();
@@ -111,9 +115,9 @@
             this.cbxPorts = new System.Windows.Forms.ComboBox();
             this.btnDSN = new System.Windows.Forms.Button();
             this.cbxUseDSN = new System.Windows.Forms.CheckBox();
-            this.tbxSetPosY = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbGamma)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -161,7 +165,7 @@
             // 
             this.rtbSubscribe.Location = new System.Drawing.Point(6, 15);
             this.rtbSubscribe.Name = "rtbSubscribe";
-            this.rtbSubscribe.Size = new System.Drawing.Size(284, 193);
+            this.rtbSubscribe.Size = new System.Drawing.Size(284, 164);
             this.rtbSubscribe.TabIndex = 3;
             this.rtbSubscribe.TabStop = false;
             this.rtbSubscribe.Text = "";
@@ -415,6 +419,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.lblGamma);
+            this.tabPage1.Controls.Add(this.tbGamma);
             this.tabPage1.Controls.Add(this.tvPhotos);
             this.tabPage1.Controls.Add(this.rtbSubscribe);
             this.tabPage1.Controls.Add(this.imageControl1);
@@ -426,13 +433,39 @@
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 352);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(43, 13);
+            this.label9.TabIndex = 37;
+            this.label9.Text = "Gamma";
+            // 
+            // lblGamma
+            // 
+            this.lblGamma.AutoSize = true;
+            this.lblGamma.Location = new System.Drawing.Point(255, 370);
+            this.lblGamma.Name = "lblGamma";
+            this.lblGamma.Size = new System.Drawing.Size(35, 13);
+            this.lblGamma.TabIndex = 36;
+            this.lblGamma.Text = "label8";
+            // 
+            // tbGamma
+            // 
+            this.tbGamma.Location = new System.Drawing.Point(6, 368);
+            this.tbGamma.Name = "tbGamma";
+            this.tbGamma.Size = new System.Drawing.Size(251, 45);
+            this.tbGamma.TabIndex = 24;
+            this.tbGamma.Scroll += new System.EventHandler(this.tbGamma_Scroll);
+            // 
             // tvPhotos
             // 
             this.tvPhotos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.tvPhotos.Location = new System.Drawing.Point(7, 215);
+            this.tvPhotos.Location = new System.Drawing.Point(6, 185);
             this.tvPhotos.Name = "tvPhotos";
-            this.tvPhotos.Size = new System.Drawing.Size(283, 171);
+            this.tvPhotos.Size = new System.Drawing.Size(283, 164);
             this.tvPhotos.TabIndex = 23;
             this.tvPhotos.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvPhotos_BeforeExpand);
             this.tvPhotos.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvPhotos_NodeMouseDoubleClick);
@@ -513,16 +546,16 @@
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
             this.chart1.Location = new System.Drawing.Point(6, 6);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(507, 255);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -648,6 +681,15 @@
             this.tabPage4.Text = "Orentation";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // tbxSetPosY
+            // 
+            this.tbxSetPosY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSetPosY.Location = new System.Drawing.Point(832, 14);
+            this.tbxSetPosY.Margin = new System.Windows.Forms.Padding(4);
+            this.tbxSetPosY.Name = "tbxSetPosY";
+            this.tbxSetPosY.Size = new System.Drawing.Size(64, 20);
+            this.tbxSetPosY.TabIndex = 27;
+            // 
             // btnSetPos
             // 
             this.btnSetPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -665,7 +707,7 @@
             this.tbxSetPosX.Location = new System.Drawing.Point(763, 14);
             this.tbxSetPosX.Margin = new System.Windows.Forms.Padding(4);
             this.tbxSetPosX.Name = "tbxSetPosX";
-            this.tbxSetPosX.Size = new System.Drawing.Size(61, 22);
+            this.tbxSetPosX.Size = new System.Drawing.Size(61, 20);
             this.tbxSetPosX.TabIndex = 26;
             // 
             // lbxTargets
@@ -1039,15 +1081,6 @@
             this.cbxUseDSN.Text = "Use Dsn?";
             this.cbxUseDSN.UseVisualStyleBackColor = true;
             // 
-            // tbxSetPosY
-            // 
-            this.tbxSetPosY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxSetPosY.Location = new System.Drawing.Point(832, 14);
-            this.tbxSetPosY.Margin = new System.Windows.Forms.Padding(4);
-            this.tbxSetPosY.Name = "tbxSetPosY";
-            this.tbxSetPosY.Size = new System.Drawing.Size(64, 22);
-            this.tbxSetPosY.TabIndex = 27;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1081,6 +1114,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbGamma)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -1182,6 +1217,9 @@
         private System.Windows.Forms.ComboBox cbxQuality;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox tbxSetPosY;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblGamma;
+        private System.Windows.Forms.TrackBar tbGamma;
     }
 }
 
