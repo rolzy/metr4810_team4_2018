@@ -11,23 +11,29 @@ enum pid_control_directions {
 };
 
 struct pid_controller {
-	// Input, output and setpoint
-	float * input; //!< Current Process Value
-	float * output; //!< Corrective Output from PID Controller
-	float * setpoint; //!< Controller Setpoint
-					  // Tuning parameters
-	float Kp; //!< Stores the gain for the Proportional term
-	float Ki; //!< Stores the gain for the Integral term
-	float Kd; //!< Stores the gain for the Derivative term
-			  // Output minimum and maximum values
-	float outMin; //!< Maximum value allowed at the output
-	float outMax; //!< Minimum value allowed at the output
-				// Variables for PID algorithm
-	float integral; //!< Accumulator for integral term
-	float lastInput; //!< Last input value for differential term
-				  // Time related
-	timeMs_t lastTime; //!< Stores the time when the control loop ran last time
-	uint32_t sampleTime; //!< Defines the PID sample time
+
+	/* Input, Output and Setpoint */
+	float * input;			//!< Current Process Value
+	float * output;			//!< Corrective Output from PID Controller
+	float * setpoint;		//!< Controller Setpoint
+
+	/* Tuning Parameters */
+	float Kp;				//!< Stores the gain for the Proportional term
+	float Ki;				//!< Stores the gain for the Integral term
+	float Kd;				//!< Stores the gain for the Derivative term
+
+	/* Minimum and Maximum values */
+	float outMin;			//!< Maximum value allowed at the output
+	float outMax;			//!< Minimum value allowed at the output
+
+	/* Variables for PID*/
+	float integral;			//!< Accumulator for integral term
+	float lastInput;		//!< Last input value for differential term
+	bool automode;			//!< Toggle for automatic control
+
+	/* Time related */
+	timeMs_t lastTime;		//!< Stores the time when the control loop ran last time
+	uint32_t sampleTime;	//!< Defines the PID sample time
 
 	enum pid_control_directions direction;
 };
@@ -43,6 +49,8 @@ void computePPM(double in, int num);
 void tunePID(pid_t pid);
 void setOutputLimits(pid_t pid, float Min, float Max);
 void setDirection(pid_t pid, enum pid_control_directions dir);
+void setManual(pid_t pid);
+void setAuto(pid_t pid);
 void computeAttitude();
 
 typedef struct controlProfile_s {

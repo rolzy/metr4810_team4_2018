@@ -104,13 +104,7 @@ int main(int argc, char *argv[]) {
 				std::cin.ignore(1000, '\n');
 				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
 			}
-			std::cout << "What is your newefopa?" << std::endl;
-			while (!(std::cin >> prompt3)) {
-				std::cin.clear();
-				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
-			}
-			fcu.setPID(prompt1*10, prompt2*10, prompt3*10);
+			fcu.setOrientation(prompt1*10, prompt2*10);
 			fcu.subscribe(&App::onRc, &app, 0.1);
 			//fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}
