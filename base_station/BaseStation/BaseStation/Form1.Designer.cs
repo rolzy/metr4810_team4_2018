@@ -1290,6 +1290,14 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblGamma;
         private System.Windows.Forms.TrackBar tbGamma;
+        private System.Windows.Forms.TextBox tbxKdPitch;
+        private System.Windows.Forms.TextBox tbxKiPitch;
+        private System.Windows.Forms.TextBox tbxKpPitch;
+        private System.Windows.Forms.TextBox tbxKdYaw;
+        private System.Windows.Forms.TextBox tbxKiYaw;
+        private System.Windows.Forms.TextBox tbxKpYaw;
+        private System.Windows.Forms.Button btnPidPitch;
+        private System.Windows.Forms.Button btnPidYaw;
     }
 }
 

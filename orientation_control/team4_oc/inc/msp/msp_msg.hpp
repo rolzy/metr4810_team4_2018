@@ -595,42 +595,6 @@ struct Box : public Request {
     }
 };
 
-// MSP_HELLO: 113
-struct Hello : public Request {
-	ID id() const { return ID::MSP_HELLO; }
-
-	double message;
-
-	void decode(const std::vector<uint8_t> &data) {
-		message = deserialise_uint16(data, 0);
-	}
-};
-
-// MSP_GET_ORIENTATION: 115
-struct GetOrientation : public Request {
-	ID id() const { return ID::MSP_GET_ORIENTATION; }
-
-	double rightAscention, declination;
-
-	void decode(const std::vector<uint8_t> &data) {
-		rightAscention = deserialise_uint16(data, 0);
-		declination = deserialise_uint16(data, 2);
-	}
-};
-
-// MSP_GET_PID_METR: 207
-struct GetPID : public Request {
-	ID id() const { return ID::MSP_GET_PID_METR; }
-
-	float kp, ki, kd;
-
-	void decode(const std::vector<uint8_t> &data) {
-		kp = deserialise_uint16(data, 0);
-		ki = deserialise_uint16(data, 2);
-		kd = deserialise_uint16(data, 4);
-	}
-};
-
 // MSP_MISC: 256
 struct Misc : public Request {
     ID id() const { return ID::MSP_MISC; }
@@ -889,6 +853,20 @@ struct Debug : public Request {
 /////////////////////////////////////////////////////////////////////
 /// Response (2xx)
 
+// MSP_START_CONTROL: 113
+// Original function, start the PID controllers
+struct StartControl : public Response {
+	ID id() const { return ID::MSP_START_CONTROL; }
+
+	uint8_t bit;
+
+	std::vector<uint8_t> encode() const {
+		std::vector<uint8_t> data;
+		data.push_back(bit);
+		return data;
+	}
+};
+
 // MSP_SET_ORIENTATION: 114
 // Original function, set right ascention and declination variables in naze. 
 struct SetOrientation : public Response {
@@ -905,6 +883,22 @@ struct SetOrientation : public Response {
 	}
 };
 
+// MSP_CALIBRATE: 115
+// Original function, perform the calibration process
+struct Calibrate : public Response {
+	ID id() const { return ID::MSP_CALIBRATE; }
+
+	uint8_t bit;
+
+	std::vector<uint8_t> encode() const {
+		std::vector<uint8_t> data;
+		data.push_back(bit);
+		return data;
+	}
+};
+
+// MSP_SET_PID_METR: 203
+// Original function, set PID constants through MSP
 struct SetPID : public Response {
 	ID id() const { return ID::MSP_SET_PID_METR; }
 
@@ -917,6 +911,20 @@ struct SetPID : public Response {
 		serialise_uint16(kp, data);
 		serialise_uint16(ki, data);
 		serialise_uint16(kd, data);
+		return data;
+	}
+};
+
+// MSP_READ_ORIGIN: 207
+// Original function, read magnetometer readings and use it as reference vector
+struct ReadOrigin : public Response {
+	ID id() const { return ID::MSP_READ_ORIGIN; }
+
+	uint8_t bit;
+
+	std::vector<uint8_t> encode() const {
+		std::vector<uint8_t> data;
+		data.push_back(bit);
 		return data;
 	}
 };

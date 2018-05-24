@@ -51,21 +51,11 @@ public:
 		std::cout << "Right Ascention is " << attitude.heading << " and the declination is " << attitude.ang_y << std::endl;
 	}
 
-	void onHello(const msp::msg::Hello& hello) {
-		std::cout << hello.message << std::endl;
-	}
 
 	void onRc(const msp::msg::Rc& rc) {
 		std::cout << rc << std::endl;
 	}
 
-	void onGetPID(const msp::msg::GetPID& pid) {
-		std::cout << pid.kp << " " << pid.ki << " " << pid.kd<< std::endl;
-	}
-
-	void onGetOrientation(const msp::msg::GetOrientation& getOrientation) {
-		std::cout << "Right Ascention is " << getOrientation.rightAscention << " and the declination is " << getOrientation.declination << std::endl;
-	}
 
 private:
 	const float acc_1g;
@@ -90,27 +80,78 @@ int main(int argc, char *argv[]) {
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
 			fcu.unsubscribe(msp::ID::MSP_RC);
-			//fcu.unsubscribe(msp::ID::MSP_ATTITUDE);
-			float prompt1, prompt2, prompt3;
-			std::cout << "What is your new desired right ascention?" << std::endl;
-			while (!(std::cin >> prompt1)) {
-				std::cin.clear();
-				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input. Please enter a float between 0 and 7." << std::endl;
+			char Choice;
+			std::cout << "Enter a key (1-5)... " << std::endl;
+			std::cout << "1 = Start control " << std::endl;
+			std::cout << "2 = Calibrate position " << std::endl;
+			std::cout << "3 = Use current orientation as origin " << std::endl;
+			std::cout << "4 = Tuning PID " << std::endl;
+			std::cout << "5 = Change your destination " << std::endl;
+			std::cin >> Choice;
+			switch (Choice) {
+			case '1':
+			{
+				std::cout << "Starting control... " << std::endl;
+				fcu.startControl(1);
+				break;
 			}
-			std::cout << "What is your new desired declination?" << std::endl;
-			while (!(std::cin >> prompt2)) {
-				std::cin.clear();
-				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
+			case '2':
+			{
+				std::cout << "Calibrating... " << std::endl;
+				fcu.calibrate(1);
+				break;
 			}
-			std::cout << "What is your newefopa?" << std::endl;
-			while (!(std::cin >> prompt3)) {
-				std::cin.clear();
-				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input. Please enter a float between 0 and 23." << std::endl;
+			case '3':
+			{
+				std::cout << "Using current orientation as origin... " << std::endl;
+				fcu.readOrigin(1);
+				break;
 			}
-			fcu.setPID(prompt1*10, prompt2*10, prompt3*10);
+			case '4':
+			{
+				std::cout << "Tuning PID... " << std::endl;
+				float prompt1, prompt2, prompt3;
+				std::cout << "Enter your new Kp" << std::endl;
+				while (!(std::cin >> prompt1)) {
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Invalid input. " << std::endl;
+				}
+				std::cout << "Enter your new Kd" << std::endl;
+				while (!(std::cin >> prompt2)) {
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Invalid input. " << std::endl;
+				}
+				std::cout << "Enter your new Ki" << std::endl;
+				while (!(std::cin >> prompt3)) {
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Invalid input. " << std::endl;
+				}
+				fcu.setPID(prompt1 * 100, prompt2 * 100, prompt3 * 100);
+				break;
+			}
+			case '5':
+			{
+				std::cout << "Changing destination... " << std::endl;
+				float prompt1, prompt2;
+				std::cout << "What is your new desired right ascention?" << std::endl;
+				while (!(std::cin >> prompt1)) {
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Invalid input." << std::endl;
+				}
+				std::cout << "What is your new desired declination?" << std::endl;
+				while (!(std::cin >> prompt2)) {
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Invalid input." << std::endl;
+				}
+				fcu.setOrientation(prompt1 * 10, prompt2 * 10);
+				break;
+			}
+			}
 			fcu.subscribe(&App::onRc, &app, 0.1);
 			//fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}

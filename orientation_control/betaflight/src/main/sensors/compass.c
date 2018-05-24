@@ -359,7 +359,7 @@ void compassUpdate(timeUs_t currentTimeUs)
 //				magZero->scale[axis] = (magZeroTempMax.raw[axis] - magZeroTempMin.raw[axis]) / 2; // Average max chord lengths
 //            }
 //
-//			float avg_rad = (magZero->scale[0] + magZero->scale[1] + magZero->scale[2]) / 3;
+//			float avg_rad = (magZero->scale[0] + magZero->scale[1] + magZero->scale[2]) / 3.0;
 //
 //			magZero->scale[0] = avg_rad / ((float)magZero->scale[0]);
 //			magZero->scale[1] = avg_rad / ((float)magZero->scale[1]);

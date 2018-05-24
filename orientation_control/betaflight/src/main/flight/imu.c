@@ -280,17 +280,21 @@ static void imuMahonyAHRSupdate(float dt, float gx, float gy, float gz,
         // For magnetometer correction we make an assumption that magnetic field is perpendicular to gravity (ignore Z-component in EF).
         // This way magnetic field will only affect heading and wont mess roll/pitch angles
 
-        // (hx; hy; 0) - measured mag field vector in EF (assuming Z-component is zero)
-        // (bx; 0; 0) - reference mag field vector heading due North in EF (assuming Z-component is zero)
+        //(hx; hy; 0) - measured mag field vector in EF (assuming Z-component is zero)
+        //(bx; 0; 0) - reference mag field vector heading due North in EF (assuming Z-component is zero)
         const float hx = rMat[0][0] * mx + rMat[0][1] * my + rMat[0][2] * mz;
         const float hy = rMat[1][0] * mx + rMat[1][1] * my + rMat[1][2] * mz;
+		//const float hz = rMat[2][0] * mx + rMat[2][1] * my + rMat[2][2] * mz;
         const float bx = sqrtf(hx * hx + hy * hy);
 
         // magnetometer error is cross product between estimated magnetic north and measured magnetic north (calculated in EF)
         const float ez_ef = -(hy * bx);
 
         // Rotate mag error vector back to BF and accumulate
-        ex += rMat[2][0] * ez_ef;
+  //      ex += (my * rMat[2][2] - mz * rMat[2][1]);
+		//ey += (mz * rMat[2][0] - mx * rMat[2][2]);
+		//ez += (mx * rMat[2][1] - my * rMat[2][0]);
+		ex += rMat[2][0] * ez_ef;
         ey += rMat[2][1] * ez_ef;
         ez += rMat[2][2] * ez_ef;
     }

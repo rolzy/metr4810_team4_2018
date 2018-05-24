@@ -37,7 +37,7 @@ typedef struct int16_flightDynamicsTrims_s {
 
 typedef union flightDynamicsTrims_u {
     int16_t raw[3];
-	float scale[3];
+	int16_t scale[3];
     flightDynamicsTrims_def_t values;
 } flightDynamicsTrims_t;
 

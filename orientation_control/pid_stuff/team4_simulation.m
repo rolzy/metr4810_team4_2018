@@ -30,7 +30,7 @@ theta_current = feedback(H, 1);
 %controlSystemDesigner(H)
 
 compensator = 0.11108 * (1+0.61*s);
-discreteComp = c2d(compensator*H, 0.1, 'tustin');
+discreteComp = c2d(compensator*H, 0.01, 'tustin');
 controlSystemDesigner(discreteComp)
 
 %% Compensator

@@ -328,8 +328,8 @@
 #define MSP_RTC                  247    //out message         Gets the RTC clock
 
 // Roland's special MSP commands
-#define MSP_HELLO                113    //out message         Outputs 19959
+#define MSP_START_CONTROL        113    //in message          Start PID controllers
 #define MSP_SET_ORIENTATION      114    //in message          Set orientation of craft
-#define MSP_GET_ORIENTATION      115    //out message         Outputs current desired right ascention & declination
+#define MSP_CALIBRATE			 115	//in message		  Start calibration 
 #define MSP_SET_PID_METR         203    //in message          Set PID parameters
-#define MSP_GET_PID_METR         207    //out message         Outputs current PID parameters
+#define MSP_READ_ORIGIN          207    //in message          Use the current magnetometer readings as reference vector	

@@ -779,6 +779,12 @@ namespace BaseStation
 
             sendMessage("/status/Pos", X+":"+Y);
             sendMessage("/control/Pos", X+":"+Y);
+         
+            sendMessage("/control/Start", "1");
+            sendMessage("/control/Calibrate", "1");
+            sendMessage("/control/Read", "1");
+            sendMessage("/control/CalMag", "1");
+
         }
        
 
@@ -912,6 +918,30 @@ namespace BaseStation
             double _gam = tbGamma.Value;
             _gamma = _gam / 10;
             ProcessFrame();
+        }
+
+        private void btnPidYaw_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int Kp = (int)float.Parse(tbxKpYaw.Text) * 100;
+                int Ki = (int)float.Parse(tbxKiYaw.Text) * 100;
+                int Kd = (int)float.Parse(tbxKdYaw.Text) * 100;
+                sendMessage("/control/Pid", Kp + ":" + Ki + ":" + Kd);
+            } 
+            catch {}
+        }
+
+        private void btnPidPitch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int Kp = (int)float.Parse(tbxKpPitch.Text) * 100;
+                int Ki = (int)float.Parse(tbxKiPitch.Text) * 100;
+                int Kd = (int)float.Parse(tbxKdPitch.Text) * 100;
+                sendMessage("/control/Pid", Kp + ":" + Ki + ":" + Kd);
+            }
+            catch { }
         }
     }
 }
