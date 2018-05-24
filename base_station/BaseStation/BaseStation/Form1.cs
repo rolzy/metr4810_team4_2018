@@ -349,7 +349,8 @@ namespace BaseStation
             
             if (imgShow != null)
             {
-                Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
+
+             //   Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
                 //imageControl1.Image = imgShow.Bitmap;
 
                 Point _Origin = imageControl1.Origin;
@@ -357,7 +358,8 @@ namespace BaseStation
 
                 Image<Gray, byte> result = imgShow.ToImage<Gray,byte>();
                 result._GammaCorrect(_gamma);
-                Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
+
+              //  Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
                 imageControl1.Image = result.Bitmap;
 
                 imageControl1.Origin = _Origin;
@@ -735,7 +737,16 @@ namespace BaseStation
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            pbxLiveFeed.Load("http://" + tbxAddress.Text +"/html/cam_pic.php?");
+
+            try
+            {
+                pbxLiveFeed.Load("http://" + tbxAddress.Text + "/html/cam_pic.php?");
+            }
+            catch
+            {
+                MessageBox.Show("lost live feed");
+                checkBox1.Checked = false;
+            }
         }
 
 
@@ -770,8 +781,6 @@ namespace BaseStation
 
             sendMessage("/status/Pos", X+":"+Y);
             sendMessage("/control/Pos", X+":"+Y);
-         
-            
 
         }
        
@@ -954,5 +963,6 @@ namespace BaseStation
         {
             sendMessage("/control/CalMag", "1");
         }
+
     }
 }
