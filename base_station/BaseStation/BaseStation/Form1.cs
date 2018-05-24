@@ -349,6 +349,7 @@ namespace BaseStation
             
             if (imgShow != null)
             {
+
              //   Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
                 //imageControl1.Image = imgShow.Bitmap;
 
@@ -357,6 +358,7 @@ namespace BaseStation
 
                 Image<Gray, byte> result = imgShow.ToImage<Gray,byte>();
                 result._GammaCorrect(_gamma);
+
               //  Console.WriteLine("Width: {0}, Height: {1}", imageControl1.Origin.X, imageControl1.Origin.Y);
                 imageControl1.Image = result.Bitmap;
 
@@ -735,6 +737,7 @@ namespace BaseStation
 
         private void timer2_Tick(object sender, EventArgs e)
         {
+
             try
             {
                 pbxLiveFeed.Load("http://" + tbxAddress.Text + "/html/cam_pic.php?");
@@ -744,7 +747,6 @@ namespace BaseStation
                 MessageBox.Show("lost live feed");
                 checkBox1.Checked = false;
             }
-            
         }
 
 
@@ -779,11 +781,6 @@ namespace BaseStation
 
             sendMessage("/status/Pos", X+":"+Y);
             sendMessage("/control/Pos", X+":"+Y);
-         
-            sendMessage("/control/Start", "1");
-            sendMessage("/control/Calibrate", "1");
-            sendMessage("/control/Read", "1");
-            sendMessage("/control/CalMag", "1");
 
         }
        
@@ -943,5 +940,29 @@ namespace BaseStation
             }
             catch { }
         }
+
+        private void ckbStart_CheckedChanged(object sender, EventArgs e)
+        {
+            sendMessage("/control/Start", "1");
+        }
+
+
+
+        private void btnCalibrate_Click(object sender, EventArgs e)
+        {
+            sendMessage("/control/Calibrate", "1");
+
+        }
+
+        private void btnRead_Click(object sender, EventArgs e)
+        {
+            sendMessage("/control/Read", "1");
+        }
+
+        private void btnCalMag_Click(object sender, EventArgs e)
+        {
+            sendMessage("/control/CalMag", "1");
+        }
+
     }
 }
