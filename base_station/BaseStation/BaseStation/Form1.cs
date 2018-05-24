@@ -771,10 +771,7 @@ namespace BaseStation
             sendMessage("/status/Pos", X+":"+Y);
             sendMessage("/control/Pos", X+":"+Y);
          
-            sendMessage("/control/Start", "1");
-            sendMessage("/control/Calibrate", "1");
-            sendMessage("/control/Read", "1");
-            sendMessage("/control/CalMag", "1");
+            
 
         }
        
@@ -933,6 +930,29 @@ namespace BaseStation
                 sendMessage("/control/Pid", Kp + ":" + Ki + ":" + Kd);
             }
             catch { }
+        }
+
+        private void ckbStart_CheckedChanged(object sender, EventArgs e)
+        {
+            sendMessage("/control/Start", "1");
+        }
+
+
+
+        private void btnCalibrate_Click(object sender, EventArgs e)
+        {
+            sendMessage("/control/Calibrate", "1");
+
+        }
+
+        private void btnRead_Click(object sender, EventArgs e)
+        {
+            sendMessage("/control/Read", "1");
+        }
+
+        private void btnCalMag_Click(object sender, EventArgs e)
+        {
+            sendMessage("/control/CalMag", "1");
         }
     }
 }
