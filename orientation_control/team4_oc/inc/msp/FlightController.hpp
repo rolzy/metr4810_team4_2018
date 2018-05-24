@@ -188,6 +188,14 @@ public:
 
 	bool setPID(const uint16_t kp, const uint16_t ki, const uint16_t kd);
 
+	bool startControl(const uint16_t bit);
+
+	bool calibrate(const uint16_t bit);
+
+	bool readOrigin(const uint16_t bit);
+
+	bool calMag();
+
     bool setMotors(const std::array<uint16_t,msp::msg::N_MOTOR> &motor_values);
 
     /**

@@ -61,6 +61,23 @@ int main(void)
     while (true) {
         scheduler();
         processLoopback();
+
+		if (currentControlProfile->rO) {
+			readOrigin();
+			currentControlProfile->rO = 0;
+		}
+
+		if (currentControlProfile->cal) {
+			calibrate();
+			currentControlProfile->cal = 0;
+		}
+
+		if (!currentControlProfile->sC) {
+			rcData[0] = 1500;
+			rcData[1] = 1500;
+			continue;
+		}
+
 		computeAttitude(&yaw, &pitch);
 #ifdef SIMULATOR_BUILD
         delayMicroseconds_real(50); // max rate 20kHz

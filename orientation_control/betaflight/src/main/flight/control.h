@@ -44,6 +44,9 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set);
 
 bool pid_need_compute(pid_t pid);
 
+void readOrigin();
+void calibrate();
+
 void computePID(pid_t pid);
 void computePPM(double in, int num);
 void tunePID(pid_t pid);
@@ -51,11 +54,14 @@ void setOutputLimits(pid_t pid, float Min, float Max);
 void setDirection(pid_t pid, enum pid_control_directions dir);
 void setManual(pid_t pid);
 void setAuto(pid_t pid);
-void computeAttitude();
+void computeAttitude(float *yaw, float *pitch);
 
 typedef struct controlProfile_s {
 	float rA;
 	float d;
+	int rO;
+	int cal;
+	int sC;
 	float kp;
 	float ki;
 	float kd;

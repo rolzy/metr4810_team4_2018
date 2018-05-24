@@ -39,18 +39,19 @@
 #include "sensors/compass.h"
 
 /* User Inputs */
-float rightAscentionAngle, declinationAngle , kp, ki, kd;				// Desired orientation and PID constants
+float rightAscentionAngle, declinationAngle , kp, ki, kd;	// Desired orientation and PID constants
 
 /* Actual attitude */
 float theta, phi;											// Calculated orientation
 
 /* Attitude determination */
 int magReferenceSet = 0;									// Flag that trigger when reference vector is setup
+int targetReached = 0;										// Flag that trigger when target is reached
 int originReached, originPitchReached = 0;					// Flags that trigger when origin is reached
 int yawReached, pitchReached = 0;							// Flags that trigger when target is reached
-int fluctuateYaw, fluctuatePitch = 0;						// Flags that
+int fluctuateYaw, fluctuatePitch = 0;						// Flags that control 
 float refTheta, refPhi1;									// Variables that store reference angles
-float magn[3];												// Array to store magnetometer measurement
+float magn[3], magReference[3];								// Array to store magnetometer measurement
 
 float norm(int nRows, float vect_A[nRows])
 {
@@ -61,6 +62,29 @@ float norm(int nRows, float vect_A[nRows])
 	}
 
 	return sqrt(norm);
+}
+
+void readOrigin()
+{
+	for (int i = 0; i < 3; i++) {
+		magReference[i] = mag.magADC[i];
+	}
+	rcData[4] = magReference[0];
+	rcData[5] = magReference[1];
+	rcData[6] = magReference[2];
+	float magReferenceLength = norm(3, magReference);		// Normalize reference vector
+	for (int i = 0; i < 3; i++) {
+		magReference[i] /= magReferenceLength;
+	}
+
+	/* Store reference angle values */
+	refTheta = atan2(magReference[1], magReference[0]);
+	refPhi1 = atan2(magReference[2], magReference[0]);
+}
+
+void calibrate()
+{
+
 }
 
 pid_t pid_create(pid_t pid, float* in, float* out, float* set)
@@ -121,24 +145,14 @@ void computePID(pid_t pid)
 void computePPM(double in, int num) 
 {
 	if (num == 0 && fluctuateYaw) {
-		if (rcData[num] < 1500) {
-			rcData[num] = 1600;
-			return;
-		}
-		else {
-			rcData[num] = 1400;
-			return;
-		}
+		rcData[num] = 1460;
+		motor_disarmed[num] = 1460;
+		return;
 	}
 	else if (num == 1 && fluctuatePitch) {
-		if (rcData[num] < 1500) {
-			rcData[num] = 1600;
-			return;
-		}
-		else {
-			rcData[num] = 1400;
-			return;
-		}
+		rcData[num] = 1460;
+		motor_disarmed[num] = 1460;
+		return;
 	}
 
 	/* Compute the required acceleration from torque value (rad/s^2) */
@@ -154,7 +168,7 @@ void computePPM(double in, int num)
 	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
 	else if (req_PPM < 1000) req_PPM = 1000;
 	rcData[num] = req_PPM;
-	//motor_disarmed[num] = req_PPM;
+	motor_disarmed[num] = req_PPM;
 }
 
 /* Function to tune PID constants */
@@ -206,23 +220,6 @@ void setManual(pid_t pid)
 
 void computeAttitude(float *yaw, float *pitch)
 {
-	float magReference[3] = { 344, 171, 633 };						// Measurement at 0,0
-
-	/* Setup reference magnetometer reading */
-	if (magReferenceSet == 0) {
-		float magReferenceLength = norm(3, magReference);		// Normalize reference vector
-		for (int i = 0; i < 3; i++) {
-			magReference[i] /= magReferenceLength;
-		}
-
-		/* Store reference angle values */
-		refTheta = atan2(magReference[1], magReference[0]);
-		refPhi1 = atan2(magReference[2], magReference[0]);
-
-		/* Setup reference flag */
-		magReferenceSet = 1;
-	}
-
 	/* Load the current magnetometer reading */
 	for (int i = 0; i < 3; i++) {
 		magn[i] = mag.magADC[i];
@@ -239,11 +236,10 @@ void computeAttitude(float *yaw, float *pitch)
 
 		/* If the pitch != 0, fix it first so craft is level */
 		if (!originPitchReached) {
-			theta = 0;
+			theta = atan2f(magn[1], magn[0]) - refTheta;
 			fluctuateYaw = 1;
 			phi = atan2f(magn[2], magn[0]) - refPhi1;
 			if (fabs(phi) < 0.0174533) {
-				theta = atan2f(magn[1], magn[0]) - refTheta;
 				fluctuateYaw = 0;
 				phi = 0;
 				fluctuatePitch = 1;
@@ -266,39 +262,60 @@ void computeAttitude(float *yaw, float *pitch)
 	/* Origin -> Finding the target */
 	else {
 
-		/* If the target is equal to the origin, don't do anything */
-		if (rightAscentionAngle == 0 && declinationAngle == 0) {
-			return;
-		}
+		if (!targetReached) {
 
-		/* If the yaw isn't at target, move it first */
-		if (!yawReached) {
-			theta = atan2f(magn[1], magn[0]) - refTheta;
-			phi = 0;
-			if (fabs(theta - rightAscentionAngle * (float)0.0174533) < 0.0174533) {
+			/* If pitchReached is still set from the last target, we are not flat */
+			if (pitchReached) {
+				theta = atan2f(magn[1], magn[0]) - refTheta;
+				fluctuateYaw = 1;
 				phi = atan2f(magn[2], magn[0]) - refPhi1;
-				theta = rightAscentionAngle * (float)0.0174533;
-				yawReached = 1;
+				if (fabs(phi) < 0.0174533) {
+					fluctuateYaw = 0;
+					phi = 0;
+					fluctuatePitch = 1;
+					pitchReached = 0;
+				}
 			}
-		}
+			else {
 
-		/* If the pitch isn't at target, move it */
-		else {
-			if (!pitchReached) {
-				phi = atan2f(magn[2], magn[0]) - refPhi1;
-				if (fabs(phi - declinationAngle * (float)0.0174533) < 0.0174533) {
-					originReached = 0;
-					originPitchReached = 0;
-					rightAscentionAngle = 0;
-					declinationAngle = 0;
+				/* If the yaw isn't at target, move it first */
+				if (!yawReached) {
+					theta = atan2f(magn[1], magn[0]) - refTheta;
+					phi = 0;
+					fluctuatePitch = 1;
+					if (fabs(theta - rightAscentionAngle * (float)0.0174533) < 0.0174533) {
+						fluctuatePitch = 0;
+						fluctuateYaw = 1;
+						phi = atan2f(magn[2], magn[0]) - refPhi1;
+						theta = rightAscentionAngle * (float)0.0174533;
+						yawReached = 1;
+					}
+				}
+
+				/* If the pitch isn't at target, move it */
+				else {
+					if (!pitchReached) {
+						theta = rightAscentionAngle * (float)0.0174533;
+						fluctuateYaw = 1;
+						phi = atan2f(magn[2], magn[0]) - refPhi1;
+						if (fabs(phi - declinationAngle * (float)0.0174533) < 0.0174533) {
+							pitchReached = 1;
+							targetReached = 1;
+						}
+					}
 				}
 			}
 		}
 	}
 	*yaw = theta;
-	*pitch = phi;
-	rcData[2] = theta * 57.2958;
-	rcData[3] = phi * 57.2958;
+	attitude.values.yaw = theta * (1800.0f / M_PIf);
+	*pitch = phi;	
+	attitude.values.pitch = phi * (1800.0f / M_PIf);
+	//rcData[2] = theta * 57.2958;
+	//rcData[3] = phi * 57.2958;
+	//rcData[7] = originReached;
+	//rcData[8] = targetReached;
+	//rcData[9] = pitchReached;
 }
 
 /* Functions to interface with Betaflight */
@@ -309,6 +326,9 @@ void resetControlProfile(controlProfile_t *controlProfile)
 	RESET_CONFIG(controlProfile_t, controlProfile,
 		.rA = 0.0,
 		.d = 0.0,
+		.rO = 0,
+		.cal = 0,
+		.sC = 0,
 		.kp = 0.556,
 		.ki = 0.0,
 		.kd = 0.028
@@ -326,6 +346,8 @@ void controlInitPosition(const controlProfile_t *controlProfile)
 {
 	rightAscentionAngle = controlProfile->rA;
 	declinationAngle = controlProfile->d;
+	targetReached = 0;
+	yawReached = 0;
 }
 
 void controlInitPID(const controlProfile_t *controlProfile)

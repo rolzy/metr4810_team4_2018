@@ -852,23 +852,6 @@ static bool mspProcessOutCommand(uint8_t cmdMSP, sbuf_t *dst)
         break;
 #endif
 
-	/* METR4810 Original FUNCTION*/
-	case MSP_HELLO:
-		sbufWriteU16(dst, 19959);
-		break;
-			
-	/* METR4810 Original FUNCTION */
-	case MSP_GET_ORIENTATION:
-		sbufWriteU16(dst, currentControlProfile->rA);
-		sbufWriteU16(dst, currentControlProfile->d);
-		break;
-
-	case MSP_GET_PID_METR:
-		sbufWriteU16(dst, currentControlProfile->kp);
-		sbufWriteU16(dst, currentControlProfile->ki);
-		sbufWriteU16(dst, currentControlProfile->kd);
-		break;
-
     case MSP_MOTOR:
         for (unsigned i = 0; i < 8; i++) {
             if (i >= MAX_SUPPORTED_MOTORS || !pwmGetMotors()[i].enabled) {
@@ -1446,18 +1429,39 @@ static mspResult_e mspProcessInCommand(uint8_t cmdMSP, sbuf_t *src)
 #endif
         break;
 
-	/* METR4810 ORIGINAL FUNCTION*/
+	/* METR4810 ORIGINAL FUNCTIONS*/
+	case MSP_START_CONTROL:
+		sbufReadU8(src);
+		currentControlProfile->sC = 1;
+		break;
+
 	case MSP_SET_ORIENTATION:
 		currentControlProfile->rA = (float)sbufReadU16(src)/10;
 		currentControlProfile->d = (float)sbufReadU16(src)/10;
+		if (currentControlProfile->rA > 5000) {
+			currentControlProfile->rA -= 6554;
+		}
+		if (currentControlProfile->d > 5000) {
+			currentControlProfile->d -= 6554;
+		}
 		controlInitPosition(currentControlProfile);
 		break;
 
 	case MSP_SET_PID_METR:
-		currentControlProfile->kp = (float)sbufReadU16(src) / 10;
-		currentControlProfile->ki = (float)sbufReadU16(src) / 10;
-		currentControlProfile->kd = (float)sbufReadU16(src) / 10;
+		currentControlProfile->kp = (float)sbufReadU16(src) / 100;
+		currentControlProfile->ki = (float)sbufReadU16(src) / 100;
+		currentControlProfile->kd = (float)sbufReadU16(src) / 100;
 		controlInitPID(currentControlProfile);
+		break;
+
+	case MSP_READ_ORIGIN:
+		sbufReadU8(src);
+		currentControlProfile->rO = 1;
+		break;
+
+	case MSP_CALIBRATE:
+		sbufReadU8(src);
+		currentControlProfile->cal = 1;
 		break;
 
     case MSP_SET_ACC_TRIM:
@@ -1748,8 +1752,7 @@ static mspResult_e mspProcessInCommand(uint8_t cmdMSP, sbuf_t *src)
         break;
 
     case MSP_MAG_CALIBRATION:
-        if (!ARMING_FLAG(ARMED))
-            ENABLE_STATE(CALIBRATE_MAG);
+        ENABLE_STATE(CALIBRATE_MAG);
         break;
 
     case MSP_EEPROM_WRITE:

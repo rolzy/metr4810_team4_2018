@@ -19,10 +19,6 @@ public:
 		std::cout << msp::msg::ImuSI(imu_raw, acc_1g, gyro_unit, magn_gain, si_unit_1g);
 	}
 
-	void onHello(const msp::msg::Hello& hello) {
-		std::cout << hello.message << std::endl;
-	}
-
 private:
 	const float acc_1g;
 	const float gyro_unit;

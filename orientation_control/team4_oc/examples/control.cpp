@@ -44,7 +44,6 @@ typedef struct config {
 CONFIGURATION configuration;
 
 fcu::FlightController g_fcu("/dev/ttyUSB0", 115200);
-msp::msg::GetOrientation orientation;
 MQTTClient client;
 
 char buf[20];
@@ -74,16 +73,8 @@ public:
 			"/status/Pos", &pubmsg, &token);
 	}
 
-	void onHello(const msp::msg::Hello& hello) {
-		std::cout << hello.message << std::endl;
-	}
-
 	void onRc(const msp::msg::Rc& rc) {
 		std::cout << rc << std::endl;
-	}
-
-	void onGetOrientation(const msp::msg::GetOrientation& getOrientation) {
-		//std::cout << "Right Ascention is " << getOrientation.rightAscention << " and the declination is " << getOrientation.declination << std::endl;
 	}
 
 private:
@@ -212,6 +203,7 @@ void process_serial(MQTTClient client, char* buf) {
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) {
 	int i;
 	double coords[2];
+	double pidConstants[3];
 	char *payloadptr, **ap, *token[2];
 	char *payloadCopy = strdup((char*)message->payload);
 
@@ -251,12 +243,54 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 			coords[i] = atof(token[i]) + 45;
 		}
 		g_fcu.setOrientation(coords[0]*10, coords[1]*10);
-
 	}
-	if(g_fcu.request(orientation,0.1)){
-		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention-45, orientation.declination-45);
-	} else {
-		perror("Error receiving orientation");
+	else if (strcmp(topicName, "/control/Pid") == 0) {
+		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
+			if (**ap != '\0') {
+				++ap;
+			}
+		}
+		*ap = NULL;
+		for (int i = 0; i<3; i++) {
+			pidConstants[i] = atof(token[i]);
+		}
+		g_fcu.setPID(pidConstants[0] * 100, pidConstants[1] * 100, pidConstants[2] * 100);
+	}
+	else if (strcmp(topicName, "/control/Start") == 0) {
+		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
+			if (**ap != '\0') {
+				++ap;
+			}
+		}
+		*ap = NULL;
+		g_fcu.startControl(1);
+	}
+	else if (strcmp(topicName, "/control/Calibrate") == 0) {
+		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
+			if (**ap != '\0') {
+				++ap;
+			}
+		}
+		*ap = NULL;
+		g_fcu.calibrate(1);
+	}
+	else if (strcmp(topicName, "/control/Read") == 0) {
+		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
+			if (**ap != '\0') {
+				++ap;
+			}
+		}
+		*ap = NULL;
+		g_fcu.readOrigin(1);
+	}
+	else if (strcmp(topicName, "/control/CalMag") == 0) {
+		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
+			if (**ap != '\0') {
+				++ap;
+			}
+		}
+		*ap = NULL;
+		g_fcu.calMag();
 	}
 	MQTTClient_freeMessage(&message);
 	MQTTClient_free(topicName);
@@ -378,13 +412,7 @@ void init_commands(config_t *cfg) {
 int main(int argc, char *argv[]) {
 	/* Operation Variables */
 	g_fcu.initialise();
-	g_fcu.setOrientation(200,200);
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
-	if(g_fcu.request(orientation,0.1)){
-		printf("Right ascention is %f and declination is %f\n", orientation.rightAscention-45, orientation.declination-45);
-	} else {
-		perror("Error receiving orientation");
-	}
 	char const* configFile = "Control.cfg";
 	config_t cfg;
 	config_init(&cfg);
@@ -404,8 +432,6 @@ int main(int argc, char *argv[]) {
 
 	init_mqtt(&client);
 	config_destroy(&cfg);
-
-	g_fcu.setOrientation(300,300);
 	g_fcu.subscribe(&App::onAttitude, &app, 0.5);
 	do
 	{
