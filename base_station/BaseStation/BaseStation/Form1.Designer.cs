@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-          this.components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -63,6 +63,16 @@
             this.tbGamma = new System.Windows.Forms.TrackBar();
             this.tvPhotos = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnCalMag = new System.Windows.Forms.Button();
+            this.btnRead = new System.Windows.Forms.Button();
+            this.btnCalibrate = new System.Windows.Forms.Button();
+            this.ckbStart = new System.Windows.Forms.CheckBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.btnPidPitch = new System.Windows.Forms.Button();
             this.btnPidYaw = new System.Windows.Forms.Button();
             this.tbxKdPitch = new System.Windows.Forms.TextBox();
@@ -78,8 +88,15 @@
             this.gbxSensors = new System.Windows.Forms.GroupBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ckbBurst = new System.Windows.Forms.CheckBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cbxAWB = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbxQuality = new System.Windows.Forms.ComboBox();
+            this.cbxISO = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.cbxExposure = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tbxSetPosY = new System.Windows.Forms.TextBox();
             this.btnSetPos = new System.Windows.Forms.Button();
@@ -118,23 +135,6 @@
             this.cbxPorts = new System.Windows.Forms.ComboBox();
             this.btnDSN = new System.Windows.Forms.Button();
             this.cbxUseDSN = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.ckbStart = new System.Windows.Forms.CheckBox();
-            this.btnCalibrate = new System.Windows.Forms.Button();
-            this.btnRead = new System.Windows.Forms.Button();
-            this.btnCalMag = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.cbxISO = new System.Windows.Forms.ComboBox();
-            this.cbxExposure = new System.Windows.Forms.ComboBox();
-            this.cbxQuality = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.ckbBurst = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbGamma)).BeginInit();
@@ -524,6 +524,111 @@
             this.tabPage2.Text = "PID Setings";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btnCalMag
+            // 
+            this.btnCalMag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCalMag.Location = new System.Drawing.Point(556, 367);
+            this.btnCalMag.Name = "btnCalMag";
+            this.btnCalMag.Size = new System.Drawing.Size(85, 23);
+            this.btnCalMag.TabIndex = 50;
+            this.btnCalMag.Text = "Magnetometer";
+            this.btnCalMag.UseVisualStyleBackColor = true;
+            this.btnCalMag.Click += new System.EventHandler(this.btnCalMag_Click);
+            // 
+            // btnRead
+            // 
+            this.btnRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRead.Location = new System.Drawing.Point(556, 338);
+            this.btnRead.Name = "btnRead";
+            this.btnRead.Size = new System.Drawing.Size(85, 23);
+            this.btnRead.TabIndex = 49;
+            this.btnRead.Text = "Read";
+            this.btnRead.UseVisualStyleBackColor = true;
+            this.btnRead.Click += new System.EventHandler(this.btnRead_Click);
+            // 
+            // btnCalibrate
+            // 
+            this.btnCalibrate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCalibrate.Location = new System.Drawing.Point(556, 309);
+            this.btnCalibrate.Name = "btnCalibrate";
+            this.btnCalibrate.Size = new System.Drawing.Size(85, 23);
+            this.btnCalibrate.TabIndex = 48;
+            this.btnCalibrate.Text = "Calibrate";
+            this.btnCalibrate.UseVisualStyleBackColor = true;
+            this.btnCalibrate.Click += new System.EventHandler(this.btnCalibrate_Click);
+            // 
+            // ckbStart
+            // 
+            this.ckbStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ckbStart.AutoSize = true;
+            this.ckbStart.Location = new System.Drawing.Point(556, 286);
+            this.ckbStart.Name = "ckbStart";
+            this.ckbStart.Size = new System.Drawing.Size(48, 17);
+            this.ckbStart.TabIndex = 47;
+            this.ckbStart.Text = "Start";
+            this.ckbStart.UseVisualStyleBackColor = true;
+            this.ckbStart.CheckedChanged += new System.EventHandler(this.ckbStart_CheckedChanged);
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(284, 377);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(23, 13);
+            this.label14.TabIndex = 46;
+            this.label14.Text = "Kd:";
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(152, 377);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(19, 13);
+            this.label13.TabIndex = 45;
+            this.label13.Text = "Ki:";
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 377);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(23, 13);
+            this.label12.TabIndex = 44;
+            this.label12.Text = "Kp:";
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(284, 345);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(23, 13);
+            this.label11.TabIndex = 43;
+            this.label11.Text = "Kd:";
+            // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(152, 345);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(19, 13);
+            this.label10.TabIndex = 42;
+            this.label10.Text = "Ki:";
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 345);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(23, 13);
+            this.label8.TabIndex = 41;
+            this.label8.Text = "Kp:";
+            // 
             // btnPidPitch
             // 
             this.btnPidPitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -672,7 +777,7 @@
             // 
             this.tabPage3.Controls.Add(this.ckbBurst);
             this.tabPage3.Controls.Add(this.label15);
-            this.tabPage3.Controls.Add(this.comboBox1);
+            this.tabPage3.Controls.Add(this.cbxAWB);
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.cbxQuality);
             this.tabPage3.Controls.Add(this.cbxISO);
@@ -685,6 +790,91 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera Config";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ckbBurst
+            // 
+            this.ckbBurst.AutoSize = true;
+            this.ckbBurst.Location = new System.Drawing.Point(50, 193);
+            this.ckbBurst.Name = "ckbBurst";
+            this.ckbBurst.Size = new System.Drawing.Size(80, 17);
+            this.ckbBurst.TabIndex = 9;
+            this.ckbBurst.Text = "Burst Mode";
+            this.ckbBurst.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(50, 156);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(80, 13);
+            this.label15.TabIndex = 8;
+            this.label15.Text = "White Balance:";
+            // 
+            // cbxAWB
+            // 
+            this.cbxAWB.FormattingEnabled = true;
+            this.cbxAWB.Items.AddRange(new object[] {
+            "Auto",
+            "Sun",
+            "Cloud",
+            "Shade",
+            "Tungsten",
+            "Fluorescent",
+            "Incandescent",
+            "Flash",
+            "Horizon"});
+            this.cbxAWB.Location = new System.Drawing.Point(153, 153);
+            this.cbxAWB.Margin = new System.Windows.Forms.Padding(2);
+            this.cbxAWB.Name = "cbxAWB";
+            this.cbxAWB.Size = new System.Drawing.Size(92, 21);
+            this.cbxAWB.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(50, 50);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(42, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Quality:";
+            // 
+            // cbxQuality
+            // 
+            this.cbxQuality.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbxQuality.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbxQuality.FormattingEnabled = true;
+            this.cbxQuality.Items.AddRange(new object[] {
+            "100",
+            "90",
+            "80",
+            "70",
+            "60",
+            "50",
+            "40"});
+            this.cbxQuality.Location = new System.Drawing.Point(153, 47);
+            this.cbxQuality.Margin = new System.Windows.Forms.Padding(2);
+            this.cbxQuality.Name = "cbxQuality";
+            this.cbxQuality.Size = new System.Drawing.Size(92, 21);
+            this.cbxQuality.TabIndex = 5;
+            // 
+            // cbxISO
+            // 
+            this.cbxISO.FormattingEnabled = true;
+            this.cbxISO.Items.AddRange(new object[] {
+            "40",
+            "60",
+            "80",
+            "100",
+            "200",
+            "500",
+            "800"});
+            this.cbxISO.Location = new System.Drawing.Point(153, 116);
+            this.cbxISO.Margin = new System.Windows.Forms.Padding(2);
+            this.cbxISO.Name = "cbxISO";
+            this.cbxISO.Size = new System.Drawing.Size(92, 21);
+            this.cbxISO.TabIndex = 4;
             // 
             // label6
             // 
@@ -705,6 +895,24 @@
             this.label5.Size = new System.Drawing.Size(84, 13);
             this.label5.TabIndex = 2;
             this.label5.Text = "Exposure Mode:";
+            // 
+            // cbxExposure
+            // 
+            this.cbxExposure.FormattingEnabled = true;
+            this.cbxExposure.Items.AddRange(new object[] {
+            "Auto",
+            "Night",
+            "Backlight",
+            "Spotlight",
+            "Sports",
+            "Snow",
+            "Beach",
+            "Antishake"});
+            this.cbxExposure.Location = new System.Drawing.Point(153, 82);
+            this.cbxExposure.Margin = new System.Windows.Forms.Padding(2);
+            this.cbxExposure.Name = "cbxExposure";
+            this.cbxExposure.Size = new System.Drawing.Size(92, 21);
+            this.cbxExposure.TabIndex = 0;
             // 
             // tabPage4
             // 
@@ -1139,214 +1347,6 @@
             this.cbxUseDSN.Text = "Use Dsn?";
             this.cbxUseDSN.UseVisualStyleBackColor = true;
             // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 345);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(23, 13);
-            this.label8.TabIndex = 41;
-            this.label8.Text = "Kp:";
-            // 
-            // label10
-            // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(152, 345);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 13);
-            this.label10.TabIndex = 42;
-            this.label10.Text = "Ki:";
-            // 
-            // label11
-            // 
-            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(284, 345);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(23, 13);
-            this.label11.TabIndex = 43;
-            this.label11.Text = "Kd:";
-            // 
-            // label12
-            // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 377);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(23, 13);
-            this.label12.TabIndex = 44;
-            this.label12.Text = "Kp:";
-            // 
-            // label13
-            // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(152, 377);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(19, 13);
-            this.label13.TabIndex = 45;
-            this.label13.Text = "Ki:";
-            // 
-            // label14
-            // 
-            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(284, 377);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(23, 13);
-            this.label14.TabIndex = 46;
-            this.label14.Text = "Kd:";
-            // 
-            // ckbStart
-            // 
-            this.ckbStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ckbStart.AutoSize = true;
-            this.ckbStart.Location = new System.Drawing.Point(556, 286);
-            this.ckbStart.Name = "ckbStart";
-            this.ckbStart.Size = new System.Drawing.Size(48, 17);
-            this.ckbStart.TabIndex = 47;
-            this.ckbStart.Text = "Start";
-            this.ckbStart.UseVisualStyleBackColor = true;
-            this.ckbStart.CheckedChanged += new System.EventHandler(this.ckbStart_CheckedChanged);
-            // 
-            // btnCalibrate
-            // 
-            this.btnCalibrate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCalibrate.Location = new System.Drawing.Point(556, 309);
-            this.btnCalibrate.Name = "btnCalibrate";
-            this.btnCalibrate.Size = new System.Drawing.Size(85, 23);
-            this.btnCalibrate.TabIndex = 48;
-            this.btnCalibrate.Text = "Calibrate";
-            this.btnCalibrate.UseVisualStyleBackColor = true;
-            this.btnCalibrate.Click += new System.EventHandler(this.btnCalibrate_Click);
-            // 
-            // btnRead
-            // 
-            this.btnRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRead.Location = new System.Drawing.Point(556, 338);
-            this.btnRead.Name = "btnRead";
-            this.btnRead.Size = new System.Drawing.Size(85, 23);
-            this.btnRead.TabIndex = 49;
-            this.btnRead.Text = "Read";
-            this.btnRead.UseVisualStyleBackColor = true;
-            this.btnRead.Click += new System.EventHandler(this.btnRead_Click);
-            // 
-            // btnCalMag
-            // 
-            this.btnCalMag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCalMag.Location = new System.Drawing.Point(556, 367);
-            this.btnCalMag.Name = "btnCalMag";
-            this.btnCalMag.Size = new System.Drawing.Size(85, 23);
-            this.btnCalMag.TabIndex = 50;
-            this.btnCalMag.Text = "Magnetometer";
-            this.btnCalMag.UseVisualStyleBackColor = true;
-            this.btnCalMag.Click += new System.EventHandler(this.btnCalMag_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(50, 50);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(42, 13);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Quality:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Auto",
-            "Sun",
-            "Cloud",
-            "Shade",
-            "Tungsten",
-            "Fluorescent",
-            "Incandescent",
-            "Flash",
-            "Horizon"});
-            this.comboBox1.Location = new System.Drawing.Point(153, 153);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(92, 21);
-            this.comboBox1.TabIndex = 7;
-            // 
-            // cbxISO
-            // 
-            this.cbxISO.FormattingEnabled = true;
-            this.cbxISO.Items.AddRange(new object[] {
-            "40",
-            "60",
-            "80",
-            "100",
-            "200",
-            "500",
-            "800"});
-            this.cbxISO.Location = new System.Drawing.Point(153, 116);
-            this.cbxISO.Margin = new System.Windows.Forms.Padding(2);
-            this.cbxISO.Name = "cbxISO";
-            this.cbxISO.Size = new System.Drawing.Size(92, 21);
-            this.cbxISO.TabIndex = 4;
-            // 
-            // cbxExposure
-            // 
-            this.cbxExposure.FormattingEnabled = true;
-            this.cbxExposure.Items.AddRange(new object[] {
-            "Auto",
-            "Night",
-            "Backlight",
-            "Spotlight",
-            "Sports",
-            "Snow",
-            "Beach",
-            "Antishake"});
-            this.cbxExposure.Location = new System.Drawing.Point(153, 82);
-            this.cbxExposure.Margin = new System.Windows.Forms.Padding(2);
-            this.cbxExposure.Name = "cbxExposure";
-            this.cbxExposure.Size = new System.Drawing.Size(92, 21);
-            this.cbxExposure.TabIndex = 0;
-            // 
-            // cbxQuality
-            // 
-            this.cbxQuality.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cbxQuality.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbxQuality.FormattingEnabled = true;
-            this.cbxQuality.Items.AddRange(new object[] {
-            "100",
-            "90",
-            "80",
-            "70",
-            "60",
-            "50",
-            "40"});
-            this.cbxQuality.Location = new System.Drawing.Point(153, 47);
-            this.cbxQuality.Margin = new System.Windows.Forms.Padding(2);
-            this.cbxQuality.Name = "cbxQuality";
-            this.cbxQuality.Size = new System.Drawing.Size(92, 21);
-            this.cbxQuality.TabIndex = 5;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(50, 156);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(80, 13);
-            this.label15.TabIndex = 8;
-            this.label15.Text = "White Balance:";
-            // 
-            // ckbBurst
-            // 
-            this.ckbBurst.AutoSize = true;
-            this.ckbBurst.Location = new System.Drawing.Point(50, 193);
-            this.ckbBurst.Name = "ckbBurst";
-            this.ckbBurst.Size = new System.Drawing.Size(80, 17);
-            this.ckbBurst.TabIndex = 9;
-            this.ckbBurst.Text = "Burst Mode";
-            this.ckbBurst.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1398,6 +1398,7 @@
             this.tabPage5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -1499,7 +1500,7 @@
         private System.Windows.Forms.Button btnRead;
         private System.Windows.Forms.Button btnCalibrate;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbxAWB;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cbxQuality;
         private System.Windows.Forms.ComboBox cbxISO;

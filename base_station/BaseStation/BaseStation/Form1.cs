@@ -630,10 +630,16 @@ namespace BaseStation
             sendMessage("/webserver/disable", "1");
             Thread.Sleep(500);
 
+
             string args = " -q " + cbxQuality.SelectedText;
             args += " -ISO " + cbxISO.SelectedText;
             args += " -ex " + cbxExposure.SelectedText;
             args += " -t 0";
+            args += " -awb "+cbxAWB.SelectedText;
+            if (ckbBurst.CheckState.ToString() == "Checked")
+            {
+                args += " -bm";
+            }
             args += " -n"; // no preview
             args += " -o /var/cam.jpg";
 
@@ -963,6 +969,5 @@ namespace BaseStation
         {
             sendMessage("/control/CalMag", "1");
         }
-
     }
 }
