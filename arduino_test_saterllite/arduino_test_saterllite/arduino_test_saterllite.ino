@@ -20,34 +20,30 @@
 
   http://www.arduino.cc/en/Tutorial/PhysicalPixel
 */
-
-struct RGB {
-  byte value[3];
-  byte pin[3];
-};
-
-struct RGB rgb1, rgb2;
-
-const int ledPin = 13; // the pin that the LED is attached to
+const int ledPin = 43; // the pin that the LED is attached to
 int incomingByte;      // a variable to read incoming serial data into
-
+int motors = 44; //PA0
+int pi = 15;//PB7
+int naze = 38;//PA6
+int led =  43;//PA1
 void setup() {
   // initialize serial communication:
-  Serial.begin(9600);
+  Serial1.begin(9600);
   // initialize the LED pin as an output:
   pinMode(ledPin, OUTPUT);
+  
+  pinMode(motors, OUTPUT);
+  pinMode(pi, OUTPUT);
+  pinMode(naze, OUTPUT);
+  pinMode(led, OUTPUT);
 
-  rgb2.pin[2] = 6;
-  rgb2.pin[1] = 7;
-  rgb2.pin[0] = 9;
-
-  rgb1.pin[0] = A0;
-  rgb1.pin[1] = A2;
-  rgb1.pin[2] = A3;
-  for (int i = 0; i < 3; i++) {
-    pinMode(rgb2.pin[i], OUTPUT);
-    pinMode(rgb1.pin[i], OUTPUT);
-  }
+  digitalWrite(led,HIGH);
+ 
+  digitalWrite(pi,LOW);
+  digitalWrite(naze,LOW);
+  delay(500);
+  digitalWrite(led,LOW);
+   digitalWrite(motors,HIGH);
 }
 
 unsigned long lastSendTime;
@@ -61,51 +57,29 @@ void loop() {
 
   if (millis() - lastSendTime >= intervel) {
     lastSendTime = millis();
-    Serial.print("hb:");
-    Serial.println(lastSendTime);
+    Serial1.print("hb:");
+    Serial1.println(lastSendTime);
   }
 
-  if (Serial.available() > 0) {
+  if (Serial1.available() > 0) {
     // read the oldest byte in the serial buffer:
-    readLine = Serial.readStringUntil('/n');
-    if (readLine.startsWith("led1")) {
-      payloadPosition =  readLine.indexOf(":");
-      // if it's a capital H (ASCII 72), turn on the LED:
-      if (readLine.charAt(payloadPosition + 1) == 'H') {
-        digitalWrite(ledPin, HIGH);
-      }
-      // if it's an L (ASCII 76) turn off the LED:
-      if (readLine.charAt(payloadPosition + 1) == 'L') {
-        digitalWrite(ledPin, LOW);
-      }
+    readLine = Serial1.readStringUntil('/n');
+    if (readLine.startsWith("p")) {
+        digitalWrite(pi,HIGH);
+        delay(1000);
+       digitalWrite(pi,LOW);
+       
     }
-
-    if (readLine.startsWith("rgb1")) {
-      payloadPosition =  readLine.indexOf(":");
-      // if it's a capital H (ASCII 72), turn on the LED:
-      for (int i = 0; i < 3; i++) {
-        if (readLine.charAt(payloadPosition + 1+ i) == 'H') {
-          digitalWrite(rgb1.pin[i], HIGH);
-        } else {
-          digitalWrite(rgb1.pin[i], LOW);
-        }
-      }
-
+    if (readLine.startsWith("c")) {
+         digitalWrite(motors,LOW);
+           digitalWrite(naze,HIGH);
+           delay(1000);
+           digitalWrite(naze,LOW);
+           delay(1000);
+           digitalWrite(motors,HIGH);
     }
-    
-    if (readLine.startsWith("rgb2")) {
-      payloadPosition =  readLine.indexOf(":");
-      // if it's a capital H (ASCII 72), turn on the LED:
-      for (int i = 0; i < 3; i++) {
-        if (readLine.charAt(payloadPosition +1 + i) == 'H') {
-          digitalWrite(rgb2.pin[i], HIGH);
-        } else {
-          digitalWrite(rgb2.pin[i], LOW);
-        }
-      }
-
     }
   }
-}
+
 
 

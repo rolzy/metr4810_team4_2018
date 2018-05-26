@@ -8,7 +8,7 @@ aggregator: aggregator.o
 	$(CC) $(CFLAGS) aggregator.o -o aggregator
 clean:
 	rm -f aggregator aggregator.o
-	rm /opt/tp/example.cfg /opt/tp/aggregator
+	rm /opt/tp/PowerController.cfg /opt/tp/aggregator
 	
 run: aggregator
 	./aggregator
@@ -24,7 +24,7 @@ libs:
 install:aggregator stopDaemons
 	mkdir -p /opt/tp/
 	cp aggregator /opt/tp/
-	cp example.cfg /opt/tp/
+	cp PowerController.cfg /opt/tp/
 
 	
 stopDaemons:

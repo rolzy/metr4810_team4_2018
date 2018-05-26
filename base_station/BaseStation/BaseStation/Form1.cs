@@ -123,10 +123,30 @@ namespace BaseStation
         delegate void setTextCallback(object obj, string text);
         delegate void setTrackBarCallback(object obj, int text);
         delegate void appendTextCallback(object obj, string text);
+        delegate void setcheckboxCallback(object obj, bool value);
         delegate void addControlCallback(Control obj);
 
         delegate void AddnodeTreeviewCallback(string name);
 
+        private void setcheckbox(object obj, bool value)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.InvokeRequired)
+            {
+                setcheckboxCallback d = new setcheckboxCallback(setcheckbox);
+                this.Invoke(d, new object[] { obj, value });
+            }
+            else
+            {
+
+                if (obj is CheckBox cbx)
+                {
+                    cbx.Checked = value;
+                }
+            }
+        }
 
 
         private void appendText(object obj ,string text)
@@ -372,6 +392,7 @@ namespace BaseStation
 
             string topicGraph = "/graph";
             string topicStatus = "/status";
+            string topicLastWill = "/lastWill";
 
             if (e.Topic.StartsWith("/pic"))
             {
@@ -463,7 +484,7 @@ namespace BaseStation
 
 
             }
-            else if (e.Topic.StartsWith(topicStatus))
+            else if (e.Topic.StartsWith(topicStatus) || e.Topic.StartsWith(topicLastWill))
             {
 
                 string name = e.Topic.Substring(topicStatus.Length + 1); //"/" char
@@ -471,8 +492,32 @@ namespace BaseStation
 
                 switch (name)
                 {
-                    case "bat":
+                    case "batV":
                         setText(lblBatVoltage, name + ": " + message);
+                        break;
+                    case "conS":
+                        setText(rtbSubscribe, name + ": " + message);
+                        if (message == "1")
+                        {
+                            setcheckbox(cbxControl, true);
+
+                        } else if(message == "0" )
+                        {
+                            setcheckbox( cbxControl,false);
+                        }
+
+                        break;
+                    case "pis":
+                        setText(rtbSubscribe, name + ": " + message);
+                        if (message == "1")
+                        {
+                            setcheckbox (cbxPiStatus.Checked , true);
+
+                        }
+                        else if (message == "0")
+                        {
+                            setcheckbox( cbxPiStatus.Checked , false);
+                        }
                         break;
                     case "Pos":
                         var split = message.Split(':');
@@ -582,12 +627,12 @@ namespace BaseStation
 
         private void btnLedOn_Click(object sender, EventArgs e)
         {
-            sendMessage("/arduino/led1","H");
+            sendMessage("/powersys/pic", "1");
         }
 
         private void btnLedOff_Click(object sender, EventArgs e)
         {
-            sendMessage("/arduino/led1","L");
+            sendMessage("/powersys/conc", "1");
         }
 
         private void rtbSubscribe_TextChanged(object sender, EventArgs e)
@@ -598,23 +643,7 @@ namespace BaseStation
             }
         }
 
-        private void rgb1_payload(object sender, EventArgs e)
-        {
-            string payload = cbxRGB1R.Checked ? "H" : "L";
-            payload += cbxRGB1G.Checked ? "H" : "L";
-            payload += cbxRGB1B.Checked ? "H" : "L";
 
-            sendMessage("/arduino/rgb1", payload);
-        }
-
-
-        private void rgb2_payload(object sender, EventArgs e)
-        {
-            string payload = cbxRGB2R.Checked ? "H" : "L";
-            payload += cbxRGB2G.Checked ? "H" : "L";
-            payload += cbxRGB2B.Checked ? "H" : "L";
-            sendMessage("/arduino/rgb2", payload);
-        }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
