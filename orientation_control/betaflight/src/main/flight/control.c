@@ -53,6 +53,7 @@ int fluctuateYaw, fluctuatePitch = 0;						// Flags that control
 float refTheta, refPhi1;									// Variables that store reference angles
 float magn[3], magReference[3];								// Array to store magnetometer measurement
 
+/* Return the norm of a vector with 'nRows' rows */
 float norm(int nRows, float vect_A[nRows])
 {
 	float norm = 0;
@@ -64,6 +65,7 @@ float norm(int nRows, float vect_A[nRows])
 	return sqrt(norm);
 }
 
+/* Function to read the magnetometer and use it as a reference (origin) */
 void readOrigin()
 {
 	for (int i = 0; i < 3; i++) {
@@ -87,6 +89,8 @@ void calibrate()
 
 }
 
+/* Struct constructor */
+/* Create PID struct and define pointers for input, output and setpoint */
 pid_t pid_create(pid_t pid, float* in, float* out, float* set)
 {
 	pid->input = in;
@@ -107,34 +111,33 @@ pid_t pid_create(pid_t pid, float* in, float* out, float* set)
 	return pid;
 }
 
+/* Return true if sample time elapsed from last iteration */
 bool pid_need_compute(pid_t pid)
 {
-	// Check if the PID period has elapsed
 	return(millis() - pid->lastTime >= pid->sampleTime) ? true : false;
 }
 
+/* Main PID function */
 void computePID(pid_t pid)
 {
-
 	/* If the PID is in manual mode, skip computation*/
 	if (!pid->automode)
 		return false;
 
-
 	float currAng = *(pid->input);
-	float gain = 30.826;                                   /* Gain of the system */
-	float error = ((*(pid->setpoint)) - currAng) * gain;   /* Find the difference between setpoint and current angle */
+	float gain = 30.826;														// Gain of the system 
+	float error = ((*(pid->setpoint)) - currAng) * gain;						// Find the difference between setpoint and current angle 
 
-	pid->integral += (pid->Ki * error);                                 /* Add to accumulative integral term */
-	if (pid->integral > pid->outMax) pid->integral = pid->outMax;       /* If the integral term is above the allowed output range, clamp it */
-	else if (pid->integral < pid->outMin) pid->integral = pid->outMin;  /* If the integral term is below the allowed output range, clamp it */
+	pid->integral += (pid->Ki * error);											// Add to accumulative integral term 
+	if (pid->integral > pid->outMax) pid->integral = pid->outMax;				// If the integral term is above the allowed output range, clamp it 
+	else if (pid->integral < pid->outMin) pid->integral = pid->outMin;			// If the integral term is below the allowed output range, clamp it 
 	
-	float deltaInput = currAng - pid->lastInput;   /* Rate of change of desired angle */
+	float deltaInput = currAng - pid->lastInput;								// Rate of change of desired angle
 													 
 	/* Compute PID output */
-	float Output = pid->Kp * error + pid->integral - pid->Kd * deltaInput;         /* Calculate output term */
-	if (Output > pid->outMax) Output = pid->outMax;                                /* If the output term is above the allowed output range, clamp it */
-	else if (Output < pid->outMin) Output = pid->outMin;                           /* If the output term is below the allowed output range, clamp it */
+	float Output = pid->Kp * error + pid->integral - pid->Kd * deltaInput;		// Calculate output term 
+	if (Output > pid->outMax) Output = pid->outMax;                             // If the output term is above the allowed output range, clamp it 
+	else if (Output < pid->outMin) Output = pid->outMin;                        // If the output term is below the allowed output range, clamp it 
 
 	/* Store variables for next iteration */
 	(*pid->output) = Output;
@@ -142,16 +145,19 @@ void computePID(pid_t pid)
 	pid->lastTime = millis();
 }
 
+/* Function to update the motor values, using the required torque */
 void computePPM(double in, int num) 
 {
 	if (num == 0 && fluctuateYaw) {
-		rcData[num] = 1460;
-		motor_disarmed[num] = 1460;
+		rcData[num] = 1500;
+		motor[num] = 1500;
+		motor_disarmed[num] = 1500;
 		return;
 	}
 	else if (num == 1 && fluctuatePitch) {
-		rcData[num] = 1460;
-		motor_disarmed[num] = 1460;
+		rcData[num] = 1500;
+		motor[num] = 1500;
+		motor_disarmed[num] = 1500;
 		return;
 	}
 
@@ -168,6 +174,7 @@ void computePPM(double in, int num)
 	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
 	else if (req_PPM < 1000) req_PPM = 1000;
 	rcData[num] = req_PPM;
+	motor[num] = req_PPM;
 	motor_disarmed[num] = req_PPM;
 }
 
@@ -178,8 +185,8 @@ void tunePID(pid_t pid)
 	if (kp<0 || ki<0 || kd<0) return;
 
 	pid->Kp = kp;
-	pid->Ki = ki * ((float)pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
-	pid->Kd = kd / ((float)pid->sampleTime / 1000);  /* Calculate the mathematical equivalent incorporating the sample time*/
+	pid->Ki = ki * ((float)pid->sampleTime / 1000);  // Calculate the mathematical equivalent incorporating the sample time
+	pid->Kd = kd / ((float)pid->sampleTime / 1000);  // Calculate the mathematical equivalent incorporating the sample time
 }
 
 /* Function to set output limits */
@@ -190,6 +197,7 @@ void setOutputLimits(pid_t pid, float Min, float Max)
 	pid->outMax = Max;
 }
 
+/* Function to set direction of the PID controller */
 void setDirection(pid_t pid, enum pid_control_directions dir)
 {
 	if (pid->direction != dir) {
@@ -200,6 +208,7 @@ void setDirection(pid_t pid, enum pid_control_directions dir)
 	pid->direction = dir;
 }
 
+/* Function to toggle the controller on */
 void setAuto(pid_t pid)
 {
 	if (!pid->automode) {
@@ -213,6 +222,7 @@ void setAuto(pid_t pid)
 	}
 }
 
+/* Function to toggle the controller off */
 void setManual(pid_t pid)
 {
 	pid->automode = false;

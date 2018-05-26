@@ -62,7 +62,7 @@ public:
 
 	void onAttitude(const msp::msg::Attitude& attitude) {
 		//std::cout << "Right Ascention is " << attitude.heading - 180 << " and the declination is " << attitude.ang_y << std::endl;
-		sprintf(buf, "%d:%d", attitude.heading-180, (int)attitude.ang_y*10); 
+		sprintf(buf, "%d:%d", attitude.heading, attitude.ang_y); 
 		MQTTClient_message pubmsg = MQTTClient_message_initializer;
 		MQTTClient_deliveryToken token;
 		pubmsg.payload = buf;
@@ -232,6 +232,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 	}
 	putchar('\n');
 
+	/* Act accordingly for different messages */
+
 	if (strcmp(topicName, "/control/Pos") == 0) {
 		for(ap=token; (*ap = strsep(&payloadCopy,":")) != NULL;) {
 			if (**ap != '\0') {
@@ -257,39 +259,15 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 		g_fcu.setPID(pidConstants[0] * 100, pidConstants[1] * 100, pidConstants[2] * 100);
 	}
 	else if (strcmp(topicName, "/control/Start") == 0) {
-		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
-			if (**ap != '\0') {
-				++ap;
-			}
-		}
-		*ap = NULL;
 		g_fcu.startControl(1);
 	}
 	else if (strcmp(topicName, "/control/Calibrate") == 0) {
-		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
-			if (**ap != '\0') {
-				++ap;
-			}
-		}
-		*ap = NULL;
 		g_fcu.calibrate(1);
 	}
 	else if (strcmp(topicName, "/control/Read") == 0) {
-		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
-			if (**ap != '\0') {
-				++ap;
-			}
-		}
-		*ap = NULL;
 		g_fcu.readOrigin(1);
 	}
 	else if (strcmp(topicName, "/control/CalMag") == 0) {
-		for (ap = token; (*ap = strsep(&payloadCopy, ":")) != NULL;) {
-			if (**ap != '\0') {
-				++ap;
-			}
-		}
-		*ap = NULL;
 		g_fcu.calMag();
 	}
 	MQTTClient_freeMessage(&message);

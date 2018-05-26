@@ -499,7 +499,7 @@ void mixerResetDisarmedMotors(void)
 void writeMotors(void)
 {
     if (pwmAreMotorsEnabled()) {
-        for (int i = 0; i < motorCount; i++) {
+        for (int i = 0; i < 4; i++) {
             pwmWriteMotor(i, motor[i]);
         }
         pwmCompleteMotorUpdate(motorCount);

@@ -394,6 +394,7 @@ void init(void)
     mixerConfigureOutput();
 
     uint16_t idlePulse = motorConfig()->mincommand;
+	featureSet(FEATURE_3D);
     if (feature(FEATURE_3D)) {
         idlePulse = flight3DConfig()->neutral3d;
     }

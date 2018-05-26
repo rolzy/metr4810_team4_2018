@@ -941,18 +941,18 @@ void taskMainPidLoop(timeUs_t currentTimeUs)
     // 2 - subTaskMotorUpdate()
     // 3 - subTaskMainSubprocesses()
     gyroUpdate(currentTimeUs);
+	subTaskMotorUpdate(currentTimeUs);
     DEBUG_SET(DEBUG_PIDLOOP, 0, micros() - currentTimeUs);
 
-    if (pidUpdateCounter++ % pidConfig()->pid_process_denom == 0) {
-        subTaskPidController(currentTimeUs);
-        subTaskMotorUpdate(currentTimeUs);
-        subTaskMainSubprocesses(currentTimeUs);
-    }
+    //if (pidUpdateCounter++ % pidConfig()->pid_process_denom == 0) {
+    //    subTaskPidController(currentTimeUs);
+    //    subTaskMainSubprocesses(currentTimeUs);
+    //}
 
-    if (debugMode == DEBUG_CYCLETIME) {
-        debug[0] = getTaskDeltaTime(TASK_SELF);
-        debug[1] = averageSystemLoadPercent;
-    }
+    //if (debugMode == DEBUG_CYCLETIME) {
+    //    debug[0] = getTaskDeltaTime(TASK_SELF);
+    //    debug[1] = averageSystemLoadPercent;
+    //}
 }
 
 

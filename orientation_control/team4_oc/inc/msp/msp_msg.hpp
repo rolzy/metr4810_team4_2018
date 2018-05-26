@@ -473,12 +473,12 @@ struct Attitude : public Request {
     ID id() const { return ID::MSP_ATTITUDE; }
 
     float ang_x;        // degree
-    float ang_y;        // degree
+    int16_t ang_y;        // degree
     int16_t heading;    // degree
 
     void decode(const std::vector<uint8_t> &data) {
         ang_x   = deserialise_int16(data, 0)/10.0f;
-        ang_y   = deserialise_int16(data, 2)/10.0f;
+        ang_y   = deserialise_int16(data, 2);
         heading = deserialise_int16(data, 4);
     }
 };

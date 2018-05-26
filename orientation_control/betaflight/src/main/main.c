@@ -24,10 +24,13 @@
 
 #include "fc/config.h"
 #include "fc/fc_init.h"
+#include "fc/runtime_config.h"
 
 #include "flight/control.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
+
+#include "io/beeper.h"
 
 #include "rx/rx.h"
 
@@ -74,7 +77,10 @@ int main(void)
 
 		if (!currentControlProfile->sC) {
 			rcData[0] = 1500;
+			motor[0] = 1500;
+			motor_disarmed[0] = 1500;
 			rcData[1] = 1500;
+			motor_disarmed[1] = 1500;
 			continue;
 		}
 
