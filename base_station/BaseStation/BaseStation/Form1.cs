@@ -31,29 +31,28 @@ namespace BaseStation
  
     public partial class Form1 : Form
     {
-        //  MqttClient client;
-
         public struct Sensor
         {
-            public CheckBox enabled;
+            // initialise the attributes of the sensor struct
+            public CheckBox enabled;        
             public TextBox scale;
             public Queue<PointF> data;
             public Label topic;
 
         }
+        // initialise a private list to contain sensor readings for graphing
         private LinkedList<Sensor> sensors = new LinkedList<Sensor>();
-
 
         public Form1()
         {
-
             InitializeComponent();
 
+            // clear the chart at initialisation
             chart1.Series.Clear();
 
-            chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
-            chart1.ChartAreas[0].AxisY2.Title = "Temp";
-            chart1.ChartAreas[0].AxisY2.Maximum = 100;
+            chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True; // enable the chart axis
+            chart1.ChartAreas[0].AxisY2.Title = "Temp";             // assign an axis title
+            chart1.ChartAreas[0].AxisY2.Maximum = 100;              // assign axis maximums
 
             string[] drives = Environment.GetLogicalDrives();
 
