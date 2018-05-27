@@ -50,7 +50,7 @@ int targetReached = 0;										// Flag that trigger when target is reached
 int originReached, originPitchReached = 0;					// Flags that trigger when origin is reached
 int yawReached, pitchReached = 0;							// Flags that trigger when target is reached
 int fluctuateYaw, fluctuatePitch = 0;						// Flags that control 
-float refTheta, refPhi1;									// Variables that store reference angles
+float refTheta, refPhi, refPsi;							// Variables that store reference angles
 float magn[3], magReference[3];								// Array to store magnetometer measurement
 
 /* Return the norm of a vector with 'nRows' rows */
@@ -81,12 +81,13 @@ void readOrigin()
 
 	/* Store reference angle values */
 	refTheta = atan2(magReference[1], magReference[0]);
-	refPhi1 = atan2(magReference[2], magReference[0]);
+	refPhi = atan2(magReference[2], magReference[0]);
+	refPsi = atan2(magReference[2], magReference[1]);
 }
 
 void calibrate()
 {
-
+	
 }
 
 /* Struct constructor */
@@ -149,14 +150,14 @@ void computePID(pid_t pid)
 void computePPM(double in, int num) 
 {
 	if (num == 0 && fluctuateYaw) {
-		rcData[num] = 1500;
-		motor[num] = 1500;
+		//rcData[num] = 1500;
+		//motor[num] = 1500;
 		motor_disarmed[num] = 1500;
 		return;
 	}
 	else if (num == 1 && fluctuatePitch) {
-		rcData[num] = 1500;
-		motor[num] = 1500;
+		//rcData[num] = 1500;
+		//motor[num] = 1500;
 		motor_disarmed[num] = 1500;
 		return;
 	}
@@ -173,8 +174,8 @@ void computePPM(double in, int num)
 	int req_PPM = 1500 + (req_RPM / 10);
 	if (req_PPM > 2000) req_PPM = 2000;                                /* If the output term is above the allowed output range, clamp it */
 	else if (req_PPM < 1000) req_PPM = 1000;
-	rcData[num] = req_PPM;
-	motor[num] = req_PPM;
+	//rcData[num] = req_PPM;
+	//motor[num] = req_PPM;
 	motor_disarmed[num] = req_PPM;
 }
 
@@ -248,7 +249,7 @@ void computeAttitude(float *yaw, float *pitch)
 		if (!originPitchReached) {
 			theta = atan2f(magn[1], magn[0]) - refTheta;
 			fluctuateYaw = 1;
-			phi = atan2f(magn[2], magn[0]) - refPhi1;
+			phi = atan2f(magn[2], magn[0]) - refPhi;
 			if (fabs(phi) < 0.0174533) {
 				fluctuateYaw = 0;
 				phi = 0;
@@ -278,7 +279,7 @@ void computeAttitude(float *yaw, float *pitch)
 			if (pitchReached) {
 				theta = atan2f(magn[1], magn[0]) - refTheta;
 				fluctuateYaw = 1;
-				phi = atan2f(magn[2], magn[0]) - refPhi1;
+				phi = atan2f(magn[2], magn[0]) - refPhi;
 				if (fabs(phi) < 0.0174533) {
 					fluctuateYaw = 0;
 					phi = 0;
@@ -296,7 +297,7 @@ void computeAttitude(float *yaw, float *pitch)
 					if (fabs(theta - rightAscentionAngle * (float)0.0174533) < 0.0174533) {
 						fluctuatePitch = 0;
 						fluctuateYaw = 1;
-						phi = atan2f(magn[2], magn[0]) - refPhi1;
+						phi = atan2f(magn[2], magn[0]) - refPhi;
 						theta = rightAscentionAngle * (float)0.0174533;
 						yawReached = 1;
 					}
@@ -307,7 +308,7 @@ void computeAttitude(float *yaw, float *pitch)
 					if (!pitchReached) {
 						theta = rightAscentionAngle * (float)0.0174533;
 						fluctuateYaw = 1;
-						phi = atan2f(magn[2], magn[0]) - refPhi1;
+						phi = atan2f(magn[2], magn[0]) - refPhi;
 						if (fabs(phi - declinationAngle * (float)0.0174533) < 0.0174533) {
 							pitchReached = 1;
 							targetReached = 1;
@@ -318,9 +319,9 @@ void computeAttitude(float *yaw, float *pitch)
 		}
 	}
 	*yaw = theta;
-	attitude.values.yaw = theta * (1800.0f / M_PIf);
+	//attitude.values.yaw = theta * (1800.0f / M_PIf);
 	*pitch = phi;	
-	attitude.values.pitch = phi * (1800.0f / M_PIf);
+	//attitude.values.pitch = phi * (1800.0f / M_PIf);
 	//rcData[2] = theta * 57.2958;
 	//rcData[3] = phi * 57.2958;
 	//rcData[7] = originReached;

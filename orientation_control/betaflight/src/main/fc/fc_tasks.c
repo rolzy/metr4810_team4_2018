@@ -248,7 +248,7 @@ void fcTasksInit(void)
     if (sensors(SENSOR_ACC)) {
         //setTaskEnabled(TASK_ACCEL, true);
         //rescheduleTask(TASK_ACCEL, acc.accSamplingInterval);
-        //setTaskEnabled(TASK_ATTITUDE, true);
+        setTaskEnabled(TASK_ATTITUDE, true);
     }
 
     setTaskEnabled(TASK_RX, true);

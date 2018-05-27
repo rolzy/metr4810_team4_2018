@@ -871,7 +871,7 @@ static bool mspProcessOutCommand(uint8_t cmdMSP, sbuf_t *dst)
 
     case MSP_ATTITUDE:
         sbufWriteU16(dst, attitude.values.roll);
-        sbufWriteU16(dst, attitude.values.pitch);
+        sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(attitude.values.pitch));
         sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(attitude.values.yaw));
         break;
 

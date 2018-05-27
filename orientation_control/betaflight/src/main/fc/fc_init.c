@@ -390,11 +390,12 @@ void init(void)
     serialInit(feature(FEATURE_SOFTSERIAL), SERIAL_PORT_NONE);
 #endif
 
+	featureSet(FEATURE_3D);
+
     mixerInit(mixerConfig()->mixerMode);
     mixerConfigureOutput();
 
     uint16_t idlePulse = motorConfig()->mincommand;
-	featureSet(FEATURE_3D);
     if (feature(FEATURE_3D)) {
         idlePulse = flight3DConfig()->neutral3d;
     }

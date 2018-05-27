@@ -472,17 +472,10 @@ static void imuCalculateEstimatedAttitude(timeUs_t currentTimeUs)
 
 void imuUpdateAttitude(timeUs_t currentTimeUs)
 {
+	IMU_LOCK;
+	imuCalculateEstimatedAttitude(currentTimeUs);
+	IMU_UNLOCK;
     if (sensors(SENSOR_ACC) && acc.isAccelUpdatedAtLeastOnce) {
-        IMU_LOCK;
-#if defined(SIMULATOR_BUILD) && defined(SIMULATOR_IMU_SYNC)
-        if (imuUpdated == false) {
-            IMU_UNLOCK;
-            return;
-        }
-        imuUpdated = false;
-#endif
-        imuCalculateEstimatedAttitude(currentTimeUs);
-        IMU_UNLOCK;
     } else {
         acc.accADC[X] = 0;
         acc.accADC[Y] = 0;
