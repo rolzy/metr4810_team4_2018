@@ -241,8 +241,8 @@ void fcTasksInit(void)
     setTaskEnabled(TASK_OSD_SLAVE, true);
 #else
     if (sensors(SENSOR_GYRO)) {
-        //rescheduleTask(TASK_GYROPID, gyro.targetLooptime);
-        //setTaskEnabled(TASK_GYROPID, true);
+        rescheduleTask(TASK_GYROPID, gyro.targetLooptime);
+        setTaskEnabled(TASK_GYROPID, true);
     }
 
     if (sensors(SENSOR_ACC)) {
