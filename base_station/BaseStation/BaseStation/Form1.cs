@@ -67,6 +67,11 @@ namespace BaseStation
 
             tbGamma.Minimum = 5;
             tbGamma.Maximum = 50;
+
+            cbxQuality.SelectedIndex = 0;
+            cbxExposure.SelectedIndex = 0;
+            cbxISO.SelectedIndex = 6;
+            cbxAWB.SelectedIndex = 0;
         }
 
         Mat imgShow;
@@ -665,10 +670,6 @@ namespace BaseStation
             args += " -ex " + cbxExposure.SelectedText;
             args += " -t 0";
             args += " -awb "+cbxAWB.SelectedText;
-            if (ckbBurst.CheckState.ToString() == "Checked")
-            {
-                args += " -bm";
-            }
             args += " -n"; // no preview
             args += " -o /var/cam.jpg";
 
