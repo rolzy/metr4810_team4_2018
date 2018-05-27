@@ -674,7 +674,7 @@ namespace BaseStation
 
 
             sendMessage("/camera/takePhoto", args);
-            Thread.Sleep(100);
+            Thread.Sleep(200);
             sendMessage("/webserver/enable", "1");
         }
 
