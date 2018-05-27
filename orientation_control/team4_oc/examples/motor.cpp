@@ -73,13 +73,13 @@ int main(int argc, char *argv[]) {
 	fcu.initialise();
 
 	App app("MultiWii", 512.0, 1.0 / 4.096, 0.92f / 10.0f, 9.80665f);
-	fcu.subscribe(&App::onRc, &app, 0.1);
-	//fcu.subscribe(&App::onAttitude, &app, 0.1);
+	//fcu.subscribe(&App::onRc, &app, 0.1);
+	fcu.subscribe(&App::onAttitude, &app, 0.1);
 
 	while (true) {
 		/* If user prompts, change setpoint */
 		if (_kbhit()) {
-			fcu.unsubscribe(msp::ID::MSP_RC);
+			fcu.unsubscribe(msp::ID::MSP_ATTITUDE);
 			char Choice;
 			std::cout << "Enter a key (1-5)... " << std::endl;
 			std::cout << "1 = Start control " << std::endl;
@@ -152,8 +152,8 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 			}
-			fcu.subscribe(&App::onRc, &app, 0.1);
-			//fcu.subscribe(&App::onAttitude, &app, 0.1);
+			//fcu.subscribe(&App::onRc, &app, 0.1);
+			fcu.subscribe(&App::onAttitude, &app, 0.1);
 		}
 	}
 }

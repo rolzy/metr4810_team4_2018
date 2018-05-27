@@ -17,7 +17,7 @@ int magSet = 0;
 int yawReached = 0;
 int pitchReached = 0;
 int goalReached = 0;
-float gyro_heading, magZeroLength, phiBias, refTheta, refPhi1, refPhi2, theta, phi, targetTheta, targetPhi;
+float gyro_heading, magZeroLength, phiBias, refTheta, refPhi1, refPhi2, theta, phi, psi, targetTheta, targetPhi, refRoll;
 std::array<float, 3> mag, magZero;
 std::array<float, 3> why = { 0,1,0 };
 std::array<float, 3> zed = { 0,0,1 };
@@ -255,9 +255,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	if (magSet == 0) {
-		magZero[0] = 333;
-		magZero[1] = 71; 
-		magZero[2] = 201;
+		magZero = mag;
 		magZeroLength = sqrt(magZero[0] * magZero[0] + magZero[1] * magZero[1] + magZero[2] * magZero[2]);
 		magZero[0] = magZero[0] / magZeroLength;
 		magZero[1] = magZero[1] / magZeroLength;
@@ -265,8 +263,8 @@ int main(int argc, char *argv[]) {
 		refTheta = atan2(magZero[1], magZero[0]);
 		refPhi1 = atan2(magZero[2], magZero[0]);
 		refPhi2 = atan2(magZero[2], sqrt(pow(magZero[0], 2) + pow(magZero[1], 2)));
+		refRoll = atan2(magZero[2], magZero[1]);
 		magSet = 1;
-		std::cout << "Roll is " << (atan2(mag[2], mag[1]) * 57.2958) - 90 << std::endl;
 	}
 
     App app("MultiWii", 512.0, 0.06106870229, 0.92f/10.0f, 9.80665f);
@@ -281,6 +279,9 @@ int main(int argc, char *argv[]) {
 				mag[i] = -1 * (5000 - imu_raw.magn[i]);
 			}
 		}
+
+		psi = atan2(mag[2], mag[1]) * 57.2958;
+		std::cout << "Roll is " << psi - refRoll << std::endl;
 
 		std::cout << mag[0] << " " << mag[1] << " " << mag[2] << std::endl;
 		float magLength = sqrt(mag[0] * mag[0] + mag[1] * mag[1] + mag[2] * mag[2]);

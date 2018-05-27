@@ -76,10 +76,11 @@ int main(void)
 		}
 
 		if (!currentControlProfile->sC) {
-			rcData[0] = 1500;
-			motor[0] = 1500;
+			//rcData[0] = 1500;
+			//motor[0] = 1500;
 			motor_disarmed[0] = 1500;
-			rcData[1] = 1500;
+			//rcData[1] = 1500;
+			//motor[1] = 1500;
 			motor_disarmed[1] = 1500;
 			continue;
 		}
