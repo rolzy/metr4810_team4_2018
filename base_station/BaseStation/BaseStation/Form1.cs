@@ -660,15 +660,11 @@ namespace BaseStation
             Thread.Sleep(500);
 
 
-            string args = " -q " + cbxQuality.SelectedText;
-            args += " -ISO " + cbxISO.SelectedText;
-            args += " -ex " + cbxExposure.SelectedText;
+            string args = "-q " + cbxQuality.Text;
+            args += " -ISO " + cbxISO.Text;
+            args += " -ex " + cbxExposure.Text;
             args += " -t 0";
-            args += " -awb "+cbxAWB.SelectedText;
-            if (ckbBurst.CheckState.ToString() == "Checked")
-            {
-                args += " -bm";
-            }
+            args += " -awb "+cbxAWB.Text;
             args += " -n"; // no preview
             args += " -o /var/cam.jpg";
 

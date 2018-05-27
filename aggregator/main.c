@@ -190,11 +190,11 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 			if (strcmp(configuration.execs[i]->MQTT_Topic , topicName) == 0) {
 				char inBuf[100];
 				stpcpy(inBuf,configuration.execs[i]->filePath);
-				strcat(inBuf, message);
+				strcat(inBuf, " ");
+				strcat(inBuf, message->payload);
 				
 				char *argv[100];
 				int argc = 0;
-
 				char *str = strtok (inBuf, " ");
 				while (str != NULL) {
 					argv[argc++] = myStrDup(str);
