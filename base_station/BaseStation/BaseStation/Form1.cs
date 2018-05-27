@@ -189,8 +189,12 @@ namespace BaseStation
 
                 if (obj is TrackBar trackBar)
                 {
+                    value = Math.Min(value, trackBar.Maximum);
+                    value = Math.Max(value, trackBar.Minimum);
+
                     trackBar.Value= value;
                 }
+
             }
         }
 
@@ -523,11 +527,18 @@ namespace BaseStation
                         var split = message.Split(':');
                         if (split.Length >= 2)
                         {
+                            
                             setText(lblCurrentPitch, "Current Pitch: " + split[0]);
                             setText(lblCurrentRoll, "Current Roll: " + split[1]);
-                            setTrackbar( tbCurrentX ,int.Parse(split[0]));
-                            setTrackbar(tbCurrentY, int.Parse(split[1]));
- 
+                            try
+                            {
+                                setTrackbar(tbCurrentX, int.Parse(split[0]));
+                                setTrackbar(tbCurrentY, int.Parse(split[1]));
+                            }
+                            catch
+                            {
+
+                            }
                         }
                         if (split.Length == 3)
                         {
@@ -663,7 +674,7 @@ namespace BaseStation
             string args = "-q " + cbxQuality.Text;
             args += " -ISO " + cbxISO.Text;
             args += " -ex " + cbxExposure.Text;
-            args += " -t 0";
+            args += " -t 1";
             args += " -awb "+cbxAWB.Text;
             args += " -n"; // no preview
             args += " -o /var/cam.jpg";
