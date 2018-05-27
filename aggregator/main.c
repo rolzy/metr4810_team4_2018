@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-Aggigator v1
+Aggregater v1
 Bradley King
 10/02/2018
 ----------------------------------------------------------------------------
@@ -39,6 +39,7 @@ Bradley King
 #define TIMEOUT     10000L
 
 //will allocate memory at runtime.
+//these struts store the data from the config file
 typedef struct command {
 	char* serialKey;
 	char* MQTT_Topic;
@@ -77,6 +78,7 @@ typedef struct config  {
 
 CONFIGURATION configuration;
 
+//mqtt status functions
 volatile MQTTClient_deliveryToken deliveredtoken;
 
 void delivered(void *context, MQTTClient_deliveryToken dt)
@@ -91,8 +93,10 @@ void connlost(void *context, char *cause)
 	printf("     cause: %s\n", cause);
 }
 
+// used for come port
 int fd = -1;
 
+//duplicate strings
 static char *myStrDup (char *str) {
 	char *other = malloc (strlen (str) + 1);
 	if (other != NULL)
@@ -100,6 +104,7 @@ static char *myStrDup (char *str) {
 	return other;
 }
 
+//run an application in a new processes
 void forkAndExecute (const char *path, char *const args[]) {
 	int pid = fork();
 	if (pid == -1) {
@@ -120,45 +125,53 @@ void forkAndExecute (const char *path, char *const args[]) {
 	}
 }    
 
+//initisilise the serial port
 void init_serial(int *fd) {
 	if (configuration.serialPort != NULL && configuration.serialPort !=0) {
 		struct termios toptions;
-		/* open serial port */
 		*fd = open(configuration.serialPort, O_RDWR | O_NOCTTY);
 		printf("fd opened as %i\n", *fd);
 
-		/* wait for the Arduino to reboot */
+		//wait for micro to reboot on serial connection
 		usleep(3500000);
 
-		/* get current serial port settings */
+		// get current serial port settings
 		tcgetattr(*fd, &toptions);
-		/* set 9600 baud both ways */
+		// set 9600 baud both ways
 		cfsetispeed(&toptions, configuration.buad);
 		cfsetospeed(&toptions, configuration.buad);
-		/* 8 bits, no parity, no stop bits */
+		// 8 bits, no parity, no stop bits
 		toptions.c_cflag &= ~PARENB;
 		toptions.c_cflag &= ~CSTOPB;
 		toptions.c_cflag &= ~CSIZE;
 		toptions.c_cflag |= CS8;
-		/* Canonical mode */
+		// Canonical mode
 		toptions.c_lflag |= ICANON;
-		/* commit the serial port settings */
+		// commit the serial port settings
 		tcsetattr(*fd, TCSANOW, &toptions);
 	} else {
 		printf("No Serial Port Configured\n");
 	}
 }
 
+//this function is call on every message received from the mqtt thread.
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message){
 	int i;
 	char* payloadptr;
+	
+	//print the incoming message to the terminal
 	printf("Message arrived\n");
 	printf("     topic: %s\n", topicName);
 	printf("   message: ");
+	payloadptr = message->payload;
+	for (i = 0; i < message->payloadlen; i++)
+	{
+		putchar(*payloadptr++);
+	}
+	putchar('\n');
 
-
+	//serial messages to send
 	for (int i = 0; i < configuration.commandsLength; i++) {
-		//  printf("||comparing with %s||", serialCommands[i]->MQTT_Topic);
 		if (fd !=-1) { // check for serial port;	
 			if (strcmp(configuration.serialCommands[i]->MQTT_Topic , topicName) == 0) {
 
@@ -172,6 +185,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 		}
 	}
 	
+	
+	//Files to transfer
 	for (int i = 0; i < configuration.fliesLength; i++) {	
 		if (configuration.files != NULL) {
 			if (configuration.files[i]->direction == '<') {
@@ -182,19 +197,18 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 		}	
 	}
 	
-	//	printf("topicName:%s   %d \n ", topicName, configuration.execLength); 
+	// programs to run?
 	for (int i = 0; i < configuration.execLength; i++) {	
 		
 		if (configuration.execs != NULL) {
-			// printf("||comparing with %s||", configuration.execs[i]->MQTT_Topic);
 			if (strcmp(configuration.execs[i]->MQTT_Topic , topicName) == 0) {
 				char inBuf[100];
 				stpcpy(inBuf,configuration.execs[i]->filePath);
-				strcat(inBuf, message);
+				strcat(inBuf, " ");
+				strcat(inBuf, message->payload);
 				
 				char *argv[100];
 				int argc = 0;
-
 				char *str = strtok (inBuf, " ");
 				while (str != NULL) {
 					argv[argc++] = myStrDup(str);
@@ -211,17 +225,13 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 		}
 	}
 
-	payloadptr = message->payload;
-	for (i = 0; i < message->payloadlen; i++)
-	{
-		putchar(*payloadptr++);
-	}
-	putchar('\n');
+
 	MQTTClient_freeMessage(&message);
 	MQTTClient_free(topicName);
 	return 1;
 }
 
+//set up mqtt, using las will of agg name.
 void init_mqtt(MQTTClient *client) {
 
 	MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
@@ -260,7 +270,7 @@ void init_mqtt(MQTTClient *client) {
 }
 
 
-
+//check if we are using sereial and if so set up the commands. 
 void set_up_serial_commands(config_t *cfg){
 	config_setting_t *setting;
 	setting = config_lookup(cfg, "serial");
@@ -281,7 +291,7 @@ void set_up_serial_commands(config_t *cfg){
 		{
 			config_setting_t *config = config_setting_get_elem(setting, i);
 
-			/* Only output the record if all of the expected fields are present. */
+			// Only setup the config if all of the expected fields are present.
 			const char *serialKey, *MQTT_Topic, *direction;
 			int QOS ;
 
@@ -308,6 +318,7 @@ void set_up_serial_commands(config_t *cfg){
 	}
 }
 
+//set up what files need to be transfered.
 void set_up_file_commands(config_t *cfg){
 	config_setting_t *setting;
 	setting = config_lookup(cfg, "files");
@@ -328,7 +339,7 @@ void set_up_file_commands(config_t *cfg){
 		{
 			config_setting_t *config = config_setting_get_elem(setting, i);
 
-			/* Only output the record if all of the expected fields are present. */
+			// Only setup the config if all of the expected fields are present.
 			const char *filePath, *MQTT_Topic, *direction;
 			int QOS ;
 
@@ -355,6 +366,7 @@ void set_up_file_commands(config_t *cfg){
 	}
 }
 
+//set up what programs need to be exec'd.
 void set_up_exec_commands(config_t *cfg){
 	config_setting_t *setting;
 	setting = config_lookup(cfg, "exec");
@@ -375,7 +387,7 @@ void set_up_exec_commands(config_t *cfg){
 		{
 			config_setting_t *config = config_setting_get_elem(setting, i);
 
-			/* Only output the record if all of the expected fields are present. */
+			// Only setup the config if all of the expected fields are present.
 			const char *filePath, *MQTT_Topic;
 			int QOS ;
 
@@ -398,11 +410,11 @@ void set_up_exec_commands(config_t *cfg){
 	}
 }
 
-
+// gets the program settings from the config file and calls functions for the remainder 
 void init_commands(config_t *cfg) {
 
 	const char *str;
-	/* Get the store name. */
+	//get config name
 	if (config_lookup_string(cfg, "name", &str)){
 		printf("aggregator: %s\n\n", str);
 	}else{
@@ -412,6 +424,8 @@ void init_commands(config_t *cfg) {
 	config_setting_t *setting;
 	//load setting
 	setting = config_lookup(cfg, "settings");
+	
+	//print settings
 	if (setting != NULL)
 	{
 		printf("Settings \n");
@@ -436,11 +450,10 @@ void init_commands(config_t *cfg) {
 		
 }
 
-
+//blocking read from the serial.
 void process_serial(MQTTClient client,char* buf){
 	int n;
 	putchar('\n');
-	/* Receive string from Arduino */
 	n = read(fd, buf, 64);
 	/* insert terminating zero in the string */
 	buf[n] = 0;
@@ -451,7 +464,6 @@ void process_serial(MQTTClient client,char* buf){
 		return; //not found
 	}
 	
-	//	printf("%i bytes read, buffer contains: %s", n, buf);
 	char* delim = strchr(buf, ':');
 	
 	if (delim == NULL){
@@ -487,8 +499,7 @@ void process_serial(MQTTClient client,char* buf){
 	
 }
 
-//sddsf:dfsdf
-
+// process the what neeeds to happen to files.
 void process_files(MQTTClient client){
 	for (int i = 0; i < configuration.fliesLength; i++) {	
 		
@@ -538,7 +549,7 @@ void process_files(MQTTClient client){
 
 
 
-
+// 
 int main(int argc, char **argv)
 {
 	char* configFile;
