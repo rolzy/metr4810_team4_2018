@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnConnect = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tbxMessage = new System.Windows.Forms.TextBox();
@@ -75,9 +75,6 @@
             this.tbxKdYaw = new System.Windows.Forms.TextBox();
             this.tbxKiYaw = new System.Windows.Forms.TextBox();
             this.tbxKpYaw = new System.Windows.Forms.TextBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.cbxAutoScr = new System.Windows.Forms.CheckBox();
             this.gbxSensors = new System.Windows.Forms.GroupBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -310,7 +307,7 @@
             this.imageControl1.Image = null;
             this.imageControl1.initialimage = null;
             this.imageControl1.Location = new System.Drawing.Point(296, 15);
-            this.imageControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.imageControl1.Margin = new System.Windows.Forms.Padding(4);
             this.imageControl1.Name = "imageControl1";
             this.imageControl1.Origin = new System.Drawing.Point(0, 0);
             this.imageControl1.PanButton = System.Windows.Forms.MouseButtons.Left;
@@ -370,7 +367,7 @@
             this.tabPage1.Controls.Add(this.imageControl1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1004, 431);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
@@ -434,15 +431,12 @@
             this.tabPage2.Controls.Add(this.tbxKdYaw);
             this.tabPage2.Controls.Add(this.tbxKiYaw);
             this.tabPage2.Controls.Add(this.tbxKpYaw);
-            this.tabPage2.Controls.Add(this.button5);
-            this.tabPage2.Controls.Add(this.button4);
-            this.tabPage2.Controls.Add(this.button3);
             this.tabPage2.Controls.Add(this.cbxAutoScr);
             this.tabPage2.Controls.Add(this.gbxSensors);
             this.tabPage2.Controls.Add(this.chart1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1004, 431);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "PID Setings";
@@ -623,39 +617,6 @@
             this.tbxKpYaw.Size = new System.Drawing.Size(101, 20);
             this.tbxKpYaw.TabIndex = 33;
             // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.Location = new System.Drawing.Point(144, 297);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(130, 23);
-            this.button5.TabIndex = 32;
-            this.button5.Text = "RandomSensor2";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(280, 297);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(130, 23);
-            this.button4.TabIndex = 31;
-            this.button4.Text = "RandomSensor3";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(3, 297);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(130, 23);
-            this.button3.TabIndex = 30;
-            this.button3.Text = "RandomSensor1";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // cbxAutoScr
             // 
             this.cbxAutoScr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -683,16 +644,16 @@
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(6, 7);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(540, 266);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -739,7 +700,7 @@
             "Flash",
             "Horizon"});
             this.cbxAWB.Location = new System.Drawing.Point(153, 153);
-            this.cbxAWB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxAWB.Margin = new System.Windows.Forms.Padding(2);
             this.cbxAWB.Name = "cbxAWB";
             this.cbxAWB.Size = new System.Drawing.Size(92, 21);
             this.cbxAWB.TabIndex = 7;
@@ -769,7 +730,7 @@
             "50",
             "40"});
             this.cbxQuality.Location = new System.Drawing.Point(153, 47);
-            this.cbxQuality.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxQuality.Margin = new System.Windows.Forms.Padding(2);
             this.cbxQuality.Name = "cbxQuality";
             this.cbxQuality.Size = new System.Drawing.Size(92, 21);
             this.cbxQuality.TabIndex = 5;
@@ -787,7 +748,7 @@
             "500",
             "800"});
             this.cbxISO.Location = new System.Drawing.Point(153, 116);
-            this.cbxISO.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxISO.Margin = new System.Windows.Forms.Padding(2);
             this.cbxISO.Name = "cbxISO";
             this.cbxISO.Size = new System.Drawing.Size(92, 21);
             this.cbxISO.TabIndex = 4;
@@ -826,7 +787,7 @@
             "Beach",
             "Antishake"});
             this.cbxExposure.Location = new System.Drawing.Point(153, 82);
-            this.cbxExposure.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxExposure.Margin = new System.Windows.Forms.Padding(2);
             this.cbxExposure.Name = "cbxExposure";
             this.cbxExposure.Size = new System.Drawing.Size(92, 21);
             this.cbxExposure.TabIndex = 0;
@@ -868,7 +829,7 @@
             // 
             this.tbxSetPosY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxSetPosY.Location = new System.Drawing.Point(865, 25);
-            this.tbxSetPosY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbxSetPosY.Margin = new System.Windows.Forms.Padding(4);
             this.tbxSetPosY.Name = "tbxSetPosY";
             this.tbxSetPosY.Size = new System.Drawing.Size(64, 20);
             this.tbxSetPosY.TabIndex = 27;
@@ -888,7 +849,7 @@
             // 
             this.tbxSetPosX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxSetPosX.Location = new System.Drawing.Point(796, 25);
-            this.tbxSetPosX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbxSetPosX.Margin = new System.Windows.Forms.Padding(4);
             this.tbxSetPosX.Name = "tbxSetPosX";
             this.tbxSetPosX.Size = new System.Drawing.Size(61, 20);
             this.tbxSetPosX.TabIndex = 26;
@@ -1250,7 +1211,7 @@
             // 
             this.cbxUseDSN.AutoSize = true;
             this.cbxUseDSN.Location = new System.Drawing.Point(250, 14);
-            this.cbxUseDSN.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxUseDSN.Margin = new System.Windows.Forms.Padding(2);
             this.cbxUseDSN.Name = "cbxUseDSN";
             this.cbxUseDSN.Size = new System.Drawing.Size(73, 17);
             this.cbxUseDSN.TabIndex = 35;
@@ -1353,9 +1314,6 @@
         private System.Windows.Forms.Button btnTarget3;
         private System.Windows.Forms.Button btnTarget2;
         private System.Windows.Forms.Button btnHome;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Label lblTargetRoll;
         private System.Windows.Forms.Label lblTargetPitch;
