@@ -67,6 +67,11 @@ namespace BaseStation
 
             tbGamma.Minimum = 5;
             tbGamma.Maximum = 50;
+
+            cbxQuality.SelectedIndex = 0;
+            cbxExposure.SelectedIndex = 0;
+            cbxISO.SelectedIndex = 6;
+            cbxAWB.SelectedIndex = 0;
         }
 
         Mat imgShow;
